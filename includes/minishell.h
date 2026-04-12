@@ -74,7 +74,6 @@ typedef struct s_command
 	int					num_single_commands; //number of single command, could also indicate the number of pipes
 	t_single_command	**commands; //2d array of the single commands
 	t_redirections		*redirections; //redirections linked list
-	int					background; //background status (&) 0 if used 1 if not
 } t_command;
 
 #endif
