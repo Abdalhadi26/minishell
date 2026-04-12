@@ -31,3 +31,50 @@
 ** IMPORTANT: This file is included by everyone, so be careful what you
 ** put here. A mistake here breaks every single file in the project.
 */
+#ifndef MINISHELL_H
+# define MINISHELL_H
+
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <fcntl.h>
+# include <sys/wait.h>
+# include <sys/stat.h>
+# include <signal.h>
+# include <errno.h>
+# include <string.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include "../libft/libft.h"
+
+typedef enum e_redirections_types //an enumeration for redirections
+{
+	redir_in, //<
+	redir_out, //>
+	redir_append, //>>
+	redir_heredoc //<<
+} t_redirections_types;
+
+typedef struct s_redirections //a linked list of all the redirections
+{
+	t_redirections_types	type; //the type of the redirections
+	char					*file_name; //name of the files which will be redirected to
+	struct s_redirections	*next; //the next node
+} t_redirections;
+
+
+typedef struct s_single_command
+{
+    int     num_args; //number of argument in the command (ex ls -la is 2 agruments)
+    char    **args; //arguments of the single command (ex ["ls", "-la", NULL])
+}   t_single_command;
+
+typedef struct s_command
+{
+	int					num_single_commands; //number of single command, could also indicate the number of pipes
+	t_single_command	**commands; //2d array of the single commands
+	t_redirections		*redirections; //redirections linked list
+	int					background; //background status (&) 0 if used 1 if not
+} t_command;
+
+#endif
