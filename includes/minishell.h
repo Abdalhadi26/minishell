@@ -45,7 +45,7 @@
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "../libft/libft.h"
+//# include "../libft/libft.h"
 
 typedef enum e_redirections_types //an enumeration for redirections
 {

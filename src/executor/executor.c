@@ -31,3 +31,38 @@
 ** communication channels between them (pipes), and waits for
 ** everyone to finish before reporting back.
 */
+#include "../../includes/minishell.h"
+
+void	execute_single(t_single_command	command)
+{
+	pid_t	pid;
+	int		status;
+
+	pid = fork();
+	if (pid < 0)
+	{
+		//error handling
+	}
+	if (pid == 0) //if it is child
+	{
+		execve(command.args[0], command.args, NULL);
+		perror("minishell");
+		exit(126);
+	}
+	waitpid(pid, &status, 0);
+}
+
+char    *find_path(char *cmd, char **envp)
+{
+	
+}
+
+int	main(void)
+{
+	t_single_command	cmd;
+	char				*args[] = {"/bin/ls", "-la", NULL};
+
+	cmd.args = args;
+	execute_single(cmd);
+	return (0);
+}
