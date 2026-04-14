@@ -31,3 +31,18 @@
 ** Think of this file as the part of the shell that knows how to
 ** find and launch any program on the system.
 */
+
+#include "../../includes/minishell.h"
+
+void	free_2d(char **arr)
+{
+    int i;
+
+    i = 0;
+    while (arr[i])
+    {
+        free(arr[i]);
+        i++;
+    }
+    free(arr);
+}

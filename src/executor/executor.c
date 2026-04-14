@@ -52,17 +52,64 @@ void	execute_single(t_single_command	command)
 	waitpid(pid, &status, 0);
 }
 
-char    *find_path(char *cmd, char **envp)
+char    *find_path(char *cmd)
 {
-	
+	char **paths;
+	char *to_test_path;
+	char *temp;
+	int i;
+
+	paths = ft_split(getenv("PATH"), ':');
+	if (!paths)
+		return (NULL);
+	i = 0;
+	while (paths[i])
+	{
+		temp = ft_strjoin("/", cmd);
+		to_test_path = ft_strjoin(paths[i], temp);
+		free(temp);
+		if (access(to_test_path, F_OK) == 0)
+		{
+			free_2d(paths);
+			return (to_test_path);
+		}
+		else
+			free(to_test_path);
+		i++;
+	}
+	free_2d(paths);
+	return(NULL);
 }
 
 int	main(void)
 {
+	char			*line;
+	char			*path;
 	t_single_command	cmd;
-	char				*args[] = {"/bin/ls", "-la", NULL};
+	char			*args[2];
 
-	cmd.args = args;
-	execute_single(cmd);
+	while (1)
+	{
+		line = readline("minishell> ");
+		if (!line)
+			break ;
+		if (*line)
+			add_history(line);
+		path = find_path(line);
+		if (!path)
+		{
+			write(2, "minishell: ", 11);
+			write(2, line, ft_strlen(line));
+			write(2, ": command not found\n", 20);
+			free(line);
+			continue ;
+		}
+		args[0] = path;
+		args[1] = NULL;
+		cmd.args = args;
+		execute_single(cmd);
+		free(path);
+		free(line);
+	}
 	return (0);
 }

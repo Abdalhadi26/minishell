@@ -45,7 +45,7 @@
 # include <string.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-//# include "../libft/libft.h"
+# include "../libft/libft.h"
 
 typedef enum e_redirections_types //an enumeration for redirections
 {
@@ -75,5 +75,8 @@ typedef struct s_command
 	t_single_command	**commands; //2d array of the single commands
 	t_redirections		*redirections; //redirections linked list
 } t_command;
+
+//parser
+void	free_2d(char **arr);
 
 #endif
