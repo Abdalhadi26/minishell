@@ -67,13 +67,13 @@ typedef struct s_single_command
 {
     int     num_args; //number of argument in the command (ex ls -la is 2 agruments)
     char    **args; //arguments of the single command (ex ["ls", "-la", NULL])
+	t_redirections		*redirections; //redirections linked list
 }   t_single_command;
 
 typedef struct s_command
 {
 	int					num_single_commands; //number of single command, could also indicate the number of pipes
 	t_single_command	**commands; //2d array of the single commands
-	t_redirections		*redirections; //redirections linked list
 } t_command;
 
 //parser
