@@ -35,3 +35,40 @@
 **   dup2(fd, STDOUT_FILENO) makes stdout point to our file instead.
 **   After dup2() we close the original fd since we dont need it anymore.
 */
+#include "../../includes/minishell.h"
+
+static void	use_dup2(t_redirections_types type, int fd)
+{
+	if (type == redir_in)
+		dup2(fd, STDIN_FILENO);
+	else
+		dup2(fd, STDOUT_FILENO);
+}
+
+void	apply_redirections(t_single_command command)
+{
+	int	fd;
+
+	if (!command.redirections)
+		return;
+	while (command.redirections)
+	{
+		if (command.redirections->type == redir_in) // <
+			fd = open(command.redirections->file_name, O_RDONLY, 0644);
+		else if (command.redirections->type == redir_out) // >
+			fd = open(command.redirections->file_name, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		else if (command.redirections->type == redir_append) // >>
+			fd = open(command.redirections->file_name, O_WRONLY | O_CREAT | O_APPEND , 0644);
+		else if (command.redirections->type == 3) // << i assume this gonna have its own things sepratly
+			fd = command.redirections->heredoc_fd;
+		command.redirections = command.redirections->next;
+		if (fd < 0)
+		{
+			perror("open");
+			return;
+		}
+		use_dup2(command.redirections->type, fd);
+		close(fd);
+		command.redirections = command.redirections->next;
+	}
+}

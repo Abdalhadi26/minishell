@@ -59,6 +59,7 @@ typedef struct s_redirections //a linked list of all the redirections
 {
 	t_redirections_types	type; //the type of the redirections
 	char					*file_name; //name of the files which will be redirected to
+	int						heredoc_fd;
 	struct s_redirections	*next; //the next node
 } t_redirections;
 
