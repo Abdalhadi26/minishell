@@ -10,7 +10,9 @@ INCLUDES = -I includes -I $(LIBFT_DIR)
 
 SRC =	src/main.c \
 		src/executor/executor.c \
-		src/executor/exec_utils.c
+		src/executor/exec_utils.c \
+		src/executor/redirections.c \
+		src/executor/pipes.c
 
 OBJ = $(SRC:.c=.o)
 

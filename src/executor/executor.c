@@ -37,6 +37,7 @@ void	execute_single(t_single_command	command)
 {
 	pid_t	pid;
 	int		status;
+	char	*path;
 
 	pid = fork();
 	if (pid < 0)
@@ -45,7 +46,16 @@ void	execute_single(t_single_command	command)
 	}
 	if (pid == 0) //if it is child
 	{
-		execve(command.args[0], command.args, NULL);
+		path = find_path(command.args[0]);
+		if (!path)
+		{
+			write(2, "minishell: ", 11);
+        	write(2, command.args[0], ft_strlen(command.args[0]));
+        	write(2, ": command not found\n", 20);
+        	exit(127);
+		}
+		apply_redirections(command);
+		execve(path, command.args, NULL);
 		perror("minishell");
 		exit(126);
 	}
@@ -79,37 +89,4 @@ char    *find_path(char *cmd)
 	}
 	free_2d(paths);
 	return(NULL);
-}
-
-int	main(void)
-{
-	char			*line;
-	char			*path;
-	t_single_command	cmd;
-	char			*args[2];
-
-	while (1)
-	{
-		line = readline("minishell> ");
-		if (!line)
-			break ;
-		if (*line)
-			add_history(line);
-		path = find_path(line);
-		if (!path)
-		{
-			write(2, "minishell: ", 11);
-			write(2, line, ft_strlen(line));
-			write(2, ": command not found\n", 20);
-			free(line);
-			continue ;
-		}
-		args[0] = path;
-		args[1] = NULL;
-		cmd.args = args;
-		execute_single(cmd);
-		free(path);
-		free(line);
-	}
-	return (0);
 }

@@ -79,5 +79,7 @@ typedef struct s_command
 
 //parser
 void	free_2d(char **arr);
+void	apply_redirections(t_single_command command);
+char    *find_path(char *cmd);
 
 #endif
