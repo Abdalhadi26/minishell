@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:47 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/04/19 14:06:48 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/04/21 16:21:57 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_redirections //a linked list of all the redirections
 	t_redirections_types	type; //the type of the redirections
 	char					*file_name; //name of the files which will be redirected to
 	int						heredoc_fd;
+	int						heredoc_expansion_status;
 	struct s_redirections	*next; //the next node
 } t_redirections;
 

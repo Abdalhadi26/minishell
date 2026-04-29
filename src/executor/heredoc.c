@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:35 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/04/19 14:06:36 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/04/21 16:48:58 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,3 +46,44 @@
 ** Think of heredoc like a temporary document you create on the spot
 ** and immediately hand to a command to read from.
 */
+
+#include "../../includes/minishell.h"
+
+void	collect_heredocs(t_command *command)
+{
+	int				i;
+	int				pipe_fd[2];
+	char			*line;
+	t_redirections	*redirections_list;
+
+	i = 0;
+	while (i < command->num_single_commands)
+	{
+		redirections_list = command->commands[i]->redirections;
+		while (redirections_list)
+		{
+			if (redirections_list->type == redir_heredoc)
+			{
+				pipe(pipe_fd);
+				while (1)
+				{
+					line = readline("> ");
+					if (!line)
+						//error handling
+					if (!ft_strncmp(line, redirections_list->file_name, ft_strlen(redirections_list->file_name)))
+					{
+						free(line);
+						break;
+					}
+					write(pipe_fd[1], line, ft_strlen(line));
+					write(pipe_fd[1], "\n", 1);
+					free(line);
+				}
+				close(pipe_fd[1]);
+				redirections_list->heredoc_fd = pipe_fd[0];
+			}
+			redirections_list = redirections_list->next;
+		}
+		i++;
+	}
+}
