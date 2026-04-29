@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:47 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/04/21 16:21:57 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/04/29 15:47:37 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,12 @@ typedef struct s_command
 	int					num_single_commands; //number of single command, could also indicate the number of pipes
 	t_single_command	**commands; //2d array of the single commands
 } t_command;
+
+typedef struct S_shell
+{
+	char	**env;
+	int		exit_status;
+} t_shell;
 
 //parser
 void	free_2d(char **arr);

@@ -6,7 +6,8 @@
 /*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 17:23:17 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/04/21 17:23:18 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/04/29 15:50:31 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "../../includes/minishell.h"
