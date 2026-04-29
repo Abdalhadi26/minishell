@@ -1,9 +1,0 @@
-ls | <  h1 cat | >> h2
-
-ls | <  h1 cat | cat >> h2 
-
-ls | <  h1 | cat >> h2 
-
-<< hi |>> hi | cat << he
-
-cat << hi > hi| cat << hel
