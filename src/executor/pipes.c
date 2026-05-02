@@ -118,39 +118,3 @@ void	execute_pipeline(t_command command)
 	close_all_pipes(pipes, command.num_single_commands - 1);
 	while (waitpid(-1, &status, 0) > 0);
 }
-
-int	main(void)
-{
-	t_single_command	cmd1;
-	t_single_command	cmd2;
-	t_single_command	cmd3;
-	t_single_command	*cmds[3];
-	t_command			command;
-
-	// ls | wc -l
-	char	*args1[] = {"ls", NULL};
-	char	*args2[] = {"grep", "src", NULL};
-	char	*args3[] = {"wc", "-l", NULL};
-
-	cmd1.args = args1;
-	cmd1.num_args = 1;
-	cmd1.redirections = NULL;
-
-	cmd2.args = args2;
-	cmd2.num_args = 2;
-	cmd2.redirections = NULL;
-
-	cmd3.args = args3;
-	cmd3.num_args = 2;
-	cmd3.redirections = NULL;
-
-	cmds[0] = &cmd1;
-	cmds[1] = &cmd2;
-	cmds[2] = &cmd3;
-
-	command.num_single_commands = 3;
-	command.commands = cmds;
-
-	execute_pipeline(command);
-	return (0);
-}

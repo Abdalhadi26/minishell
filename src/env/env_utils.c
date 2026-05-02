@@ -30,3 +30,133 @@
 ** every part of the shell that needs to read or write environment
 ** variables goes through the functions in this file.
 */
+
+#include "../../includes/minishell.h"
+
+static int exists(char **env, char *key)
+{
+	char	**variable_split;
+	int		i;
+
+	i = 0;
+	while (env[i])
+	{
+		variable_split = ft_split(env[i], '=');
+		if (!variable_split)
+			return (0);
+		if (!ft_strncmp(key, variable_split[0], ft_strlen(key)))
+		{
+			free_2d(variable_split);
+			return (i);
+		}
+		free_2d(variable_split);
+		i++;
+	}
+	return (0);
+}
+
+static char	*ft_strjoin_3str(const char *s1, const char *s2, const char *s3)
+{
+	char	*str;
+	size_t	len;
+
+	if (s1 && !s2)
+		return (ft_strdup(s1));
+	if (!s1 && s2)
+		return (ft_strdup(s2));
+	if (!s1 && !s2)
+		return (NULL);
+	len = ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3) + 1;
+	str = malloc(len);
+	if (!str)
+		return (NULL);
+	ft_strlcpy(str, s1, len);
+	ft_strlcat(str, s2, len);
+	ft_strlcat(str, s3, len);
+	return (str);
+}
+
+static int	extend_and_append(char ***env, char *key, char *value)
+{
+	char	**new_env;
+	int		i;
+
+	new_env = malloc((array_2d_len(*env) + 2) * sizeof(char *));
+	if (!new_env)
+		return (0);
+	i = 0;
+	while (*env[i])
+	{
+		new_env[i] = ft_strdup(*env[i]);
+		if (!new_env[i])
+		{
+			free_2d(new_env);
+			return (0);
+		}
+		i++;
+	}
+	new_env[i++] = ft_strjoin_3str(key, "=", value);
+	new_env[i] = NULL;
+	*env = new_env;
+	return (1);
+}
+
+char	*env_get(char **env, char *key)
+{
+	char	**variable_split;
+	char	*target;
+	int		i;
+
+	target = NULL;
+	i = 0;
+	while (env[i])
+	{
+		variable_split = ft_split(env[i], '=');
+		if (!variable_split)
+			//error handling
+		if (!ft_strncmp(key, variable_split[0], ft_strlen(key)))
+		{
+			target = ft_strdup(variable_split[1]);
+			if (!target)
+				//error handling
+			free_2d(variable_split);
+			return (target);
+		}
+		free_2d(variable_split);
+		i++;
+	}
+	return (target);
+}
+
+int	env_set(char ***env, char *key, char *value)
+{
+	int		i;
+	char	*res;
+
+	i = exists(*env, key);
+	if (i)
+	{
+		free(*env[i]);
+		*env[i] = ft_strjoin_3str(key, "=", value);
+		return (1);
+	}
+	if (!extend_and_append(env, key, value))
+		return (0);
+	return (1);
+}
+
+int	env_unset(char ***env, char *key)
+{
+	int	i;
+
+	i = exists(env, key);
+	if (!i)
+		return (-1);
+	while (*env[i])
+	{
+		free(*env[i]);
+		*env[i] = *env[i + 1];
+		i++;
+	}
+	return (1);
+}

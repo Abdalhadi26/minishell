@@ -96,9 +96,11 @@ typedef struct S_shell
 	int		exit_status;
 } t_shell;
 
-//parser
+//executor
 void	free_2d(char **arr);
 void	apply_redirections(t_single_command command);
 char    *find_path(char *cmd);
+int	array_2d_len(char **arr);
+char	*env_get(char **env, char *key);
 
 #endif

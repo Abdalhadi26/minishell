@@ -12,7 +12,8 @@ SRC =	src/main.c \
 		src/executor/executor.c \
 		src/executor/exec_utils.c \
 		src/executor/redirections.c \
-		src/executor/pipes.c
+		src/executor/pipes.c \
+		src/env/env_init.c src/env/env_utils.c
 
 OBJ = $(SRC:.c=.o)
 
