@@ -35,24 +35,23 @@
 
 static int exists(char **env, char *key)
 {
-	char	**variable_split;
+	char	*equal_sign;
 	int		i;
 
 	i = 0;
 	while (env[i])
 	{
-		variable_split = ft_split(env[i], '=');
-		if (!variable_split)
-			return (0);
-		if (!ft_strncmp(key, variable_split[0], ft_strlen(key)))
+		equal_sign = ft_strchr(env[i], '=');
+		if (!equal_sign)
 		{
-			free_2d(variable_split);
-			return (i);
+			i++;
+			continue;
 		}
-		free_2d(variable_split);
+		if (!ft_strncmp(key, env[i], (equal_sign - env[i])))
+			return (i);
 		i++;
 	}
-	return (0);
+	return (-1);
 }
 
 static char	*ft_strjoin_3str(const char *s1, const char *s2, const char *s3)
@@ -85,9 +84,9 @@ static int	extend_and_append(char ***env, char *key, char *value)
 	if (!new_env)
 		return (0);
 	i = 0;
-	while (*env[i])
+	while ((*env)[i])
 	{
-		new_env[i] = ft_strdup(*env[i]);
+		new_env[i] = ft_strdup((*env)[i]);
 		if (!new_env[i])
 		{
 			free_2d(new_env);
@@ -103,45 +102,38 @@ static int	extend_and_append(char ***env, char *key, char *value)
 
 char	*env_get(char **env, char *key)
 {
-	char	**variable_split;
-	char	*target;
+	char	*equal_sign;
 	int		i;
 
-	target = NULL;
 	i = 0;
 	while (env[i])
 	{
-		variable_split = ft_split(env[i], '=');
-		if (!variable_split)
-			//error handling
-		if (!ft_strncmp(key, variable_split[0], ft_strlen(key)))
-		{
-			target = ft_strdup(variable_split[1]);
-			if (!target)
-				//error handling
-			free_2d(variable_split);
-			return (target);
-		}
-		free_2d(variable_split);
+		equal_sign = ft_strchr(env[i], '=');
+		if (!ft_strncmp(key, env[i], (equal_sign - env[i])))
+			return (equal_sign + 1);
 		i++;
 	}
-	return (target);
+	return (NULL);
 }
 
 int	env_set(char ***env, char *key, char *value)
 {
-	int		i;
-	char	*res;
+	int		variable_index;
 
-	i = exists(*env, key);
-	if (i)
+	variable_index = exists(*env, key);
+	printf("the i is %d before all\n",variable_index);
+
+	if (variable_index > -1)
 	{
-		free(*env[i]);
-		*env[i] = ft_strjoin_3str(key, "=", value);
+		printf("the i is %d before join\n",variable_index);
+		free(*env[variable_index]);
+		*env[variable_index] = ft_strjoin_3str(key, "=", value);
 		return (1);
 	}
+	printf("the i is %d before extend\n",variable_index);
 	if (!extend_and_append(env, key, value))
 		return (0);
+	printf("the i is %d after extend\n",variable_index);
 	return (1);
 }
 
@@ -149,7 +141,7 @@ int	env_unset(char ***env, char *key)
 {
 	int	i;
 
-	i = exists(env, key);
+	i = exists(*env, key);
 	if (!i)
 		return (-1);
 	while (*env[i])

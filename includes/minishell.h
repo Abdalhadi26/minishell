@@ -103,5 +103,7 @@ void	apply_redirections(t_single_command command);
 char    *find_path(char *cmd);
 int	array_2d_len(char **arr);
 char	*env_get(char **env, char *key);
+int	env_set(char ***env, char *key, char *value);
+int	env_unset(char ***env, char *key);
 
 #endif

@@ -59,15 +59,15 @@ int main(int argc, char **argv, char **envp)
 	t_shell myshell;
 
 	env_init(&myshell, envp);
-	char *var = env_get(myshell.env, "PATH");
-	printf("the var is %s\n", var);
-    //int i = 0;
-    //while (myshell.env[i] != NULL)
-    //{
-    //    printf("envp[%d] = %s\n", i, myshell.env[i]);
-    //    i++;
-    //}
-	free(var);
+	env_set(&myshell.env, "TERM_PROGRAMa", "hadi");
+
+    int i = 0;
+    while (myshell.env[i] != NULL)
+    {
+        printf("envp[%d] = %s\n", i, myshell.env[i]);
+        i++;
+    }
+
 	free_2d(myshell.env);
     return 0;
 }
