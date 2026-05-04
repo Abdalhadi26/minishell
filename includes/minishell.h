@@ -81,7 +81,7 @@ typedef struct s_single_command
 {
     int     num_args; //number of argument in the command (ex ls -la is 2 agruments)
     char    **args; //arguments of the single command (ex ["ls", "-la", NULL])
-	char	*file_name;
+	char	**files; // maybe there is more than 1 file (ex [cat file1 file2])
 	t_redirections		*redirections; //redirections linked list
 }   t_single_command;
 
