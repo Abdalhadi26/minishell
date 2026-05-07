@@ -33,6 +33,24 @@
 
 #include "../../includes/minishell.h"
 
+static int	key_compare(const char *key, const char *var, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	if (n == 0 || key == var)
+		return (0);
+	while ((i < n) && (key[i] || var[i]))
+	{
+		if (key[i] != var[i])
+			return ((unsigned char)key[i] - (unsigned char)var[i]);
+		i++;
+	}
+	if (key[i] == 0 && var[i] == '=')
+		return (0);
+	return ((unsigned char)key[i] - (unsigned char)var[i]);
+}
+
 static int exists(char **env, char *key)
 {
 	char	*equal_sign;
@@ -47,7 +65,7 @@ static int exists(char **env, char *key)
 			i++;
 			continue;
 		}
-		if (!ft_strncmp(key, env[i], (equal_sign - env[i])))
+		if (!key_compare(key, env[i], (equal_sign - env[i])))
 			return (i);
 		i++;
 	}
@@ -96,6 +114,7 @@ static int	extend_and_append(char ***env, char *key, char *value)
 	}
 	new_env[i++] = ft_strjoin_3str(key, "=", value);
 	new_env[i] = NULL;
+	free_2d(*env);
 	*env = new_env;
 	return (1);
 }
@@ -121,19 +140,14 @@ int	env_set(char ***env, char *key, char *value)
 	int		variable_index;
 
 	variable_index = exists(*env, key);
-	printf("the i is %d before all\n",variable_index);
-
 	if (variable_index > -1)
 	{
-		printf("the i is %d before join\n",variable_index);
-		free(*env[variable_index]);
-		*env[variable_index] = ft_strjoin_3str(key, "=", value);
+		free((*env)[variable_index]);
+		(*env)[variable_index] = ft_strjoin_3str(key, "=", value);
 		return (1);
 	}
-	printf("the i is %d before extend\n",variable_index);
 	if (!extend_and_append(env, key, value))
 		return (0);
-	printf("the i is %d after extend\n",variable_index);
 	return (1);
 }
 
@@ -142,12 +156,12 @@ int	env_unset(char ***env, char *key)
 	int	i;
 
 	i = exists(*env, key);
-	if (!i)
-		return (-1);
-	while (*env[i])
+	if (i == -1)
+		return (0);
+	while ((*env)[i])
 	{
-		free(*env[i]);
-		*env[i] = *env[i + 1];
+		free((*env)[i]);
+		(*env)[i] = (*env)[i + 1];
 		i++;
 	}
 	return (1);
