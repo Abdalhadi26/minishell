@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/07 15:58:45 by aayasrah          #+#    #+#             */
+/*   Updated: 2026/05/07 15:58:46 by aayasrah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*
 ** env_utils.c
 **
@@ -154,15 +166,17 @@ int	env_set(char ***env, char *key, char *value)
 int	env_unset(char ***env, char *key)
 {
 	int	i;
-
+	char *c;
 	i = exists(*env, key);
 	if (i == -1)
 		return (0);
+	c = (*env)[i];
 	while ((*env)[i])
 	{
-		free((*env)[i]);
+		(*env)[i] = NULL;
 		(*env)[i] = (*env)[i + 1];
 		i++;
 	}
+	free(c);
 	return (1);
 }

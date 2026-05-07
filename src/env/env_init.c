@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 15:49:34 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/04/29 18:14:58 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/05/07 15:58:15 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	env_init(t_shell *shell, char **envp)
 	shell->env = my_env;
 	return (1);
 }
-#include <stdio.h>
 
 int main(int argc, char **argv, char **envp)
 {
@@ -59,8 +58,12 @@ int main(int argc, char **argv, char **envp)
 	t_shell myshell;
 
 	env_init(&myshell, envp);
-	//env_set(&myshell.env, "name", "hadi");
-	printf("the returned form teh unset is %d\n",env_unset(&myshell.env, "SHELL")); 
+
+	env_set(&myshell.env, "name", "hadi");
+	env_set(&myshell.env, "whosh", "");
+	env_get(myshell.env, "whosh");
+	env_unset(&myshell.env, "name"); 
+	env_unset(&myshell.env, "name");
 
     int i = 0;
     while (myshell.env[i] != NULL)
