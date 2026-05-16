@@ -60,6 +60,8 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 
+int	g_signal;
+
 typedef enum e_redirections_types //an enumeration for redirections
 {
 	redir_in, //<
