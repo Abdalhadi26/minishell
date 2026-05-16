@@ -30,32 +30,19 @@ int execute_builtin(t_single_command *cmd, t_shell *shell)
 
     name = cmd->args[0];
     if (!ft_strncmp(name, "echo", 5))
-        return (builtin_echo(cmd));
+        return (builtin_echo(*cmd));
     if (!ft_strncmp(name, "cd", 3))
-        return (builtin_cd(cmd, shell));
+        return (builtin_cd(*cmd, shell));
     if (!ft_strncmp(name, "pwd", 4))
         return (builtin_pwd());
     if (!ft_strncmp(name, "export", 7))
-        return (builtin_export(cmd, shell));
+        return (builtin_export(*cmd, shell));
     if (!ft_strncmp(name, "unset", 6))
-        return (builtin_unset(cmd, shell));
+        return (builtin_unset(*cmd, shell));
     if (!ft_strncmp(name, "env", 4))
-        return (builtin_env(shell));
+        return (builtin_env(*shell));
     if (!ft_strncmp(name, "exit", 5))
-        return (builtin_exit(cmd, shell));
+        return (builtin_exit(*cmd, shell));
     return (1);
 }
 
-int main(int argc, char **argv, char **envp)
-{
-    (void)argc;
-    (void)argv;
-	(void)envp;
-
-	printf("the var is %d\n", is_builtin("echoa"));
-	printf("the var is %d\n", is_builtin("cd"));
-	printf("the var is %d\n", is_builtin("pwd"));
-	printf("the var is %d\n", is_builtin(" export"));
-	
-    return 0;
-}

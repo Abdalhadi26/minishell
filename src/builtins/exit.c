@@ -32,3 +32,90 @@
 ** Think of exit as the off switch for the shell, with some careful
 ** math to handle the exit code correctly.
 */
+#include "../../includes/minishell.h"
+
+static long long ft_atol(const char *str, int *overflow)
+{
+	int				i;
+	int				sign;
+	long long	result;
+
+	i = 0;
+	sign = 1;
+	result = 0;
+	while (str[i] == 32 || (str[i] >= 9 && str[i] <= 13))
+		i++;
+	if (str[i] == '-')
+	{
+		sign = -1;
+		i++;
+	}
+	else if (str[i] == '+')
+		i++;
+	while (ft_isdigit(str[i]))
+	{
+		if (result > (LLONG_MAX - (str[i] - '0')) / 10)
+			*overflow = 1;
+		result *= 10;
+		result += str[i] - '0';
+		i++;
+	}
+	return (result * sign);
+}
+
+static int is_valid_number(char	*arg)
+{
+	int i;
+	int overflow;
+
+	overflow = 0;
+	i = 0;
+	if (arg[i] == '+' || arg[i] == '-')
+		i++;
+	if (!arg[i])
+		return (0);
+	while (arg[i])
+	{
+		if (!ft_isdigit(arg[i]))
+			return (0);
+		i++;	
+	}
+	ft_atol(arg, &overflow);
+	if (overflow)
+		return (0);
+	return (1);
+}
+
+int	builtin_exit(t_single_command	cmd,t_shell *shell)
+{
+	long	result;
+	int	dummy;
+
+	ft_putstr_fd("exit\n", 2);
+	if (cmd.num_args == 1)
+	{
+		exit(shell->exit_status);
+	}
+	else if (cmd.num_args > 2)
+	{
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		return (1);
+	}
+	else if (cmd.num_args == 2)
+	{
+		if (!is_valid_number(cmd.args[1]))
+		{
+			ft_putstr_fd("minishell: exit: ", 2);
+			ft_putstr_fd(cmd.args[1], 2);
+			ft_putstr_fd(": numeric argument required\n", 2);
+			//clean up
+			exit(2);
+		}
+		//cleanup
+		result = ft_atol(cmd.args[1], &dummy) % 256;
+		if (result < 0)
+    		result += 256;
+		exit(result);
+	}
+	return (0);
+}

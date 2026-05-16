@@ -23,3 +23,24 @@
 ** Think of env as a window that lets you see the entire contents
 ** of the shells environment dictionary at any moment.
 */
+
+#include "../../includes/minishell.h"
+
+int	builtin_env(t_shell shell)
+{
+	char **env;
+	int	i;
+
+	env = shell.env;
+	i = 0;
+	while (env[i])
+	{
+		if (ft_strchr(env[i], '='))
+		{
+			ft_putstr_fd(env[i], 1);
+			write(1, "\n", 1);
+		}
+		i++;
+	}
+	return (0);
+}

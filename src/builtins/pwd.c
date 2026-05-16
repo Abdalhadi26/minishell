@@ -22,3 +22,20 @@
 ** Think of pwd as the shell looking down at its feet and telling you
 ** exactly where it is standing in the filesystem.
 */
+#include "../../includes/minishell.h"
+
+int	builtin_pwd()
+{
+	char	*path;
+
+	path = getcwd(NULL, 0);
+	if (!path)
+	{
+		perror("minishell");
+		return (1);
+	}
+	write(1, path, ft_strlen(path));
+	write(1, "\n", 1);
+	free(path);
+	return (0);
+}

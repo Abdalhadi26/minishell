@@ -29,3 +29,18 @@
 ** Think of unset as the eraser that removes entries from the
 ** shells environment dictionary.
 */
+
+#include "../../includes/minishell.h"
+
+int builtin_unset(t_single_command cmd, t_shell *shell)
+{
+    int i;
+
+    i = 1;
+    while (cmd.args[i])
+    {
+        env_unset(&shell->env, cmd.args[i]);
+        i++;
+    }
+    return (0);
+}

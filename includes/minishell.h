@@ -55,6 +55,7 @@
 # include <signal.h>
 # include <errno.h>
 # include <string.h>
+# include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libft/libft.h"
@@ -100,10 +101,19 @@ typedef struct S_shell
 //executor
 void	free_2d(char **arr);
 void	apply_redirections(t_single_command command);
-char    *find_path(char *cmd);
+char    *find_path(char *cmd, t_shell *shell);
 int	array_2d_len(char **arr);
 char	*env_get(char **env, char *key);
 int	env_set(char ***env, char *key, char *value);
 int	env_unset(char ***env, char *key);
+int	builtin_cd(t_single_command	cmd,t_shell *shell);
+int	builtin_echo(t_single_command cmd);
+int	builtin_env(t_shell shell);
+int	builtin_exit(t_single_command	cmd,t_shell *shell);
+int	builtin_export(t_single_command	cmd,t_shell *shell);
+int	builtin_pwd();
+int builtin_unset(t_single_command cmd, t_shell *shell);
+int is_builtin(char *cmd);
+int execute_builtin(t_single_command *cmd, t_shell *shell);
 
 #endif
