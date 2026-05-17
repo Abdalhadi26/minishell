@@ -23,16 +23,26 @@ void	set_interactive_signals()
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
-void	set_execution_signals()
+void	set_execution_signals_child()
 {
-	struct sigaction sa;
+    struct sigaction sa;
 
-	sa.sa_handler = handle_sigint;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
-	sa.sa_handler = SIG_IGN;
-	sigaction(SIGQUIT, &sa, NULL);
+    sa.sa_handler = SIG_DFL;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    sigaction(SIGINT, &sa, NULL);
+    sigaction(SIGQUIT, &sa, NULL);
+}
+
+void	set_execution_signals_parent()
+{
+    struct sigaction sa;
+
+    sa.sa_handler = SIG_IGN;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = 0;
+    sigaction(SIGINT, &sa, NULL);
+    sigaction(SIGQUIT, &sa, NULL);
 }
 
 //While a child is running:

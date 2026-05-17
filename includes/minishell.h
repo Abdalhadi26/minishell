@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:47 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/04/29 15:47:37 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/05/17 19:17:04 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,9 @@ int	builtin_pwd();
 int builtin_unset(t_single_command cmd, t_shell *shell);
 int is_builtin(char *cmd);
 int execute_builtin(t_single_command *cmd, t_shell *shell);
+void	handle_sigint(int sig);
+void	set_interactive_signals();
+void	set_execution_signals_child();
+void	set_execution_signals_parent();
 
 #endif

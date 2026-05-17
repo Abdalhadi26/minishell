@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:20 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/04/19 14:06:21 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/05/17 19:23:10 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void	execute_single(t_single_command	command, t_shell *shell)
 	}
 	if (pid == 0)
 	{
+		set_execution_signals_child();
 		path = find_path(command.args[0], shell);
 		if (!path)
 		{
@@ -91,7 +92,12 @@ void	execute_single(t_single_command	command, t_shell *shell)
 		perror("minishell");
 		exit(126);
 	}
+	set_execution_signals_parent();
 	waitpid(pid, &status, 0);
+	// TODO: decode status manually (WIFEXITED/WIFSIGNALED macros banned)
+// if exited normally: shell->exit_status = exit code
+// if killed by signal: shell->exit_status = 128 + signal number
+// if killed by SIGQUIT: also print "Quit (core dumped)\n" to stderr
 }
 
 char    *find_path(char *cmd, t_shell *shell)
