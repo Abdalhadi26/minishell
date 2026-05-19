@@ -87,11 +87,13 @@ void	execute_pipeline(t_command command, t_shell *shell)
 		{
 			close_all_pipes(pipes, command.num_single_commands - 1);
 			perror("minishell");
+			shell->exit_status = 1;
 			while (waitpid(-1, &status, 0) > 0);
-			exit(1); //not perminiant, too lookup later
+			return ;
 		}
 	    if (pid == 0)
 		{
+			set_execution_signals_child();
 			if (i > 0)
 				dup2(pipes[i - 1][0], STDIN_FILENO);
 			if (i < (command.num_single_commands - 1))
@@ -114,11 +116,10 @@ void	execute_pipeline(t_command command, t_shell *shell)
 				perror("minishell");
 				exit(126);
 			}
-			//free(path);
-			//perror("minishell");
 		}
 	    i++;
 	}
+	set_execution_signals_parent();
 	close_all_pipes(pipes, command.num_single_commands - 1);
 	last_pid = pid;
 	waitpid_return = 0;
@@ -129,11 +130,14 @@ void	execute_pipeline(t_command command, t_shell *shell)
 			break;
 		if (waitpid_return == last_pid)
 		{
-			if (WIFEXITED(status))
-    			shell->exit_status = WEXITSTATUS(status);
-			//for the future
-			//else if (WIFSIGNALED(status))
-    		//	shell->exit_status = 128 + WTERMSIG(status); 
+			if (wait_exit_state(status) == 0)
+				shell->exit_status = wait_exit_code(status);
+			else
+			{
+				if (wait_exit_state(status) == SIGQUIT)
+					ft_putstr_fd("Quit (core dumped)\n", 2);
+				shell->exit_status = 128 + wait_exit_state(status);
+			}
 		}
 	}
 }

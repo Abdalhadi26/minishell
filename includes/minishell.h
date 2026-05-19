@@ -121,5 +121,7 @@ void	handle_sigint(int sig);
 void	set_interactive_signals();
 void	set_execution_signals_child();
 void	set_execution_signals_parent();
+int wait_exit_code(int status);
+int wait_exit_state(int status);
 
 #endif

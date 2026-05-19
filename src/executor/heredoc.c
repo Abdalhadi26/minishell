@@ -69,7 +69,14 @@ void	collect_heredocs(t_command *command)
 				{
 					line = readline("> ");
 					if (!line)
-						//error handling
+					{
+						ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted `", 2);
+						ft_putstr_fd(redirections_list->file_name, 2);
+						ft_putstr_fd("')\n",2);
+						close(pipe_fd[1]);
+						redirections_list->heredoc_fd = pipe_fd[0];
+						return ;
+					}
 					if (!ft_strncmp(line, redirections_list->file_name, ft_strlen(redirections_list->file_name)))
 					{
 						free(line);

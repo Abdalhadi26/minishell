@@ -74,7 +74,9 @@ void	execute_single(t_single_command	command, t_shell *shell)
 	pid = fork();
 	if (pid < 0)
 	{
-		//error handling
+			perror("minishell");
+			shell->exit_status = 1;
+			return ;
 	}
 	if (pid == 0)
 	{
@@ -94,10 +96,14 @@ void	execute_single(t_single_command	command, t_shell *shell)
 	}
 	set_execution_signals_parent();
 	waitpid(pid, &status, 0);
-	// TODO: decode status manually (WIFEXITED/WIFSIGNALED macros banned)
-// if exited normally: shell->exit_status = exit code
-// if killed by signal: shell->exit_status = 128 + signal number
-// if killed by SIGQUIT: also print "Quit (core dumped)\n" to stderr
+	if (wait_exit_state(status) == 0)
+		shell->exit_status = wait_exit_code(status);
+	else
+	{
+		if (wait_exit_state(status) == SIGQUIT)
+			ft_putstr_fd("Quit (core dumped)\n", 2);
+		shell->exit_status = 128 + wait_exit_state(status);
+	}
 }
 
 char    *find_path(char *cmd, t_shell *shell)
