@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:35 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/04/21 16:48:58 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/05/19 13:41:18 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	collect_heredocs(t_command *command)
 				while (1)
 				{
 					line = readline("> ");
-					if (!line)
+					if (!line) //we got ctrl-d
 					{
 						ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted `", 2);
 						ft_putstr_fd(redirections_list->file_name, 2);
@@ -82,6 +82,7 @@ void	collect_heredocs(t_command *command)
 						free(line);
 						break;
 					}
+					//expansion could go here
 					write(pipe_fd[1], line, ft_strlen(line));
 					write(pipe_fd[1], "\n", 1);
 					free(line);

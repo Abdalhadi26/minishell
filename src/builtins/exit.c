@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/19 12:30:10 by aayasrah          #+#    #+#             */
+/*   Updated: 2026/05/19 17:59:10 by aayasrah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 /*
 ** exit.c
 **
@@ -94,6 +106,7 @@ int	builtin_exit(t_single_command	cmd,t_shell *shell)
 	ft_putstr_fd("exit\n", 2);
 	if (cmd.num_args == 1)
 	{
+		rl_clear_history();
 		exit(shell->exit_status);
 	}
 	else if (cmd.num_args > 2)
@@ -109,12 +122,14 @@ int	builtin_exit(t_single_command	cmd,t_shell *shell)
 			ft_putstr_fd(cmd.args[1], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
 			//clean up
+			rl_clear_history();
 			exit(2);
 		}
 		//cleanup
 		result = ft_atol(cmd.args[1], &dummy) % 256;
 		if (result < 0)
     		result += 256;
+		rl_clear_history();
 		exit(result);
 	}
 	return (0);

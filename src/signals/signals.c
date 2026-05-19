@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signals.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/05/19 12:30:50 by aayasrah          #+#    #+#             */
+/*   Updated: 2026/05/19 12:30:59 by aayasrah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
 
 void	handle_sigint(int sig)
@@ -44,10 +56,3 @@ void	set_execution_signals_parent()
     sigaction(SIGINT, &sa, NULL);
     sigaction(SIGQUIT, &sa, NULL);
 }
-
-//While a child is running:
-
-//Ctrl-C → signal reaches child naturally (same process group), child dies, 
-//parent gets exit status 130
-//Ctrl-\ → child dies with 131, parent picks it up via waitpid
-//Parent itself ignores both during wait

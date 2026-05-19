@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:47 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/17 19:17:04 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/05/19 18:03:31 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,12 @@ typedef struct S_shell
 //executor
 void	free_2d(char **arr);
 void	apply_redirections(t_single_command command);
+void	execute_single(t_single_command	command, t_shell *shell);
+void	execute_pipeline(t_command command, t_shell *shell);
 char    *find_path(char *cmd, t_shell *shell);
 int	array_2d_len(char **arr);
+void	collect_heredocs(t_command *command);
+int	env_init(t_shell *shell, char **envp);
 char	*env_get(char **env, char *key);
 int	env_set(char ***env, char *key, char *value);
 int	env_unset(char ***env, char *key);
