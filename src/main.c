@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:31:21 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/19 18:11:57 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/05/20 16:13:22 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	main(int argc, char *argv[], char **envp)
 
 	(void)argc;
 	(void)argv;
+	command = NULL;
 	shell.exit_status = 0;
 	if (!env_init(&shell, envp))
 	{
@@ -77,6 +78,7 @@ int	main(int argc, char *argv[], char **envp)
 		}
 		add_history(line);
 		//parse
+		
 		collect_heredocs(command); //parsing inside heredoc
 		//expand
 		if (command->num_single_commands == 1)

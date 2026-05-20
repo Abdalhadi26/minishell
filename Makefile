@@ -12,7 +12,8 @@ SRC =	src/main.c \
 		src/executor/executor.c src/executor/exec_utils.c src/executor/redirections.c src/executor/pipes.c \
 		src/env/env_init.c src/env/env_utils.c \
 		src/builtins/builtins.c src/builtins/cd.c src/builtins/echo.c src/builtins/env.c src/builtins/exit.c \
-		src/builtins/export.c src/builtins/pwd.c src/builtins/unset.c
+		src/builtins/export.c src/builtins/pwd.c src/builtins/unset.c src/signals/signals.c src/signals/signal_wait.c \
+		src/executor/heredoc.c
 
 OBJ = $(SRC:.c=.o)
 
@@ -24,7 +25,7 @@ $(LIBFT):
 $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) $(OBJ) -L$(LIBFT_DIR) -lft -lreadline -o $(NAME)
 
-%.o: %.c
+%.o: %.c ./includes/minishell.h
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
