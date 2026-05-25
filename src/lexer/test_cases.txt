@@ -1,0 +1,27 @@
+ls | <  h1 cat | >> h2
+
+ls | <  h1 cat | cat >> h2 
+
+ls | <  h1 | cat >> h2 
+
+<< hi |>> hi | cat << he
+
+cat << hi > hi| cat << hel
+
+cat -e hello ; cat hello 
+
+# cat  hello
+
+cat << hi >> hello >> hello hi 
+
+ % bash   
+ahhammad@c1r5s10:~/Desktop/M3/new_new_minishell$ exit "          -40          "
+exit
+ahhammad@c1r5s10 ~/Desktop/M3/new_new_minishell
+ % echo $?
+216
+
+
+ % echo $$
+210344
+

@@ -4,12 +4,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "gnl/get_next_line.h"
 #include "libft/libft.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include "../../includes/minishell.h"
 
 typedef struct s_lexer
 {
@@ -18,9 +18,14 @@ typedef struct s_lexer
     struct s_lexer *next; // Pointer to the next lexer node in the list
 } t_lexer;
 
+t_lexer   *init_s_lexer(int len);
+char *free_all(t_lexer *head);
+t_lexer *new_pipe_red(char c);
+int check_next_token(t_lexer f_token,t_lexer *s_token);
+int pipe_red_dup(t_lexer *head);
+void print_error(char *str);
+t_lexer    *merge_red(t_lexer *head);
+int check_red_pipe(char c);
 t_lexer   *add_tokens(char *input,int i,int j);
-int check_redi_pipe(char c);
-char * free_all(t_lexer *head, int exit_code);
-
 
 #endif

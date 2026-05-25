@@ -4,11 +4,12 @@ OUTDIR = build
 OBJDIR = $(OUTDIR)/obj
 
 # Source files
-LEXER_SRC = new_lexer.c lexer_organiztion.c
+LEXER_SRC = new_lexer.c lexer_organiztion.c expander.c
 ALL_SRC = $(LEXER_SRC) $(GNL_SRC)
 
 OBJ         = $(LEXER_SRC:.c=.o)
-AR          = ar rcs
+AR          = ar 
+ARFLAGS 	= rcs
 libft_DIR   = ./libft
 gnl_DIR     = ./gnl
 # Object files
@@ -16,7 +17,7 @@ gnl_DIR     = ./gnl
 
 
 # Output targets
-NAME = lexer.a
+NAME = ../lexer.a
 LIBNAME = liblexer.a
 LIBFT_A = $(libft_DIR)/libft.a
 GNL_A = $(gnl_DIR)/libgnl.a
@@ -27,10 +28,10 @@ GNL_A = $(gnl_DIR)/libgnl.a
 
 
 
-all:$(LIBFT_A) $(GNL_A) $(NAME)
-	$(CC) lexer_organiztion.c ./lexer.a ./libft/libft.a ./gnl/libgnl.a -lreadline
+all:$(LIBFT_A) $(NAME)
+#$(AR) $(ARFLAGS) $(NAME) ./liblexer.a ./libft/libft.a ./gnl/libgnl.a 
 $(NAME): $(OBJ)
-	$(AR) $(NAME) $(OBJ)
+	$(AR) $(ARFLAGS) $(LIBNAME) $(OBJ)
 
 %.o: %.c
 	$(CC) $ -c $< -o $@
@@ -38,20 +39,17 @@ $(NAME): $(OBJ)
 $(LIBFT_A):
 	$(MAKE) -C $(libft_DIR)
 
-$(GNL_A):
-	$(MAKE) -C $(gnl_DIR)
 # Create static library (optional)
 
 clean:
-	rm -f $(OBJ)
+	rm -f $(OBJ) $(LIBNAME) 
 	$(MAKE) -C $(libft_DIR) clean
-	$(MAKE) -C $(gnl_DIR) clean
+
 
 fclean: clean
 	rm -f a.out
 	rm -f $(NAME)
 	$(MAKE) -C $(libft_DIR) fclean
-	$(MAKE) -C $(gnl_DIR) fclean
 # Phony targets
 re : fclean all
 
