@@ -6,13 +6,46 @@
 /*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:20 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/25 16:38:22 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/05/17 19:23:10 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
+** executor.c
+**
+** The executor is the final and most complex stage. It receives the
+** fully parsed and expanded command list and actually runs everything.
+**
+** This is where the real Unix system programming happens.
+**
+** What the executor does:
+**
+**   For a single command (no pipes):
+**     1. Check if it is a builtin (echo, cd, pwd, etc.)
+**        If yes, run it directly in the current process
+**        If no, fork a child process and use execve() to run it
+**
+**   For a pipeline (multiple commands connected by |):
+**     1. Create pipes between each pair of adjacent commands
+**     2. Fork a child process for each command
+**     3. In each child, connect the right pipe ends to stdin/stdout
+**     4. Close all pipe ends that the child doesnt need
+**     5. Execute the command with execve()
+**     6. In the parent, close all pipe ends and wait for all children
+**
+** Key concepts used here:
+**   fork()   - creates a copy of the current process
+**   execve() - replaces the current process with a new program
+**   wait()   - parent waits for child to finish and gets exit status
+**
+** Think of the executor as a manager who receives a list of tasks,
+** hires workers (child processes) to do each task, sets up the
+** communication channels between them (pipes), and waits for
+** everyone to finish before reporting back.
+*/
 #include "../../includes/minishell.h"
 
-void	execute_single(t_single_command command, t_shell *shell)
+void	execute_single(t_single_command	command, t_shell *shell)
 {
 	pid_t	pid;
 	int		status;
@@ -26,9 +59,9 @@ void	execute_single(t_single_command command, t_shell *shell)
 		stdout_fd = dup(STDOUT_FILENO);
 		if (stdin_fd < 0 || stdout_fd < 0)
 		{
-			perror("minishell");
-			shell->exit_status = 1;
-			return ;
+		    perror("minishell");
+		    shell->exit_status = 1;
+		    return ;
 		}
 		apply_redirections(command);
 		shell->exit_status = execute_builtin(&command, shell);
@@ -41,9 +74,9 @@ void	execute_single(t_single_command command, t_shell *shell)
 	pid = fork();
 	if (pid < 0)
 	{
-		perror("minishell");
-		shell->exit_status = 1;
-		return ;
+			perror("minishell");
+			shell->exit_status = 1;
+			return ;
 	}
 	if (pid == 0)
 	{
@@ -52,9 +85,9 @@ void	execute_single(t_single_command command, t_shell *shell)
 		if (!path)
 		{
 			write(2, "minishell: ", 11);
-			write(2, command.args[0], ft_strlen(command.args[0]));
-			write(2, ": command not found\n", 20);
-			exit(127);
+        	write(2, command.args[0], ft_strlen(command.args[0]));
+        	write(2, ": command not found\n", 20);
+        	exit(127);
 		}
 		apply_redirections(command);
 		execve(path, command.args, shell->env);
@@ -73,12 +106,12 @@ void	execute_single(t_single_command command, t_shell *shell)
 	}
 }
 
-char	*find_path(char *cmd, t_shell *shell)
+char    *find_path(char *cmd, t_shell *shell)
 {
-	char	**paths;
-	char	*to_test_path;
-	char	*temp;
-	int		i;
+	char **paths;
+	char *to_test_path;
+	char *temp;
+	int i;
 
 	paths = ft_split(env_get(shell->env, "PATH"), ':');
 	if (!paths)
@@ -99,5 +132,5 @@ char	*find_path(char *cmd, t_shell *shell)
 		i++;
 	}
 	free_2d(paths);
-	return (NULL);
+	return(NULL);
 }

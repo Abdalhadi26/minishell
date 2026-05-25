@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 15:49:34 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/25 16:38:12 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/05/07 17:38:33 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	array_2d_len(char **arr)
 {
-	int	i;
+	int i;
 
 	if (!arr)
 		return (0);
