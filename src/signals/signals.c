@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:30:50 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/19 12:30:59 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/05/25 16:38:58 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 void	handle_sigint(int sig)
 {
 	(void)sig;
-
 	g_signal = SIGINT;
 	write(1, "\n", 1);
 	rl_replace_line("", 0);
@@ -23,9 +22,9 @@ void	handle_sigint(int sig)
 	rl_redisplay();
 }
 
-void	set_interactive_signals()
+void	set_interactive_signals(void)
 {
-	struct sigaction sa;
+	struct sigaction	sa;
 
 	sa.sa_handler = handle_sigint;
 	sigemptyset(&sa.sa_mask);
@@ -35,24 +34,24 @@ void	set_interactive_signals()
 	sigaction(SIGQUIT, &sa, NULL);
 }
 
-void	set_execution_signals_child()
+void	set_execution_signals_child(void)
 {
-    struct sigaction sa;
+	struct sigaction	sa;
 
-    sa.sa_handler = SIG_DFL;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = 0;
-    sigaction(SIGINT, &sa, NULL);
-    sigaction(SIGQUIT, &sa, NULL);
+	sa.sa_handler = SIG_DFL;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 }
 
-void	set_execution_signals_parent()
+void	set_execution_signals_parent(void)
 {
-    struct sigaction sa;
+	struct sigaction	sa;
 
-    sa.sa_handler = SIG_IGN;
-    sigemptyset(&sa.sa_mask);
-    sa.sa_flags = 0;
-    sigaction(SIGINT, &sa, NULL);
-    sigaction(SIGQUIT, &sa, NULL);
+	sa.sa_handler = SIG_IGN;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
 }

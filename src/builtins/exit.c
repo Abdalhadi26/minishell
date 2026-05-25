@@ -6,50 +6,16 @@
 /*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:30:10 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/19 17:59:10 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/05/25 16:37:56 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-** exit.c
-**
-** Implements the exit builtin.
-** exit terminates the shell, optionally with a specific exit code.
-**
-** Usage:
-**   exit        exits with the last commands exit status
-**   exit 42     exits with code 42
-**   exit -1     exits with code 255 (wraps around like bash)
-**
-** The exit code math:
-**   Exit codes in Unix are stored as unsigned 8-bit values (0-255).
-**   Any value you give is taken modulo 256.
-**   So exit 256 exits with 0, exit 257 exits with 1, exit -1 exits with 255.
-**
-** Error cases to handle carefully:
-**   exit abc        <- not a number, print error, exit with code 2
-**   exit 1 2        <- too many arguments, print error, do NOT exit
-**   exit 99999999999999999 <- overflow, print error, exit with code 2
-**   The overflow check is important - use long long and check bounds.
-**
-** Why must exit be a builtin?
-**   Because it needs to terminate the shell process itself. If it
-**   ran in a child process, only the child would exit and the shell
-**   would keep running unchanged.
-**
-** Important cleanup:
-**   Before exiting, free ALL allocated memory - env list, any remaining
-**   command structs, everything. Valgrind will check this.
-**
-** Think of exit as the off switch for the shell, with some careful
-** math to handle the exit code correctly.
-*/
 #include "../../includes/minishell.h"
 
-static long long ft_atol(const char *str, int *overflow)
+static long long	ft_atol(const char *str, int *overflow)
 {
-	int				i;
-	int				sign;
+	int			i;
+	int			sign;
 	long long	result;
 
 	i = 0;
@@ -75,10 +41,10 @@ static long long ft_atol(const char *str, int *overflow)
 	return (result * sign);
 }
 
-static int is_valid_number(char	*arg)
+static int	is_valid_number(char *arg)
 {
-	int i;
-	int overflow;
+	int	i;
+	int	overflow;
 
 	overflow = 0;
 	i = 0;
@@ -90,7 +56,7 @@ static int is_valid_number(char	*arg)
 	{
 		if (!ft_isdigit(arg[i]))
 			return (0);
-		i++;	
+		i++;
 	}
 	ft_atol(arg, &overflow);
 	if (overflow)
@@ -98,10 +64,10 @@ static int is_valid_number(char	*arg)
 	return (1);
 }
 
-int	builtin_exit(t_single_command	cmd,t_shell *shell)
+int	builtin_exit(t_single_command cmd, t_shell *shell)
 {
 	long	result;
-	int	dummy;
+	int		dummy;
 
 	ft_putstr_fd("exit\n", 2);
 	if (cmd.num_args == 1)
@@ -121,14 +87,14 @@ int	builtin_exit(t_single_command	cmd,t_shell *shell)
 			ft_putstr_fd("minishell: exit: ", 2);
 			ft_putstr_fd(cmd.args[1], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
-			//clean up
+			// clean up
 			rl_clear_history();
 			exit(2);
 		}
-		//cleanup
+		// cleanup
 		result = ft_atol(cmd.args[1], &dummy) % 256;
 		if (result < 0)
-    		result += 256;
+			result += 256;
 		rl_clear_history();
 		exit(result);
 	}

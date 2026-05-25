@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_organiztion.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 15:49:49 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/20 13:21:19 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/25 16:44:44 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

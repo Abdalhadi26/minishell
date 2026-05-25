@@ -6,48 +6,13 @@
 /*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:30:13 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/19 12:30:14 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/05/25 16:37:59 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-** export.c
-**
-** Implements the export builtin.
-** export adds new variables to the environment or updates existing ones.
-**
-** Two ways to use export:
-**
-**   export VARNAME=value
-**     Adds VARNAME to the environment with the given value.
-**     If VARNAME already exists, its value is updated.
-**     Example: export MY_NAME=student
-**
-**   export with no arguments
-**     Prints all currently exported environment variables in a format
-**     that matches bash: declare -x VARNAME="value"
-**
-** Validation rules:
-**   Variable names must be valid identifiers.
-**   A valid identifier starts with a letter or underscore,
-**   followed by any combination of letters, digits, and underscores.
-**   export 1test  <- INVALID, starts with a digit
-**   export _test  <- valid
-**   export test1  <- valid
-**   When an invalid name is given, print an error but continue
-**   processing the remaining arguments.
-**
-** Why must export be a builtin?
-**   Same reason as cd - it needs to modify the shells own environment.
-**   If it ran in a child process, the changes would disappear when
-**   the child exited and the shell would be unchanged.
-**
-** Think of export as the builtin that writes new entries into the
-** shells environment dictionary.
-*/
 #include "../../includes/minishell.h"
 
-static int is_valid_arg(char *key)
+static int	is_valid_arg(char *key)
 {
 	int	i;
 
@@ -101,8 +66,8 @@ static void	export_no_args(t_shell shell)
 		j = 0;
 		while (shell.env[j])
 		{
-			if (!done[j] && (min_idx == -1
-				|| ft_strncmp(shell.env[j], shell.env[min_idx], INT_MAX) < 0))
+			if (!done[j] && (min_idx == -1 || ft_strncmp(shell.env[j],
+						shell.env[min_idx], INT_MAX) < 0))
 				min_idx = j;
 			j++;
 		}
@@ -112,10 +77,10 @@ static void	export_no_args(t_shell shell)
 	}
 }
 
-int	builtin_export(t_single_command	cmd,t_shell *shell)
+int	builtin_export(t_single_command cmd, t_shell *shell)
 {
-	int			i;
-	int			retrun_status;
+	int		i;
+	int		retrun_status;
 	char	*equal_sign;
 	char	*key;
 	char	*value;
