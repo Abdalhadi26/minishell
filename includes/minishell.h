@@ -6,43 +6,10 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:47 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/26 17:22:42 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/26 22:23:07 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-** minishell.h
-**
-** This is the brain of the entire project - the header file that every
-** single .c file will include. It is the contract between all parts
-** of the program.
-**
-** What lives here:
-**
-**   1. ALL structs - the data structures that define how information
-**      flows through the program. The lexer creates tokens, the parser
-**      creates commands, the executor reads commands. They all need to
-**      agree on what those things look like. That agreement lives here.
-**
-**   2. ALL enums - named constants like token types (WORD, PIPE, etc.)
-**      so we never use magic numbers like 0, 1, 2 in our code.
-**
-**   3. ALL function prototypes - declarations of every function so that
-**      any file can call any function without the compiler complaining.
-**
-**   4. ALL includes - we include system headers like <stdio.h> and
-**      <readline/readline.h> once here, so every file gets them.
-**
-**   5. The global variable declaration - our one allowed global variable
-**      for signal handling.
-**
-** Think of minishell.h as the dictionary of our project. Before two
-** people can have a conversation, they need to agree on what words mean.
-** This file is where we define what everything means.
-**
-** IMPORTANT: This file is included by everyone, so be careful what you
-** put here. A mistake here breaks every single file in the project.
-*/
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -58,9 +25,8 @@
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "../libft/libft.h"
 
-int	g_signal;
+extern int	g_signal;
 
 typedef enum e_redirections_types //an enumeration for redirections
 {
@@ -94,7 +60,7 @@ typedef struct s_command
 	t_single_command	**commands; //2d array of the single commands
 } t_command;
 
-typedef struct S_shell
+typedef struct s_shell
 {
 	char	**env;
 	int		exit_status;
@@ -127,5 +93,7 @@ void	set_execution_signals_child();
 void	set_execution_signals_parent();
 int wait_exit_code(int status);
 int wait_exit_state(int status);
-
+t_command *main_parsing(char *input, t_shell shell);
+# include "../libft/libft.h"
+# include "../src/lexer/lexer.h"
 #endif

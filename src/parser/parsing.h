@@ -6,14 +6,14 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 14:44:10 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/26 17:40:44 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/26 22:23:21 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H  
 
-#include "../lexer/lexer.h"
+// #include "../lexer/lexer.h"
 #include "../../includes/minishell.h"
 
 typedef struct s_args
@@ -30,14 +30,14 @@ typedef struct s_files
 
 t_single_command *init_single_command();
 t_redirections  *init_red(t_redirections_types type, t_lexer *token);
-t_single_command *parsing_check(t_lexer *token);
+// t_single_command *parsing_check(t_lexer *token);
 t_single_command	*handle_redir(t_lexer *tok, t_args *args,
 		t_files *files);
 t_single_command	*handle_word(t_lexer *tok);
 
 void free_cmds(t_command *cmds);
 t_single_command *free_cmd_a_f(t_single_command *cmds, t_args *args, t_files *files);
-void parsing(t_command *cmds, t_lexer *token);
+t_command *parsing( t_lexer *token);
 int convert_args_files(t_single_command *cmd, t_args *args, t_files *files);
 int	add_arg_file(t_lexer *tok, t_args **args, t_files **files);
 t_args *init_arg(char *arg);

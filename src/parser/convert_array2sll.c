@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 14:42:41 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/26 17:36:13 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/26 21:35:23 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int convert_args_files(t_single_command *cmd, t_args *args, t_files *files)
     if (arg)
     {
         if (file)
-            cmd->args =malloc((num_args(args)+num_files(files) + 1)
+            cmd->args = malloc((num_args(args) + num_files(files) + 1)
                          * sizeof(char *)); 
         else 
             cmd->args = malloc((num_args(args) + 1) * sizeof(char *));

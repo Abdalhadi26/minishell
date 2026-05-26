@@ -1,6 +1,6 @@
 
 
-#include "../lexer/lexer.h"
+#include "../../includes/minishell.h"
 
 /* Safely appends a single character to an allocated string and frees the old one */
 char	*append_char(char *str, char c)

@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:52:44 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/26 17:39:12 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/26 21:14:30 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ static t_single_command	*finalize_word_cmd(t_lexer *tok, t_args *args,
 {
 	t_single_command	*cmds;
 
-	if (tok)
+	if (tok && !tok->qouted  && tok->input[0] != '|')
 		return (handle_redir(tok, args, files));
 	cmds = init_single_command();
 	if (!cmds)
@@ -113,6 +113,8 @@ t_single_command	*handle_word(t_lexer *tok)
 	tok = tok->next;
 	while (tok && (tok->qouted || check_red_pipe(tok->input[0]) != 1))
 	{
+		if ((tok->input[0] == '|') && !tok->qouted)
+			break;
 		if (!add_arg_file(tok, &args, &files))
 			return ((t_single_command *)free_cmd_a_f(NULL, args, files));
 		tok = tok->next;

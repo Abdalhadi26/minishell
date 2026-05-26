@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:31:21 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/20 16:13:22 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/26 22:16:38 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,56 +38,116 @@
 */
 
 #include "../includes/minishell.h"
+#include "../src/parser/parsing.h"
 
+void printaa(t_command *command);
+t_shell *init_shell()
+{
+	t_shell *shell;
+	
+	shell = malloc(sizeof(t_shell));
+	shell->exit_status = 0;
+	shell->env = NULL;
+	return (shell);
+}
 int	main(int argc, char *argv[], char **envp)
 {
-	t_shell shell;
+	t_shell *shell;
 	char	*line;
 	t_command *command;
 
 	(void)argc;
 	(void)argv;
-	command = NULL;
-	shell.exit_status = 0;
-	if (!env_init(&shell, envp))
+	command = NULL;	
+	// g_signal = 1;
+	shell = init_shell();
+	if (!env_init(shell, envp))
 	{
 		exit(1);
 	}
-	set_interactive_signals();
+	// set_interactive_signals();
 	while (1)
 	{
 		line = readline("minishell ");
-		if (!line)
-		{
-			free_2d(shell.env);
-			ft_putstr_fd("exit\n", 2);
-			rl_clear_history();
-			exit(shell.exit_status);
-		}
-		if (g_signal == SIGINT)
-		{
-			g_signal = 0;
-			free(line);
-			shell.exit_status = 130;
-			continue;
-		}
-		if (!line[0])
-		{
-			free(line);
-			continue;
-		}
+		// printf("%s\n", line);
+	
+		// if (!line)
+		// {
+		// 	free_2d(shell.env);
+		// 	ft_putstr_fd("exit\n", 2);
+		// 	rl_clear_history();
+		// 	exit(shell.exit_status);
+		// }
+		// if (g_signal == SIGINT)
+		// {
+		// 	g_signal = 0;
+		// 	free(line);
+		// 	shell.exit_status = 130;
+		// 	continue;
+		// }
+		// if (!line[0])
+		// {
+		// 	free(line);
+		// 	continue;
+		// }
 		add_history(line);
 		//parse
-		
-		collect_heredocs(command); //parsing inside heredoc
+		// printf("hi\n");
+		command = main_parsing(line, *shell);
+		// printf("%d", command->num_single_commands);
+		printaa(command);
+		(void )command;
+		// free_cmds(command);
+		// collect_heredocs(command); //parsing inside heredoc
 		//expand
-		if (command->num_single_commands == 1)
-			execute_single(*command->commands[0], &shell);
-		else
-			execute_pipeline(*command, &shell);
-		set_interactive_signals();
-		//clean the parsed command
+		
+		// if (command->num_single_commands == 1)
+		// 	execute_single(*command->commands[0], &shell);
+		// else
+		// 	execute_pipeline(*command, &shell);
+		// set_interactive_signals();
+		// //clean the parsed command
 		free(line);
 	}
 	return (0);
 }
+
+void printaa(t_command *command)
+{
+	t_redirections *temp;
+	t_single_command *temp1;
+	t_command *cmds;
+	int i;
+	int j = 0;
+
+	i = 0;
+	if (!command)
+		return ;
+	cmds = command;
+	while (i < cmds->num_single_commands)
+	{
+		j = 0;
+		temp1 = cmds->commands[i];i++;
+		while(temp1->args && temp1->args[j])
+		{
+			printf("arg[%d] = %s\n", j, temp1->args[j]);
+			j++;
+		}
+		printf("\n");
+		temp = temp1->redirections;
+		while(temp)
+		{
+			printf("type = %d\n", temp->type);
+			printf("file = %s\n", temp->file_name);
+			printf("status = %d\n", temp->heredoc_expansion_status);
+			printf("fd = %d\n", temp->heredoc_fd);
+			temp = temp->next;
+		}
+		
+		printf("\n");
+	}
+	
+}
+
+
+
