@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 15:12:27 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/24 20:08:36 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/26 17:32:28 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ static void free_redirections(t_redirections *redirs)
 static void free_cmd(t_single_command *cmds)
 {
     int i;
-    t_redirections *tmp;
 
     i = 0;
     if (!cmds)

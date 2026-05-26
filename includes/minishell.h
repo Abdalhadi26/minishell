@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:47 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/20 16:13:06 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/26 17:22:42 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@
 # include <readline/history.h>
 # include "../libft/libft.h"
 
-static int	g_signal;
+int	g_signal;
 
 typedef enum e_redirections_types //an enumeration for redirections
 {
