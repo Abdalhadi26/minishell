@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 14:46:41 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/24 20:12:51 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/26 17:40:37 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_single_command *build_cmd(t_lexer *token)
     }
     return (cmds);
 }
-void parsing(t_command *cmds, t_lexer *token, t_shell shell)
+void parsing(t_command *cmds, t_lexer *token)
 {
     int i;
     int num_cmds;
@@ -82,7 +82,7 @@ void parsing(t_command *cmds, t_lexer *token, t_shell shell)
     i = 0;
    
     if (!token)
-        return (NULL);
+        return ;
     num_cmds = number_of_cmds(token);
     cmds = init_cmd(num_cmds);
     if (!cmds || !cmds->commands)

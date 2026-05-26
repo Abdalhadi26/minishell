@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 14:44:10 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/19 15:24:03 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/26 17:40:44 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,9 @@ t_single_command	*handle_word(t_lexer *tok);
 
 void free_cmds(t_command *cmds);
 t_single_command *free_cmd_a_f(t_single_command *cmds, t_args *args, t_files *files);
-
+void parsing(t_command *cmds, t_lexer *token);
 int convert_args_files(t_single_command *cmd, t_args *args, t_files *files);
 int	add_arg_file(t_lexer *tok, t_args **args, t_files **files);
+t_args *init_arg(char *arg);
+
 #endif

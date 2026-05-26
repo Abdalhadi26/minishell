@@ -6,12 +6,12 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:22:16 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/17 20:37:34 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/26 17:38:48 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-static t_args *init_args(char *arg)
+t_args *init_arg(char *arg)
 {
     t_args *new_arg;
 
@@ -47,7 +47,7 @@ static int	append_arg(t_lexer *tok, t_args **args)
 	if ((*args) == NULL)
     	return (0);
     (void)tok;
-    new_arg = init_args(tok->input);
+    new_arg = init_arg(tok->input);
 	if (!new_arg)
         return (0);
 	last_arg = *args;

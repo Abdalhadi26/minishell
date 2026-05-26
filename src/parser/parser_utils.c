@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:52:44 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/24 20:12:02 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/26 17:39:12 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	parse_cmd_tokens(t_lexer **tok, t_args **a, t_files **f,
 		}
 		if (*a == NULL)
 		{
-			*a = init_args((*tok)->input);
+			*a = init_arg((*tok)->input);
             if (!(*a))
                 return (0);
 			(*tok) = (*tok)->next;
@@ -107,7 +107,7 @@ t_single_command	*handle_word(t_lexer *tok)
 	t_files	*files;
 
 	files = NULL;
-	args = init_args(tok->input);
+	args = init_arg(tok->input);
 	if (!args)
 		return (NULL);
 	tok = tok->next;

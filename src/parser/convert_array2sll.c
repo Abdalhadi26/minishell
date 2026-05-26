@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 14:42:41 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/19 15:13:29 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/26 17:36:13 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,7 @@ int convert_args_files(t_single_command *cmd, t_args *args, t_files *files)
 {
     t_args *arg;
     t_files *file;
-    int     i;
 
-    i = 0;
     if (!cmd)
         return (0);
     arg = args;
@@ -87,7 +85,7 @@ int convert_args_files(t_single_command *cmd, t_args *args, t_files *files)
         if  (!cmd->args)
             return (0);
     }
-    if (!moved2_args_files(cmd, args, files))
+    if (!merge_args_files(cmd, args, files))
         return (0);
     return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 14:49:45 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/17 18:58:19 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/26 17:37:51 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_single_command *init_single_command()
     cmd->redirections = NULL;
     return (cmd);
 }
-
 
 
 t_redirections  *init_red(t_redirections_types type, t_lexer *token)
