@@ -10,50 +10,41 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-** heredoc.c
-**
-** This file handles heredocs specifically - the << redirection.
-** Heredoc is complex enough to deserve its own file.
-**
-** What is a heredoc?
-**   Heredoc (here document) lets you type multiple lines of input
-**   directly in the terminal, which then get fed as stdin to a command.
-**   You start it with << DELIMITER and type your input line by line.
-**   When you type a line that contains ONLY the delimiter, it stops.
-**
-**   Example:
-**     cat << EOF
-**     hello
-**     world
-**     EOF
-**   This feeds "hello\nworld\n" as stdin to cat.
-**
-** How we implement it:
-**   When the parser sees <<, we dont execute it immediately.
-**   Before any execution happens, we go through ALL heredocs in
-**   the command list and collect their input first.
-**   We read line by line using readline() until we see the delimiter.
-**   We store all the collected input, then during execution we
-**   feed it to the command as its stdin.
-**
-** Special behaviors to handle:
-**   - ctrl-C during heredoc input should cancel it (exit status 130)
-**   - ctrl-D during heredoc shows a warning like bash does
-**   - Variables should expand inside heredoc UNLESS the delimiter
-**     was quoted (e.g. << 'EOF' means no expansion)
-**
-** Think of heredoc like a temporary document you create on the spot
-** and immediately hand to a command to read from.
-*/
-
 #include "../../includes/minishell.h"
+
+static int	read_heredoc(t_redirections *redir, int *pipe_fd)
+{
+	char	*line;
+
+	while (1)
+	{
+		line = readline("> ");
+		if (!line)
+		{
+			ft_putstr_fd("minishell: warning: here-document", 2);
+			ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
+			ft_putstr_fd(redir->file_name, 2);
+			ft_putstr_fd("')\n", 2);
+			close(pipe_fd[1]);
+			redir->heredoc_fd = pipe_fd[0];
+			return (1);
+		}
+		if (!ft_strncmp(line, redir->file_name, ft_strlen(redir->file_name)))
+		{
+			free(line);
+			return (0);
+		}
+		//expansion could go here
+		write(pipe_fd[1], line, ft_strlen(line));
+		write(pipe_fd[1], "\n", 1);
+		free(line);
+	}
+}
 
 void	collect_heredocs(t_command *command)
 {
 	int				i;
 	int				pipe_fd[2];
-	char			*line;
 	t_redirections	*redirections_list;
 
 	i = 0;
@@ -65,28 +56,8 @@ void	collect_heredocs(t_command *command)
 			if (redirections_list->type == redir_heredoc)
 			{
 				pipe(pipe_fd);
-				while (1)
-				{
-					line = readline("> ");
-					if (!line) //we got ctrl-d
-					{
-						ft_putstr_fd("minishell: warning: here-document delimited by end-of-file (wanted `", 2);
-						ft_putstr_fd(redirections_list->file_name, 2);
-						ft_putstr_fd("')\n",2);
-						close(pipe_fd[1]);
-						redirections_list->heredoc_fd = pipe_fd[0];
-						return ;
-					}
-					if (!ft_strncmp(line, redirections_list->file_name, ft_strlen(redirections_list->file_name)))
-					{
-						free(line);
-						break;
-					}
-					//expansion could go here
-					write(pipe_fd[1], line, ft_strlen(line));
-					write(pipe_fd[1], "\n", 1);
-					free(line);
-				}
+				if (read_heredoc(redirections_list, pipe_fd))
+					return ;
 				close(pipe_fd[1]);
 				redirections_list->heredoc_fd = pipe_fd[0];
 			}

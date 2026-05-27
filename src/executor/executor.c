@@ -10,92 +10,50 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-/*
-** executor.c
-**
-** The executor is the final and most complex stage. It receives the
-** fully parsed and expanded command list and actually runs everything.
-**
-** This is where the real Unix system programming happens.
-**
-** What the executor does:
-**
-**   For a single command (no pipes):
-**     1. Check if it is a builtin (echo, cd, pwd, etc.)
-**        If yes, run it directly in the current process
-**        If no, fork a child process and use execve() to run it
-**
-**   For a pipeline (multiple commands connected by |):
-**     1. Create pipes between each pair of adjacent commands
-**     2. Fork a child process for each command
-**     3. In each child, connect the right pipe ends to stdin/stdout
-**     4. Close all pipe ends that the child doesnt need
-**     5. Execute the command with execve()
-**     6. In the parent, close all pipe ends and wait for all children
-**
-** Key concepts used here:
-**   fork()   - creates a copy of the current process
-**   execve() - replaces the current process with a new program
-**   wait()   - parent waits for child to finish and gets exit status
-**
-** Think of the executor as a manager who receives a list of tasks,
-** hires workers (child processes) to do each task, sets up the
-** communication channels between them (pipes), and waits for
-** everyone to finish before reporting back.
-*/
 #include "../../includes/minishell.h"
 
-void	execute_single(t_single_command	command, t_shell *shell)
+static void	execute_builtin_single(t_single_command command, t_shell *shell)
 {
-	pid_t	pid;
-	int		status;
 	int		stdin_fd;
 	int		stdout_fd;
-	char	*path;
 
-	if (is_builtin(command.args[0]))
+	stdin_fd = dup(STDIN_FILENO);
+	stdout_fd = dup(STDOUT_FILENO);
+	if (stdin_fd < 0 || stdout_fd < 0)
 	{
-		stdin_fd = dup(STDIN_FILENO);
-		stdout_fd = dup(STDOUT_FILENO);
-		if (stdin_fd < 0 || stdout_fd < 0)
-		{
-		    perror("minishell");
-		    shell->exit_status = 1;
-		    return ;
-		}
-		apply_redirections(command);
-		shell->exit_status = execute_builtin(&command, shell);
-		dup2(stdin_fd, STDIN_FILENO);
-		dup2(stdout_fd, STDOUT_FILENO);
-		close(stdin_fd);
-		close(stdout_fd);
+		perror("minishell");
+		shell->exit_status = 1;
 		return ;
 	}
-	pid = fork();
-	if (pid < 0)
+	apply_redirections(command);
+	shell->exit_status = execute_builtin(&command, shell);
+	dup2(stdin_fd, STDIN_FILENO);
+	dup2(stdout_fd, STDOUT_FILENO);
+	close(stdin_fd);
+	close(stdout_fd);
+	return ;
+}
+
+static	void	execute_child_single(t_single_command command, t_shell *shell)
+{
+	char	*path;
+
+	path = find_path(command.args[0], shell);
+	if (!path)
 	{
-			perror("minishell");
-			shell->exit_status = 1;
-			return ;
+		write(2, "minishell: ", 11);
+		write(2, command.args[0], ft_strlen(command.args[0]));
+		write(2, ": command not found\n", 20);
+		exit(127);
 	}
-	if (pid == 0)
-	{
-		set_execution_signals_child();
-		path = find_path(command.args[0], shell);
-		if (!path)
-		{
-			write(2, "minishell: ", 11);
-        	write(2, command.args[0], ft_strlen(command.args[0]));
-        	write(2, ": command not found\n", 20);
-        	exit(127);
-		}
-		apply_redirections(command);
-		execve(path, command.args, shell->env);
-		perror("minishell");
-		exit(126);
-	}
-	set_execution_signals_parent();
-	waitpid(pid, &status, 0);
+	apply_redirections(command);
+	execve(path, command.args, shell->env);
+	perror("minishell");
+	exit(126);
+}
+
+static	void	handle_wait_status(int status, t_shell *shell)
+{
 	if (wait_exit_state(status) == 0)
 		shell->exit_status = wait_exit_code(status);
 	else
@@ -106,12 +64,39 @@ void	execute_single(t_single_command	command, t_shell *shell)
 	}
 }
 
-char    *find_path(char *cmd, t_shell *shell)
+void	execute_single(t_single_command command, t_shell *shell)
 {
-	char **paths;
-	char *to_test_path;
-	char *temp;
-	int i;
+	pid_t	pid;
+	int		status;
+
+	if (is_builtin(command.args[0]))
+	{
+		execute_builtin_single(command, shell);
+		return ;
+	}
+	pid = fork();
+	if (pid < 0)
+	{
+		perror("minishell");
+		shell->exit_status = 1;
+		return ;
+	}
+	if (pid == 0)
+	{
+		set_execution_signals_child();
+		execute_child_single(command, shell);
+	}
+	set_execution_signals_parent();
+	waitpid(pid, &status, 0);
+	handle_wait_status(status, shell);
+}
+
+char	*find_path(char *cmd, t_shell *shell)
+{
+	char	**paths;
+	char	*to_test_path;
+	char	*temp;
+	int		i;
 
 	paths = ft_split(env_get(shell->env, "PATH"), ':');
 	if (!paths)
@@ -132,5 +117,66 @@ char    *find_path(char *cmd, t_shell *shell)
 		i++;
 	}
 	free_2d(paths);
-	return(NULL);
+	return (NULL);
 }
+
+//void	execute_single(t_single_command command, t_shell *shell)
+//{
+//	pid_t	pid;
+//	int		status;
+//	int		stdin_fd;
+//	int		stdout_fd;
+//	char	*path;
+
+//	if (is_builtin(command.args[0]))
+//	{
+//		stdin_fd = dup(STDIN_FILENO);
+//		stdout_fd = dup(STDOUT_FILENO);
+//		if (stdin_fd < 0 || stdout_fd < 0)
+//		{
+//			perror("minishell");
+//			shell->exit_status = 1;
+//			return ;
+//		}
+//		apply_redirections(command);
+//		shell->exit_status = execute_builtin(&command, shell);
+//		dup2(stdin_fd, STDIN_FILENO);
+//		dup2(stdout_fd, STDOUT_FILENO);
+//		close(stdin_fd);
+//		close(stdout_fd);
+//		return ;
+//	}
+//	pid = fork();
+//	if (pid < 0)
+//	{
+//		perror("minishell");
+//		shell->exit_status = 1;
+//		return ;
+//	}
+//	if (pid == 0)
+//	{
+//		set_execution_signals_child();
+//		path = find_path(command.args[0], shell);
+//		if (!path)
+//		{
+//			write(2, "minishell: ", 11);
+//			write(2, command.args[0], ft_strlen(command.args[0]));
+//			write(2, ": command not found\n", 20);
+//			exit(127);
+//		}
+//		apply_redirections(command);
+//		execve(path, command.args, shell->env);
+//		perror("minishell");
+//		exit(126);
+//	}
+//	set_execution_signals_parent();
+//	waitpid(pid, &status, 0);
+//	if (wait_exit_state(status) == 0)
+//		shell->exit_status = wait_exit_code(status);
+//	else
+//	{
+//		if (wait_exit_state(status) == SIGQUIT)
+//			ft_putstr_fd("Quit (core dumped)\n", 2);
+//		shell->exit_status = 128 + wait_exit_state(status);
+//	}
+//}

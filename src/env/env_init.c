@@ -14,7 +14,7 @@
 
 int	array_2d_len(char **arr)
 {
-	int i;
+	int	i;
 
 	if (!arr)
 		return (0);
