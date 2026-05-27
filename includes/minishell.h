@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:47 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/26 22:23:07 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/27 23:45:19 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	execute_single(t_single_command	command, t_shell *shell);
 void	execute_pipeline(t_command command, t_shell *shell);
 char    *find_path(char *cmd, t_shell *shell);
 int	array_2d_len(char **arr);
-void	collect_heredocs(t_command *command);
+void	collect_heredocs(t_command *command, t_shell shell);
 int	env_init(t_shell *shell, char **envp);
 char	*env_get(char **env, char *key);
 int	env_set(char ***env, char *key, char *value);
@@ -95,5 +95,6 @@ int wait_exit_code(int status);
 int wait_exit_state(int status);
 t_command *main_parsing(char *input, t_shell shell);
 # include "../libft/libft.h"
+// # include "../src/expander/expander.h"
 # include "../src/lexer/lexer.h"
 #endif

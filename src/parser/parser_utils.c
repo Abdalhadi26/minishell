@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:52:44 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/26 21:14:30 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/28 01:24:03 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,20 @@ static t_redirections_types type_red(char *redir)
         return (redir_heredoc);
 }
 
-
+int pipe_not_qouted(t_lexer *tok)
+{
+	if (!tok || tok->input)
+		return (1);
+	if (!tok->qouted && tok->input[0] == '|')
+		return (0);
+	return (1);
+	
+}
 
 static int	parse_cmd_tokens(t_lexer **tok, t_args **a, t_files **f,
 		t_redirections **red)
 {
-	while (*tok && !(*tok)->qouted && (*tok)->input[0] != '|')
+	while (*tok && pipe_not_qouted(*tok))
 	{
 		if (!(*tok)->qouted && check_red_pipe((*tok)->input[0]) == 1)
 		{
@@ -113,7 +121,7 @@ t_single_command	*handle_word(t_lexer *tok)
 	tok = tok->next;
 	while (tok && (tok->qouted || check_red_pipe(tok->input[0]) != 1))
 	{
-		if ((tok->input[0] == '|') && !tok->qouted)
+		if (pipe_not_qouted(tok))
 			break;
 		if (!add_arg_file(tok, &args, &files))
 			return ((t_single_command *)free_cmd_a_f(NULL, args, files));

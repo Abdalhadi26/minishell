@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:31:21 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/26 22:16:38 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/28 01:46:15 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	main(int argc, char *argv[], char **envp)
 	// set_interactive_signals();
 	while (1)
 	{
-		line = readline("minishell ");
+		line = readline("minishell$ ");
 		// printf("%s\n", line);
 	
 		// if (!line)
@@ -96,9 +96,13 @@ int	main(int argc, char *argv[], char **envp)
 		command = main_parsing(line, *shell);
 		// printf("%d", command->num_single_commands);
 		printaa(command);
-		(void )command;
-		// free_cmds(command);
-		// collect_heredocs(command); //parsing inside heredoc
+		// (void )command;
+		if (command)
+		{
+			free_cmds(command);
+			return (0);
+		}
+		collect_heredocs(command, *shell); //parsing inside heredoc
 		//expand
 		
 		// if (command->num_single_commands == 1)
