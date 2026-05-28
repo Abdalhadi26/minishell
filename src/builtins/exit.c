@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hadi1 <hadi1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:30:10 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/19 17:59:10 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/05/27 16:21:43 by hadi1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,4 +110,3 @@ int	builtin_exit(t_single_command *cmd, t_shell *shell)
 	}
 	return (0);
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hadi1 <hadi1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:30 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/04/19 14:06:31 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/05/27 17:14:49 by hadi1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,57 @@ void	free_2d(char **arr)
 		i++;
 	}
 	free(arr);
+}
+
+void	close_all_pipes(int **pipes, int num_pipes)
+{
+	int	i;
+
+	i = 0;
+	while (i < num_pipes)
+	{
+		close(pipes[i][0]);
+		close(pipes[i][1]);
+		i++;
+	}
+}
+
+void	free_pipes(int **arr, int n)
+{
+	int	i;
+
+	i = 0;
+	while (i < n)
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
+}
+
+int	create_pipes(t_command command, int ***pipes)
+{
+	int	i;
+
+	*pipes = malloc((command.num_single_commands - 1) * sizeof(int *));
+	if (!*pipes)
+		return (1);
+	i = 0;
+	while (i < (command.num_single_commands - 1))
+	{
+		(*pipes)[i] = malloc(2 * sizeof(int));
+		if (!(*pipes)[i])
+		{
+			close_all_pipes(*pipes, i);
+			return (1);
+		}
+		if (pipe((*pipes)[i]) < 0)
+		{
+			close_all_pipes(*pipes, i + 1);
+			perror("minishell");
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }

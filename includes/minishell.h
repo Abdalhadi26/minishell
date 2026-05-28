@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: hadi1 <hadi1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:47 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/27 23:45:19 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/28 09:47:38 by hadi1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,9 @@ void	free_2d(char **arr);
 void	apply_redirections(t_single_command command);
 void	execute_single(t_single_command	command, t_shell *shell);
 void	execute_pipeline(t_command command, t_shell *shell);
+void	close_all_pipes(int **pipes, int num_pipes);
+void	free_pipes(int **arr, int n);
+int	create_pipes(t_command command, int ***pipes);
 char    *find_path(char *cmd, t_shell *shell);
 int	array_2d_len(char **arr);
 void	collect_heredocs(t_command *command, t_shell shell);
@@ -78,11 +81,14 @@ int	env_init(t_shell *shell, char **envp);
 char	*env_get(char **env, char *key);
 int	env_set(char ***env, char *key, char *value);
 int	env_unset(char ***env, char *key);
+char	*ft_strjoin_3str(const char *s1, const char *s2, const char *s3);
+int	extend_and_append(char ***env, char *key, char *value);
 int	builtin_cd(t_single_command	cmd,t_shell *shell);
 int	builtin_echo(t_single_command cmd);
 int	builtin_env(t_shell shell);
-int	builtin_exit(t_single_command	cmd,t_shell *shell);
+int	builtin_exit(t_single_command	*cmd,t_shell *shell);
 int	builtin_export(t_single_command	cmd,t_shell *shell);
+int	is_valid_arg(char *key);
 int	builtin_pwd();
 int builtin_unset(t_single_command cmd, t_shell *shell);
 int is_builtin(char *cmd);

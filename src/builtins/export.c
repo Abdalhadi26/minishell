@@ -3,32 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hadi1 <hadi1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:30:13 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/19 12:30:14 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/05/27 16:21:08 by hadi1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static int	is_valid_arg(char *key)
-{
-	int	i;
-
-	if (!key)
-		return (0);
-	if (!ft_isalpha(key[0]) && key[0] != '_')
-		return (0);
-	i = 1;
-	while (key[i])
-	{
-		if (!ft_isalnum(key[i]) && key[i] != '_')
-			return (0);
-		i++;
-	}
-	return (1);
-}
 
 static void	print_env_entry(char *entry)
 {
@@ -128,7 +110,7 @@ int	builtin_export(t_single_command cmd, t_shell *shell)
 	while (cmd.args[i])
 	{
 		if (set_key_value_export(&key, &value, cmd.args[i], &equal_sign))
-			retrun(1);
+			return (1);
 		return_status = add_var_export(key, value, shell);
 		if (equal_sign)
 			free(key);
@@ -136,49 +118,3 @@ int	builtin_export(t_single_command cmd, t_shell *shell)
 	}
 	return (return_status);
 }
-
-//int	builtin_export(t_single_command cmd, t_shell *shell)
-//{
-//	int		i;
-//	int		retrun_status;
-//	char	*equal_sign;
-//	char	*key;
-//	char	*value;
-
-//	if (cmd.num_args == 1)
-//	{
-//		export_no_args(*shell);
-//		return (0);
-//	}
-//	retrun_status = 0;
-//	i = 1;
-//	while (cmd.args[i])
-//	{
-//		equal_sign = ft_strchr(cmd.args[i], '=');
-//		if (equal_sign)
-//		{
-//			key = ft_substr(cmd.args[i], 0, equal_sign - cmd.args[i]);
-//			if (!key)
-//				return (1);
-//			value = equal_sign + 1;
-//		}
-//		else
-//		{
-//			key = cmd.args[i];
-//			value = NULL;
-//		}
-//		if (!is_valid_arg(key))
-//		{
-//			ft_putstr_fd("minishell: export: `", 2);
-//			ft_putstr_fd(key, 2);
-//			ft_putstr_fd("': not a valid identifier\n", 2);
-//			retrun_status = 1;
-//		}
-//		else
-//			env_set(&shell->env, key, value);
-//		if (equal_sign)
-//			free(key);
-//		i++;
-//	}
-//	return (retrun_status);
-//}
