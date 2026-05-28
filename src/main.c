@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: hadi1 <hadi1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:31:21 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/28 01:46:15 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/28 14:06:33 by hadi1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	main(int argc, char *argv[], char **envp)
 	{
 		exit(1);
 	}
-	// set_interactive_signals();
+	//set_interactive_signals();
 	while (1)
 	{
 		line = readline("minishell$ ");
@@ -56,7 +56,7 @@ int	main(int argc, char *argv[], char **envp)
 		// {
 		// 	g_signal = 0;
 		// 	free(line);
-		// 	shell.exit_status = 130;
+		// 	shell->exit_status = 130;
 		// 	continue;
 		// }
 		// if (!line[0])

@@ -31,17 +31,18 @@ SRC = \
 	src/main_parsing.c \
 	src/executor/redirections.c \
 	src/executor/heredoc.c \
-# 	src/executor/executor.c \
-# 	src/executor/pipes.c \
-# 	src/builtins/builtins.c \
-# 	src/builtins/cd.c \
-# 	src/builtins/echo.c \
-# 	src/builtins/exit.c \
-# 	src/builtins/export.c \
-# 	src/builtins/pwd.c \
-# 	src/builtins/unset.c \
-# 	src/signals/signals.c \
-# 	src/signals/signal_wait.c \
+ 	src/executor/executor.c \
+ 	src/executor/pipes.c \
+ 	src/builtins/builtins.c \
+ 	src/builtins/cd.c \
+ 	src/builtins/echo.c \
+ 	src/builtins/exit.c \
+ 	src/builtins/export.c \
+ 	src/builtins/export_utils.c \
+ 	src/builtins/pwd.c \
+ 	src/builtins/unset.c \
+ 	src/signals/signals.c \
+ 	src/signals/signal_wait.c \
 	
 
 OBJ = $(SRC:.c=.o)
