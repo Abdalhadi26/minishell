@@ -26,6 +26,7 @@ SRC = \
 	src/builtins/env.c \
 	src/env/env_init.c \
 	src/env/env_utils.c \
+	src/env/env_utils2.c \
 	src/executor/exec_utils.c \
 	src/main_parsing.c \
 	src/executor/redirections.c \
