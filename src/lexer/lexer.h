@@ -21,7 +21,7 @@ typedef struct s_lexer
 
 t_lexer   *init_s_lexer(int len);
 char *free_all(t_lexer *head);
-t_lexer *new_pipe_red(char c);
+t_lexer *new_pipe_red(char *str, char c, int *i);
 int check_next_token(t_lexer f_token,t_lexer *s_token);
 int pipe_red_dup(t_lexer *head);
 void print_error(char *str);

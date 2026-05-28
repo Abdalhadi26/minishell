@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 15:49:49 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/26 17:30:55 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/28 14:16:58 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void print_error(char *str)
     ft_putstr_fd(str, 1);
     ft_putendl_fd("\'", 1);
 }
+
+
 
 static int pipe_dup(t_lexer *token)
 {

@@ -6,13 +6,37 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 18:07:01 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/26 22:25:26 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/28 15:15:24 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../src/lexer/lexer.h"
 #include "../src/parser/parsing.h"
+void print_lexer(t_lexer *head)
+{
+    t_lexer *tmp;
+    int i;
 
+    tmp = head;
+    i = 0;
+    ft_putendl_fd("---- LEXER DUMP ----", 1);
+    while (tmp)
+    {
+        ft_putstr_fd("Token[", 1);
+        ft_putnbr_fd(i, 1);
+        ft_putstr_fd("] :", 1);
+        if (tmp->input)
+            ft_putendl_fd(tmp->input, 1);
+        else
+            ft_putendl_fd("(null)", 1);
+        ft_putstr_fd("  qouted: ", 1);
+        ft_putnbr_fd(tmp->qouted, 1);
+        ft_putendl_fd("", 1);
+        tmp = tmp->next;
+        i++;
+    }
+    ft_putendl_fd("---- END LEXER ----", 1);
+}
 t_command *main_parsing(char *input, t_shell shell )
 {
     t_lexer *tokens;
@@ -20,16 +44,19 @@ t_command *main_parsing(char *input, t_shell shell )
 		printf("hi");
 
     tokens = add_tokens(input, 0, 0);
+    
 	if (!tokens)
     {
         printf("NOOOOO\n");
         return (NULL);
     }
-    tokens = merge_red(tokens);
+    // tokens = merge_red(tokens);
     (void)shell;
     if (pipe_red_dup(tokens))
         return(NULL);
     tokens = expand_lexer_tokens(tokens, shell);
+    // print_lexer(tokens);
+    // getchar();
     if (!tokens)
         return (NULL);
     // printf("hell\n \n");

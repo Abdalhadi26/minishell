@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:47:03 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/25 20:47:03 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/28 14:39:16 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,28 +58,28 @@ static t_lexer *add_token(char *input, int len,int i, int j)
 }
 
 // Function to create a new lexer node based on the input string and add it to the lexer list
-static int    new_token(t_lexer **head, char *input, int j, int i)
+static int    new_token(t_lexer **head, char *input, int j, int *i)
 {
     int len;
     t_lexer *current;
     t_lexer *another_token;
 
-    len = i - j;
-    if ((input[i] == '\0' || check_red_pipe(input[i]) == 3) && len == 0)  //check if there is space or NULL or len is Zero
+    len = *i - j;
+    if ((input[*i] == '\0' || check_red_pipe(input[*i]) == 3) && len == 0)  //check if there is space or NULL or len is Zero
         return (1); // will go to next index if return 3
     if (len != 0)
     {
-            current = add_token(input, len, i, j);
+            current = add_token(input, len, *i, j);
             if (!current)
                 return (0);
             add_current_token(head, current);
-            if (check_red_pipe(input[i + 1]) == 4)
+            if (check_red_pipe(input[*i + 1]) == 4)
                 return (1);
     }
-    if (check_red_pipe(input[i]) == 1 || check_red_pipe(input[i]) == 2 
-        || check_red_pipe(input[i + 1]) == 4)
+    if (check_red_pipe(input[*i]) == 1 || check_red_pipe(input[*i]) == 2 
+        || check_red_pipe(input[*i + 1]) == 4)
     {
-        another_token = new_pipe_red(input[i]);
+        another_token = new_pipe_red(input,input[*i], i);
         if (!another_token)
             return (0);
         add_current_token(head, another_token);
@@ -102,7 +102,7 @@ static int check_add_qoution(t_lexer **head, char *input, int *i, int *j)
         {
             if (input[*i + 1] == '\0')
             {   
-                x = new_token(head, input, (*j), (*i));
+                x = new_token(head, input, (*j), (i));
                 return (x);
             }
             return (1);
@@ -128,7 +128,7 @@ t_lexer   *add_tokens(char *input,int i,int j)
         }
         else if (check_red_pipe(input[i]) || check_red_pipe(input[i + 1]) == 4)
         {
-            if (!new_token(&head, input, j, i))
+            if (!new_token(&head, input, j, &i))
                 return ((t_lexer *)free_all(head));
             j = i;
             if (check_red_pipe(input[i]) || !input[i + 1])

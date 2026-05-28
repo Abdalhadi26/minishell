@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:52:44 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/28 01:24:03 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/28 15:29:07 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,13 @@ static t_redirections_types type_red(char *redir)
 
 int pipe_not_qouted(t_lexer *tok)
 {
-	if (!tok || tok->input)
+	
+	if (!tok || !tok->input)
 		return (1);
-	if (!tok->qouted && tok->input[0] == '|')
-		return (0);
+	if (tok->qouted == 0 && tok->input[0] == '|')
+		{
+			printf("hielll	");
+			return (0);}
 	return (1);
 	
 }
@@ -98,7 +101,7 @@ static t_single_command	*finalize_word_cmd(t_lexer *tok, t_args *args,
 {
 	t_single_command	*cmds;
 
-	if (tok && !tok->qouted  && tok->input[0] != '|')
+	if (tok && pipe_not_qouted(tok))
 		return (handle_redir(tok, args, files));
 	cmds = init_single_command();
 	if (!cmds)
@@ -121,7 +124,7 @@ t_single_command	*handle_word(t_lexer *tok)
 	tok = tok->next;
 	while (tok && (tok->qouted || check_red_pipe(tok->input[0]) != 1))
 	{
-		if (pipe_not_qouted(tok))
+		if (!pipe_not_qouted(tok))
 			break;
 		if (!add_arg_file(tok, &args, &files))
 			return ((t_single_command *)free_cmd_a_f(NULL, args, files));

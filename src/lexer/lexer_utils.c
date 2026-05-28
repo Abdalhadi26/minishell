@@ -6,21 +6,33 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 21:13:47 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/25 21:13:47 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/28 14:36:22 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lexer.h"
 
-t_lexer *new_pipe_red(char c)
+t_lexer *new_pipe_red(char *str, char c, int *i)
 {
     t_lexer *token;
-
-    token = init_s_lexer(1);
+    int len;
+    int j;
+    
+    len = 0;
+    j = 0;
+    while (str[*i + len] == c)
+        len++;
+    token = init_s_lexer(len);
     if (!token)
         return (NULL);
-    token->input[0] = c;
-    token->input[1] = '\0';
+    while (j < len)
+    {
+        token->input[j] = str[*i];
+        (*i)++;
+        j++;
+    }
+    token->input[j] = '\0';
+    (*i)--;
     return (token);
 }
 

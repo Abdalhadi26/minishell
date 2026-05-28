@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 21:00:49 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/26 17:31:13 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/28 14:42:47 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,14 +75,14 @@ int check_next_token(t_lexer f_token,t_lexer *s_token)
     }
     else if (!s_token->qouted && check_input_red(f_token, 0))
     {
-        if (s_token_check_o_p(*s_token))
+        if (s_token_check_o_p(*s_token) || s_token_check_i_p(*s_token))
             return (1);
         else 
             return (0);
     }
     else if (!s_token->qouted && check_output_red(f_token, 0))
     {
-        if (s_token_check_i_p(*s_token))
+        if (s_token_check_i_p(*s_token) || s_token_check_o_p(*s_token))
             return(1);
         else 
             return (0);

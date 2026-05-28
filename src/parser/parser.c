@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 14:46:41 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/26 22:28:55 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/28 15:14:09 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ t_single_command *build_cmd(t_lexer **tok)
     
     if(tok  == NULL)
         return (NULL);
-    while (tok && (*tok) &&  (*tok)->input[0] != '|')
+    while (tok && (*tok) &&  pipe_not_qouted(*tok))
     {
         if (check_red_pipe((*tok)->input[0]) == 1 && !(*tok)->qouted)
         {
