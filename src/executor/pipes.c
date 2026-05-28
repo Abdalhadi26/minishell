@@ -6,7 +6,7 @@
 /*   By: hadi1 <hadi1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:38 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/27 17:14:28 by hadi1            ###   ########.fr       */
+/*   Updated: 2026/05/28 10:38:39 by hadi1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,9 @@ static void	execute_child_pipeline(t_command command, t_shell *shell,
 		ft_putstr_fd(": command not found\n", 2);
 		exit(127);
 	}
-	if (execve(path, command.commands[i]->args, shell->env) == -1)
-	{
-		free(path);
-		perror("minishell");
-		exit(126);
-	}
+	execve(path, command.commands[i]->args, shell->env);
+	perror("minishell");
+	exit(126);
 }
 
 static void	wait_pipeline(t_command command, t_shell *shell, int pid,

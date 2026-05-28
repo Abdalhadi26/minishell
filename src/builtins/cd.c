@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: hadi1 <hadi1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:29:59 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/19 12:30:00 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/05/28 12:38:38 by hadi1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,13 @@ int	set_target_path_old_pwd(char **target_path, char **old_pwd,
 	return (0);
 }
 
+static	void	update_pwd_env(char ***env,char *old_pwd)
+{
+	if (old_pwd)
+		env_set(env, "OLDPWD", old_pwd);
+	free(old_pwd);
+}
+
 int	builtin_cd(t_single_command cmd, t_shell *shell)
 {
 	char	*target_path;
@@ -53,8 +60,7 @@ int	builtin_cd(t_single_command cmd, t_shell *shell)
 	}
 	else
 	{
-		env_set(&shell->env, "OLDPWD", old_pwd);
-		free(old_pwd);
+		update_pwd_env(&shell->env, old_pwd);
 		new_pwd = getcwd(NULL, 0);
 		if (!new_pwd)
 		{

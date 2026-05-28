@@ -6,7 +6,7 @@
 /*   By: hadi1 <hadi1@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:20 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/27 20:13:51 by hadi1            ###   ########.fr       */
+/*   Updated: 2026/05/28 10:33:15 by hadi1            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,14 @@ char	*find_path(char *cmd, t_shell *shell)
 	char	*temp;
 	int		i;
 
+	if (strchr(cmd, '/'))
+	{
+		to_test_path = cmd;
+		if (access(to_test_path, F_OK) == 0)
+			return (to_test_path);
+		else
+			return (NULL);
+	}
 	paths = ft_split(env_get(shell->env, "PATH"), ':');
 	if (!paths)
 		return (NULL);
