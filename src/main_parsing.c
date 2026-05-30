@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 18:07:01 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/28 15:15:24 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/30 22:36:13 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_command *main_parsing(char *input, t_shell shell )
 {
     t_lexer *tokens;
     t_command *cmds;
-		printf("hi");
+		// printf("hi");
 
     tokens = add_tokens(input, 0, 0);
     
@@ -55,7 +55,7 @@ t_command *main_parsing(char *input, t_shell shell )
     if (pipe_red_dup(tokens))
         return(NULL);
     tokens = expand_lexer_tokens(tokens, shell);
-    // print_lexer(tokens);
+    print_lexer(tokens);
     // getchar();
     if (!tokens)
         return (NULL);

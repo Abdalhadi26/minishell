@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 14:49:45 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/26 17:37:51 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/30 22:46:15 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_redirections  *init_red(t_redirections_types type, t_lexer *token)
 {
     t_redirections *redir;
     
-    if (!token || !type)
+    if (!token )
         return (NULL);
     redir = malloc(sizeof(t_redirections));
     if (!redir)

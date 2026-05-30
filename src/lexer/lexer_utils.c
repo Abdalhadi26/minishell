@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 21:13:47 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/28 14:36:22 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/30 23:07:41 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,19 @@ int check_red_pipe(char c)
         return(2);
     else if (c == ' ' || (c >= 9 && c <= 13))
         return (3);
-    else if (c == '\0' || c == '\n')
+    else if (c == '\n' ||  c == '\0')
         return (4);
     else if (c == '\"' || c == '\'')
         return (5);
     return(0);
+}
+
+void skip_spaces(char *input, int *i)
+{
+    if (!input || !input[*i] || check_red_pipe(input[*i + 1])!= 4)
+        return;
+    
+    while(check_red_pipe(input[*i + 1])!= 4 && check_red_pipe(input[*i]) == 3 
+            && check_red_pipe(input[*i + 1]) == 3)
+        (*i)++;
 }

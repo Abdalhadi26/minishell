@@ -112,7 +112,7 @@ void printaa(t_command *command)
 		temp1 = cmds->commands[i];i++;
 		while(temp1->args && temp1->args[j])
 		{
-			printf("arg[%d] = %s\n", j, temp1->args[j]);
+			printf("arg[%d] = %s  2\n", j, temp1->args[j]);
 			j++;
 		}
 		printf("\n");
@@ -120,7 +120,7 @@ void printaa(t_command *command)
 		while(temp)
 		{
 			printf("type = %d\n", temp->type);
-			printf("file = %s\n", temp->file_name);
+			printf("file = %s  2\n", temp->file_name);
 			printf("status = %d\n", temp->heredoc_expansion_status);
 			printf("fd = %d\n", temp->heredoc_fd);
 			temp = temp->next;

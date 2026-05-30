@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:47:03 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/28 14:39:16 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/31 00:10:48 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,28 +32,29 @@ static void add_current_token(t_lexer **head, t_lexer *current)
     (temp)->next = current;
 }
 
-static t_lexer *add_token(char *input, int len,int i, int j)
+static t_lexer *add_token(char *input, int len,int *i, int j)
 {
     t_lexer *current;
     int k;
 
     k = 0;
-    if (check_red_pipe(input[i + 1]) == 4)
+    if (check_red_pipe(input[*i + 1]) == 4 && ( check_red_pipe(input[*i]) == 0))
     {
-        i++;
+        (*i)++;
         len++;    
     }
     current = init_s_lexer(len);
     if (!current)
         return (NULL); // free all and exit
-    while (j < i)
+    while (j < *i)
     {
         current->input[k] = input[j];
         j++;
         k++;
         current->input[k] = '\0';
     }
-    current->next = NULL;
+    if (input[*i] == '\0')
+        (*i)--;
     return (current);
 }
 
@@ -65,19 +66,19 @@ static int    new_token(t_lexer **head, char *input, int j, int *i)
     t_lexer *another_token;
 
     len = *i - j;
-    if ((input[*i] == '\0' || check_red_pipe(input[*i]) == 3) && len == 0)  //check if there is space or NULL or len is Zero
-        return (1); // will go to next index if return 3
+    if ((input[*i] == '\0' || check_red_pipe(input[*i]) == 3) && len == 0)
+        return (1);
     if (len != 0)
     {
-            current = add_token(input, len, *i, j);
-            if (!current)
-                return (0);
-            add_current_token(head, current);
-            if (check_red_pipe(input[*i + 1]) == 4)
-                return (1);
+        current = add_token(input, len, i, j);
+        if (!current)
+            return (0);
+        add_current_token(head, current);
+        if (check_red_pipe(input[*i]) != 1 && check_red_pipe(input[*i]) != 2)
+            return(1);
     }
-    if (check_red_pipe(input[*i]) == 1 || check_red_pipe(input[*i]) == 2 
-        || check_red_pipe(input[*i + 1]) == 4)
+    if (input[*i] && (check_red_pipe(input[*i]) == 1 
+            || check_red_pipe(input[*i]) == 2 || input[*i + 1]== '\0'))
     {
         another_token = new_pipe_red(input,input[*i], i);
         if (!another_token)
@@ -112,6 +113,8 @@ static int check_add_qoution(t_lexer **head, char *input, int *i, int *j)
     return (0);
 }
 
+
+
 t_lexer   *add_tokens(char *input,int i,int j)
 {
     t_lexer *head;
@@ -119,9 +122,9 @@ t_lexer   *add_tokens(char *input,int i,int j)
     if (!input)
         return (NULL);
     head = NULL;
-    while (input[i])
+    while (check_red_pipe(input[i]) != 4)
     {
-        if (check_red_pipe(input[i]) == 5) // should i check if new_token or add_qouted are work currectly or not because malloc fail 
+        if (check_red_pipe(input[i]) == 5) 
         {
             if (!check_add_qoution(&head, input, &i, &j))
                 return ((t_lexer *)free_all(head));
@@ -130,6 +133,7 @@ t_lexer   *add_tokens(char *input,int i,int j)
         {
             if (!new_token(&head, input, j, &i))
                 return ((t_lexer *)free_all(head));
+            skip_spaces(input, &i);
             j = i;
             if (check_red_pipe(input[i]) || !input[i + 1])
                 j++;

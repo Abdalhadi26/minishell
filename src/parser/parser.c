@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 14:46:41 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/28 15:14:09 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/30 22:41:14 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ t_single_command *build_cmd(t_lexer **tok)
         return (NULL);
     while (tok && (*tok) &&  pipe_not_qouted(*tok))
     {
-        if (check_red_pipe((*tok)->input[0]) == 1 && !(*tok)->qouted)
+        if (check_red_pipe((*tok)->input[0]) == 1 && (*tok)->qouted == 0)
         {
             cmds = handle_redir(*tok, NULL, NULL);
             if (!cmds || !cmds->redirections)
