@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:47 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/28 14:11:26 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/05/30 17:54:26 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,6 @@ int wait_exit_code(int status);
 int wait_exit_state(int status);
 t_command *main_parsing(char *input, t_shell shell);
 # include "../libft/libft.h"
-// # include "../src/expander/expander.h"
+// # include "../src/expander/expander.h"make
 # include "../src/lexer/lexer.h"
 #endif

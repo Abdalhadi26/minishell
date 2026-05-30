@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/08/18 17:58:22 by vtouffet          #+#    #+#             */
-/*   Updated: 2026/05/26 22:11:06 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/05/30 17:48:36 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+#include <stddef.h>
+
 # include "../includes/minishell.h"
 
 int		ft_isalpha(int c);

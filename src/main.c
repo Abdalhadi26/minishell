@@ -6,7 +6,11 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:31:21 by aayasrah          #+#    #+#             */
+// <<<<<<< Updated upstream
 /*   Updated: 2026/05/28 14:13:55 by aayasrah         ###   ########.fr       */
+// =======
+/*   Updated: 2026/05/28 14:44:09 by ahhammad         ###   ########.fr       */
+// >>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +73,14 @@ int	main(int argc, char *argv[], char **envp)
 		// printf("hi\n");
 		command = main_parsing(line, *shell);
 		// printf("%d", command->num_single_commands);
-		printaa(command);
 		// (void )command;
 		if (command)
 		{
-			free_cmds(command);
-			return (0);
+			printaa(command);
+			// free_cmds(command);
+			collect_heredocs(command, *shell); //parsing inside heredoc
+
 		}
-		collect_heredocs(command, *shell); //parsing inside heredoc
 		//expand
 		
 		// if (command->num_single_commands == 1)
