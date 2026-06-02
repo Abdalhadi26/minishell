@@ -28,15 +28,24 @@ t_shell *init_shell()
 	shell->env = NULL;
 	return (shell);
 }
+
+void	execute(t_command *command, t_shell *shell)
+{
+	if (command->num_single_commands == 1)
+		execute_single(*command->commands[0], shell);
+	else
+		execute_pipeline(*command, shell);
+}
+
 int	main(int argc, char *argv[], char **envp)
 {
-	t_shell shell;
+	t_shell *shell;
 	char	*line;
 	t_command *command;
 
 	(void)argc;
 	(void)argv;
-	shell.exit_status = 0;
+	shell->exit_status = 0;
 	if (!env_init(&shell, envp))
 	{
 		exit(1);
@@ -47,16 +56,16 @@ int	main(int argc, char *argv[], char **envp)
 		line = readline("minishell ");
 		if (!line)
 		{
-			free_2d(shell.env);
+			free_2d(shell->env);
 			ft_putstr_fd("exit\n", 2);
 			rl_clear_history();
-			exit(shell.exit_status);
+			exit(shell->exit_status);
 		}
 		if (g_signal == SIGINT)
 		{
 			g_signal = 0;
 			free(line);
-			shell.exit_status = 130;
+			shell->exit_status = 130;
 			continue;
 		}
 		if (!line[0])
@@ -66,12 +75,9 @@ int	main(int argc, char *argv[], char **envp)
 		}
 		add_history(line);
 		//parse
-		collect_heredocs(command, shell);
+		collect_heredocs(command, *shell);
 		//expand
-		if (command->num_single_commands == 1)
-			execute_single(*command->commands[0], &shell);
-		else
-			execute_pipeline(*command, &shell);
+		execute(command, shell);
 		set_interactive_signals();
 		//clean the parsed command
 		free(line);
