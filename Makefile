@@ -11,6 +11,10 @@ INCLUDES = -I includes -I $(LIBFT_DIR)
 SRC = \
 	src/main.c \
 	src/expander/expander.c \
+	src/expander/main_split.c \
+	src/expander/expand_spaces.c \
+	src/expander/expansion_spliting.c \
+	src/expander/searching_var.c \
 	src/expander/handle_cases.c \
 	src/lexer/lexer_utils.c \
 	src/lexer/lexer_organiztion.c \

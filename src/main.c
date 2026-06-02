@@ -43,9 +43,11 @@ int	main(int argc, char *argv[], char **envp)
 	{
 		exit(1);
 	}
+int i =0;
 	//set_interactive_signals();
-	while (1)
+	while (i<3)
 	{
+		i++;
 		line = readline("minishell$ ");
 		// printf("%s\n", line);
 	
@@ -79,6 +81,7 @@ int	main(int argc, char *argv[], char **envp)
 			printaa(command);
 			// free_cmds(command);
 			collect_heredocs(command, *shell); //parsing inside heredoc
+			free_cmds(command);
 
 		}
 		//expand
@@ -91,6 +94,8 @@ int	main(int argc, char *argv[], char **envp)
 		// //clean the parsed command
 		free(line);
 	}
+	free_2d(shell->env);
+	free(shell);
 	return (0);
 }
 

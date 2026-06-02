@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:47:03 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/31 00:10:48 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/02 00:47:02 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,11 @@ static t_lexer *add_token(char *input, int len,int *i, int j)
     int k;
 
     k = 0;
-    if (check_red_pipe(input[*i + 1]) == 4 && ( check_red_pipe(input[*i]) == 0))
+    if (input[*i + 1] == '\0' && (check_red_pipe(input[*i]) == 0 || check_red_pipe(input[*i]) == 5))
     {
         (*i)++;
         len++;    
+        printf("%d\n", len);
     }
     current = init_s_lexer(len);
     if (!current)
@@ -59,13 +60,14 @@ static t_lexer *add_token(char *input, int len,int *i, int j)
 }
 
 // Function to create a new lexer node based on the input string and add it to the lexer list
-static int    new_token(t_lexer **head, char *input, int j, int *i)
+static int      new_token(t_lexer **head, char *input, int j, int *i)
 {
     int len;
     t_lexer *current;
     t_lexer *another_token;
 
     len = *i - j;
+    // printf("hehh %c %d\n", input [*i], len);
     if ((input[*i] == '\0' || check_red_pipe(input[*i]) == 3) && len == 0)
         return (1);
     if (len != 0)
@@ -102,7 +104,7 @@ static int check_add_qoution(t_lexer **head, char *input, int *i, int *j)
         if (c == input[*i])
         {
             if (input[*i + 1] == '\0')
-            {   
+            {
                 x = new_token(head, input, (*j), (i));
                 return (x);
             }
@@ -129,7 +131,7 @@ t_lexer   *add_tokens(char *input,int i,int j)
             if (!check_add_qoution(&head, input, &i, &j))
                 return ((t_lexer *)free_all(head));
         }
-        else if (check_red_pipe(input[i]) || check_red_pipe(input[i + 1]) == 4)
+        else if ((check_red_pipe(input[i]) || check_red_pipe(input[i + 1]) == 4))
         {
             if (!new_token(&head, input, j, &i))
                 return ((t_lexer *)free_all(head));

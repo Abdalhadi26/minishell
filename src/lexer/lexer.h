@@ -11,7 +11,6 @@
 #include <readline/history.h>
 #include "../../includes/minishell.h"
 
-
 typedef struct s_lexer
 {
     char *input; // The input string to be tokenized
@@ -30,6 +29,6 @@ int check_red_pipe(char c);
 t_lexer   *add_tokens(char *input,int i,int j);
 int check_output_red(t_lexer token, int is_next);
 int check_input_red(t_lexer token, int is_next);
-t_lexer	*expand_lexer_tokens(t_lexer *lexer, t_shell shell);
+t_lexer *expand_lexer_tokens(t_lexer *lexer, t_shell shell);
 void skip_spaces(char *input, int *i);
 #endif

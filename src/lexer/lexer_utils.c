@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 21:13:47 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/30 23:07:41 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/02 01:26:54 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ t_lexer *new_pipe_red(char *str, char c, int *i)
 t_lexer   *init_s_lexer(int len)
 {
     t_lexer   *lexer;
+    
     lexer = (t_lexer *)malloc(sizeof(t_lexer));
     if (lexer == NULL)
     {
@@ -46,6 +47,7 @@ t_lexer   *init_s_lexer(int len)
         return (NULL);
     }
     lexer->input = malloc(len + 1);
+    lexer->input[0]='\0';
     if (!lexer->input)
     {
         free(lexer);

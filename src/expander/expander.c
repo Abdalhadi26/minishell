@@ -1,8 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/02 02:11:29 by ahhammad          #+#    #+#             */
+/*   Updated: 2026/06/02 02:11:36 by ahhammad         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-
-#include "../../includes/minishell.h"
 #include "expander.h"
 /* Safely appends a single character to an allocated string and frees the old one */
+
 char	*append_char(char *str, char c)
 {
 	char	*new_str;
@@ -38,7 +48,6 @@ char	*get_env_value(char *var_name, char **env)
 	if (!env || !var_name)
 		return (ft_strdup(""));
 	i = 0;
-    // if ()
 	len = ft_strlen(var_name);
 	while (env[i])
 	{
@@ -98,39 +107,16 @@ int has_var(t_lexer *token, int flag)
     }
     return (0);
 }
-// int make_split(t_lexer *token, char *str)
-// {
-//     t_lexer *new_token;
-//     t_lexer *next_token;
-//     char **tokens;
-//     int i;
 
-//     i = 0;
-//     next_token = token->next;
-//     tokens = ft_split(str, ' ');
-//     while(tokens[i])
-//     {
-//         new_token = init_s_lexer(ft_strlen(tokens[i]));
-//         if (!new_token)
-//             return (0);
-//         new_token->input = ft_strdup(tokens[i]);
-//         // tokens[i] = NULL; // Mark as used
-//         new_token->qouted = 0;
-//         token ->next = new_token;
-//         token = new_token;
-//         i++;
-//     }
-//     free(str);
-//     return (0);
-// }
 /* Main entry point: Iterates through the lexer list and expands every token */
-t_lexer	*expand_lexer_tokens(t_lexer *lexer, t_shell shell)
+t_lexer *expand_lexer_tokens(t_lexer *lexer, t_shell shell)
 {
 	t_lexer	*curr;
 	char	*expanded;
-	static int flag;
+	int flag;
 
 	curr = lexer;
+	flag = 0;
 	while (curr != NULL)
 	{
 		if (ft_strncmp(curr->input, "<<", 2) == 0 && !curr->qouted)
@@ -141,9 +127,7 @@ t_lexer	*expand_lexer_tokens(t_lexer *lexer, t_shell shell)
 			expanded = expand_string(curr->input, shell, flag);
             if (!expanded)
                 return (NULL);
-			free(curr->input);      // Free the raw, unexpanded token
-            // make_split(curr, expanded);
-			curr->input = expanded; // Replace with the quote-stripped, expanded token
+			main_expander(expanded, shell, &curr);
 			flag = 0;
 		}
 		curr = curr->next;
