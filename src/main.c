@@ -30,72 +30,52 @@ t_shell *init_shell()
 }
 int	main(int argc, char *argv[], char **envp)
 {
-	t_shell *shell;
+	t_shell shell;
 	char	*line;
 	t_command *command;
 
 	(void)argc;
 	(void)argv;
-	command = NULL;	
-	// g_signal = 1;
-	shell = init_shell();
-	if (!env_init(shell, envp))
+	shell.exit_status = 0;
+	if (!env_init(&shell, envp))
 	{
 		exit(1);
 	}
-int i =0;
-	//set_interactive_signals();
-	while (i<3)
+	set_interactive_signals();
+	while (1)
 	{
-		i++;
-		line = readline("minishell$ ");
-		// printf("%s\n", line);
-	
-		// if (!line)
-		// {
-		// 	free_2d(shell.env);
-		// 	ft_putstr_fd("exit\n", 2);
-		// 	rl_clear_history();
-		// 	exit(shell.exit_status);
-		// }
-		// if (g_signal == SIGINT)
-		// {
-		// 	g_signal = 0;
-		// 	free(line);
-		// 	shell->exit_status = 130;
-		// 	continue;
-		// }
-		// if (!line[0])
-		// {
-		// 	free(line);
-		// 	continue;
-		// }
+		line = readline("minishell ");
+		if (!line)
+		{
+			free_2d(shell.env);
+			ft_putstr_fd("exit\n", 2);
+			rl_clear_history();
+			exit(shell.exit_status);
+		}
+		if (g_signal == SIGINT)
+		{
+			g_signal = 0;
+			free(line);
+			shell.exit_status = 130;
+			continue;
+		}
+		if (!line[0])
+		{
+			free(line);
+			continue;
+		}
 		add_history(line);
 		//parse
-		// printf("hi\n");
-		command = main_parsing(line, *shell);
-		// printf("%d", command->num_single_commands);
-		// (void )command;
-		if (command)
-		{
-			printaa(command);
-			// free_cmds(command);
-			collect_heredocs(command, *shell); //parsing inside heredoc
-			free_cmds(command);
-
-		}
+		collect_heredocs(command, shell);
 		//expand
-		
-		// if (command->num_single_commands == 1)
-		// 	execute_single(*command->commands[0], &shell);
-		// else
-		// 	execute_pipeline(*command, &shell);
-		// set_interactive_signals();
-		// //clean the parsed command
+		if (command->num_single_commands == 1)
+			execute_single(*command->commands[0], &shell);
+		else
+			execute_pipeline(*command, &shell);
+		set_interactive_signals();
+		//clean the parsed command
 		free(line);
 	}
-	free_2d(shell->env);
-	free(shell);
 	return (0);
 }
 
