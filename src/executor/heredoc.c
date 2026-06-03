@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:35 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/02 03:34:04 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/03 06:36:32 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,9 @@ static int	read_heredoc(t_shell shell, t_redirections *redir, int *pipe_fd)
 {
 	char	*line;
 
-	// printf("hi");
 	while (1)
 	{
 		line = readline("> ");
-		
 		if (!line)
 		{
 			ft_putstr_fd("minishell: warning: here-document", 2);

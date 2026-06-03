@@ -45,15 +45,16 @@ int	main(int argc, char *argv[], char **envp)
 
 	(void)argc;
 	(void)argv;
+	shell = init_shell();
+	if (!shell)
+		return (0);
 	shell->exit_status = 0;
-	if (!env_init(&shell, envp))
-	{
+	if (!env_init(shell, envp))
 		exit(1);
-	}
 	set_interactive_signals();
 	while (1)
 	{
-		line = readline("minishell ");
+		line = readline("minishell$ ");
 		if (!line)
 		{
 			free_2d(shell->env);
@@ -74,12 +75,22 @@ int	main(int argc, char *argv[], char **envp)
 			continue;
 		}
 		add_history(line);
-		//parse
+		command = main_parsing(line, *shell);
+		// printaa(command);
+		if (!command)
+		{
+			free(line);
+			continue;
+		}
 		collect_heredocs(command, *shell);
-		//expand
 		execute(command, shell);
+		/*
+			if (strchr(cmd, '/'))// in find_path fun u used built in fun
+			ft_strjoin("/", cmd); in same fun (my ft_strjoin makes free for first arg) and u used it in diff places
+			so I created new fun to this one but with making free, u must allow me to do that :) ft_strjoin_ayasrah
+		*/
 		set_interactive_signals();
-		//clean the parsed command
+		free_cmds(command);
 		free(line);
 	}
 	return (0);

@@ -142,8 +142,8 @@ char	*handle_exit_status(char *res, t_shell shell, int *i)
         return (NULL);
     temp = ft_strjoin(res, status_str);
     if (!temp)
-		{return (NULL);}
-	free(status_str);
+		return (NULL);
+	free (status_str);
 	(*i) += 2;
 	return (temp);
 }

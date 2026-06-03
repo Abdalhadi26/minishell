@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 18:07:01 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/02 03:30:58 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/03 07:20:27 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,38 +37,44 @@ void print_lexer(t_lexer *head)
     }
     ft_putendl_fd("---- END LEXER ----", 1);
 }
+
+int number_of_cmds(t_lexer *token)
+{
+    t_lexer *tok;
+    int num_cmds;
+
+    if (!token)
+        return (0);
+    tok = token;
+    num_cmds = 1;
+    while (tok)
+    {
+        if (tok->input[0] == '|' && !tok->qouted)
+            num_cmds++;
+        tok = tok->next;
+    }
+    return (num_cmds);
+}
+
 t_command *main_parsing(char *input, t_shell shell )
 {
     t_lexer *tokens;
     t_command *cmds;
-		// printf("hi");
 
     tokens = add_tokens(input, 0, 0);
-    
 	if (!tokens)
-    {
-        printf("NOOOOO\n");
         return (NULL);
-    }
-    // tokens = merge_red(tokens);
-    (void)shell;
     if (pipe_red_dup(tokens))
         return(NULL);
-        
-    print_lexer(tokens);
-    
     tokens= expand_lexer_tokens(tokens, shell);
-    getchar();
-    // i++;
-    print_lexer(tokens);
     if (!tokens)
         return (NULL);
     
-    // printf("hell\n \n");
-    // free_all(tokens);
-        // tokens = NULL;
+    // print_lexer(tokens);
     cmds = NULL;
-    cmds = parsing(tokens);
+    cmds = parsing(tokens, number_of_cmds(tokens));
+    free_all(tokens);
+    tokens = NULL;
     return (cmds);
 }
 

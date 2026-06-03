@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:52:44 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/30 22:46:22 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/03 07:24:33 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,8 @@ int pipe_not_qouted(t_lexer *tok)
 	if (!tok || !tok->input)
 		return (1);
 	if (tok->qouted == 0 && tok->input[0] == '|')
-		{
-			printf("hielll	");
-			return (0);}
+		return (0);
 	return (1);
-	
 }
 
 static int	parse_cmd_tokens(t_lexer **tok, t_args **a, t_files **f,

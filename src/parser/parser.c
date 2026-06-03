@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 14:46:41 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/30 22:41:14 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/03 06:43:10 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,23 +28,7 @@ t_command *init_cmd(int num_cmds)
     }
     return (cmd);
 }
-int number_of_cmds(t_lexer *token)
-{
-    t_lexer *tok;
-    int num_cmds;
 
-    if (!token)
-        return (0);
-    tok = token;
-    num_cmds = 1;
-    while (tok)
-    {
-        if (tok->input[0] == '|' && !tok->qouted)
-            num_cmds++;
-        tok = tok->next;
-    }
-    return (num_cmds);
-}
 
 t_single_command *build_cmd(t_lexer **tok)
 {
@@ -74,24 +58,19 @@ t_single_command *build_cmd(t_lexer **tok)
     }
     return (cmds);
 }
-t_command *parsing(t_lexer *token)
+t_command *parsing(t_lexer *token, int num_cmds)
 {
     int i;
-    int num_cmds;
     t_lexer *tok;
     t_command *cmds;
 
     i = 0;
-   
     if (!token)
         return (NULL);
-    
-    num_cmds = number_of_cmds(token);
     cmds = init_cmd(num_cmds);
     if (!cmds || !cmds->commands)
         return (NULL);
     tok = token;
-    printf("num %d\n" , cmds->num_single_commands);
     while (i < num_cmds)
     {
         cmds->commands[i] = build_cmd(&tok);
@@ -100,13 +79,9 @@ t_command *parsing(t_lexer *token)
             free_cmds(cmds);
             break ;
         }
-        
         if (tok)
-            {printf("%s\n" , tok->input);
-                tok = tok->next;}
+            tok = tok->next;
         i++;
     }
-    free_all(token);
-    token = NULL;
     return (cmds);
 }

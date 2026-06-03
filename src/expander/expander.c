@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 02:11:29 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/02 02:11:36 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/03 07:23:32 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ int has_var(t_lexer *token, int flag)
             token->qouted = 2;
         else if ((token)->input[i] == '$' && flag != 1)
         {
-			printf("hi");
             (token)->qouted = 3;
             return (1);
         }

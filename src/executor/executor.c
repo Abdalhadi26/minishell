@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:20 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/28 14:13:23 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/03 07:15:17 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ char	*find_path(char *cmd, t_shell *shell)
 	i = 0;
 	while (paths[i])
 	{
-		temp = ft_strjoin("/", cmd);
-		to_test_path = ft_strjoin(paths[i], temp);
+		temp = ft_strjoin_ayasrah("/", cmd);
+		to_test_path = ft_strjoin_ayasrah(paths[i], temp);
 		free(temp);
 		if (access(to_test_path, F_OK) == 0)
 		{
