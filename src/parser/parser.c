@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 14:46:41 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/03 06:43:10 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/03 08:10:12 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,18 @@ t_single_command *build_cmd(t_lexer **tok)
     }
     return (cmds);
 }
+
+int num_args(char **args)
+{
+    int i;
+    
+    if (!args || !*args)
+        return (0);
+    i = 0;
+    while (args[i])
+        i++;
+    return (i);
+}
 t_command *parsing(t_lexer *token, int num_cmds)
 {
     int i;
@@ -79,6 +91,7 @@ t_command *parsing(t_lexer *token, int num_cmds)
             free_cmds(cmds);
             break ;
         }
+        cmds->commands[i]->num_args = num_args(cmds->commands[i]->args);
         if (tok)
             tok = tok->next;
         i++;

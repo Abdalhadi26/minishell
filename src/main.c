@@ -88,7 +88,9 @@ int	main(int argc, char *argv[], char **envp)
 			if (strchr(cmd, '/'))// in find_path fun u used built in fun
 			ft_strjoin("/", cmd); in same fun (my ft_strjoin makes free for first arg) and u used it in diff places
 			so I created new fun to this one but with making free, u must allow me to do that :) ft_strjoin_ayasrah
-		*/
+		
+			if command not found ?? makes leaks
+			*/
 		set_interactive_signals();
 		free_cmds(command);
 		free(line);

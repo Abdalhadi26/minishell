@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:47 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/30 17:54:26 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/03 08:06:23 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ typedef struct s_single_command
 {
     int     num_args; //number of argument in the command (ex ls -la is 2 agruments)
     char    **args; //arguments of the single command (ex ["ls", "-la", NULL])
-	char	**files; // maybe there is more than 1 file (ex [cat file1 file2])
 	t_redirections		*redirections; //redirections linked list
 }   t_single_command;
 
