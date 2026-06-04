@@ -25,7 +25,7 @@ static void	execute_child_pipeline(t_command command, t_shell *shell,
 	close_all_pipes(pipes, command.num_single_commands - 1);
 	apply_redirections(*command.commands[i]);
 	if (is_builtin(command.commands[i]->args[0]))
-		exit(execute_builtin(command.commands[i], shell));// check norm error two on one line
+		exit(execute_builtin(command,i, shell));// check norm error two on one line
 	path = find_path(command.commands[i]->args[0], shell);
 	if (!path)
 	{

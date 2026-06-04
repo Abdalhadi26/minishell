@@ -24,10 +24,12 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-int	execute_builtin(t_single_command *cmd, t_shell *shell)
+int	execute_builtin(t_command *cmds, int i, t_shell *shell)
 {
 	char	*name;
+	t_single_command *single_cmd;
 
+	cmd = cmds->commands[i];
 	name = cmd->args[0];
 	if (!ft_strncmp(name, "echo", 5))
 		return (builtin_echo(*cmd));
@@ -42,6 +44,6 @@ int	execute_builtin(t_single_command *cmd, t_shell *shell)
 	if (!ft_strncmp(name, "env", 4))
 		return (builtin_env(*shell));
 	if (!ft_strncmp(name, "exit", 5))
-		return (builtin_exit(cmd, shell));
+		return (builtin_exit(cmds,cmd, shell));
 	return (1);
 }
