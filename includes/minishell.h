@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:47 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/03 08:06:23 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/04 22:11:38 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	*env_get(char **env, char *key);
 int	env_set(char ***env, char *key, char *value);
 int	env_unset(char ***env, char *key);
 char	*ft_strjoin_3str(const char *s1, const char *s2, const char *s3);
-int	extend_and_append(char ***env, char *key, char *value);
+int	extend_and_append(char ***env, char *key, char *eq, char *value);
 int	builtin_cd(t_single_command	cmd,t_shell *shell);
 int	builtin_echo(t_single_command cmd);
 int	builtin_env(t_shell shell);

@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:58:45 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/28 14:11:54 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/04 22:10:48 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,20 @@ char	*env_get(char **env, char *key)
 int	env_set(char ***env, char *key, char *value)
 {
 	int	variable_index;
+	char	*eq;
 
+	if (value)
+		eq = "=";
+	else
+		eq = NULL;
 	variable_index = exists(*env, key);
 	if (variable_index > -1)
 	{
 		free((*env)[variable_index]);
-		(*env)[variable_index] = ft_strjoin_3str(key, "=", value);
+		(*env)[variable_index] = ft_strjoin_3str(key, eq, value);
 		return (1);
 	}
-	if (!extend_and_append(env, key, value))
+	if (!extend_and_append(env, key, eq, value))
 		return (0);
 	return (1);
 }
