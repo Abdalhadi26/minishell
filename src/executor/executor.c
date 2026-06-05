@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:20 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/05 02:27:18 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/05 19:37:47 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,27 @@ void	execute_single(t_command *cmds, t_single_command command, t_shell *shell)
 {
 	pid_t	pid;
 	int		status;
+	int		stdin_fd;
+	int		stdout_fd;
 
+	if (!command.args)
+	{
+		stdin_fd = dup(STDIN_FILENO);
+		stdout_fd = dup(STDOUT_FILENO);
+		if (stdin_fd < 0 || stdout_fd < 0)
+		{
+			perror("minishell");
+			shell->exit_status = 1;
+			return ;
+		}
+		apply_redirections(command);
+		shell->exit_status = 0;
+		dup2(stdin_fd, STDIN_FILENO);
+		dup2(stdout_fd, STDOUT_FILENO);
+		close(stdin_fd);
+		close(stdout_fd);
+		return ;
+	}
 	if (is_builtin(command.args[0]))
 	{
 		execute_builtin_single(cmds, command, shell);
