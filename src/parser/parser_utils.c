@@ -3,41 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:52:44 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/03 07:24:33 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/05 22:34:17 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-
-static t_redirections_types type_red(char *redir)
+static t_redirections_types	type_red(char *redir)
 {
-    int len;
-    
-    len = 0;
-    while (redir[len])
-        len++;
-    if (redir[0] == '>' && len == 1)
-        return (redir_out);
-    else if (redir[0] == '>' && len == 2)
-        return (redir_append);
-    else if (redir[0] == '<' && len == 1)
-        return (redir_in);
-    else 
-        return (redir_heredoc);
-}
+	int	len;
 
-int pipe_not_qouted(t_lexer *tok)
-{
-	
-	if (!tok || !tok->input)
-		return (1);
-	if (tok->qouted == 0 && tok->input[0] == '|')
-		return (0);
-	return (1);
+	len = 0;
+	while (redir[len])
+		len++;
+	if (redir[0] == '>' && len == 1)
+		return (redir_out);
+	else if (redir[0] == '>' && len == 2)
+		return (redir_append);
+	else if (redir[0] == '<' && len == 1)
+		return (redir_in);
+	else
+		return (redir_heredoc);
 }
 
 static int	parse_cmd_tokens(t_lexer **tok, t_args **a, t_files **f,
@@ -48,8 +37,8 @@ static int	parse_cmd_tokens(t_lexer **tok, t_args **a, t_files **f,
 		if (!(*tok)->qouted && check_red_pipe((*tok)->input[0]) == 1)
 		{
 			(*red)->next = init_red(type_red((*tok)->input), (*tok)->next);
-            if(!(*red)->next)
-                return (0);
+			if (!(*red)->next)
+				return (0);
 			(*tok) = (*tok)->next->next;
 			(*red) = (*red)->next;
 			continue ;
@@ -57,8 +46,8 @@ static int	parse_cmd_tokens(t_lexer **tok, t_args **a, t_files **f,
 		if (*a == NULL)
 		{
 			*a = init_arg((*tok)->input);
-            if (!(*a))
-                return (0);
+			if (!(*a))
+				return (0);
 			(*tok) = (*tok)->next;
 		}
 		if (!(*tok))
@@ -70,9 +59,7 @@ static int	parse_cmd_tokens(t_lexer **tok, t_args **a, t_files **f,
 	return (1);
 }
 
-
-t_single_command	*handle_redir(t_lexer *tok, t_args *args,
-		t_files *files)
+t_single_command	*handle_redir(t_lexer *tok, t_args *args, t_files *files)
 {
 	t_single_command	*cmds;
 	t_redirections		*new_red;
@@ -82,7 +69,7 @@ t_single_command	*handle_redir(t_lexer *tok, t_args *args,
 		return (NULL);
 	new_red = init_red(type_red(tok->input), tok->next);
 	if (!new_red)
-		return (free_cmd_a_f(cmds, NULL, NULL));// add make free all
+		return (free_cmd_a_f(cmds, NULL, NULL));
 	cmds->redirections = new_red;
 	tok = tok->next->next;
 	if (!parse_cmd_tokens(&tok, &args, &files, &new_red))
@@ -122,7 +109,7 @@ t_single_command	*handle_word(t_lexer *tok)
 	while (tok && (tok->qouted || check_red_pipe(tok->input[0]) != 1))
 	{
 		if (!pipe_not_qouted(tok))
-			break;
+			break ;
 		if (!add_arg_file(tok, &args, &files))
 			return ((t_single_command *)free_cmd_a_f(NULL, args, files));
 		tok = tok->next;

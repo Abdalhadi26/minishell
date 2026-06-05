@@ -1,16 +1,28 @@
-#include <stdio.h>
-#include "../../libft/libft.h"
-#include "expander.h"
-#include "../lexer/lexer.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main_split.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2026/06/05 22:25:46 by aayasrah          #+#    #+#             */
+/*   Updated: 2026/06/05 22:25:47 by aayasrah         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-int free_var(char **var, int i)
+#include "../../libft/libft.h"
+#include "../lexer/lexer.h"
+#include "expander.h"
+#include <stdio.h>
+
+int	free_var(char **var, int i)
 {
 	if (i == 0)
 	{
 		free(var[0]);
 		var[0] = NULL;
 	}
-	else if(i == 1)
+	else if (i == 1)
 	{
 		free(var[1]);
 		var[1] = NULL;
@@ -25,7 +37,7 @@ int free_var(char **var, int i)
 	return (0);
 }
 
-static int free_data(t_data *data)
+static int	free_data(t_data *data)
 {
 	if (!data)
 		return (0);
@@ -37,28 +49,28 @@ static int free_data(t_data *data)
 	return (1);
 }
 
-static t_data   *init_data(char *input,char *expanded, t_shell shell)
+static t_data	*init_data(char *input, char *expanded, t_shell shell)
 {
-    t_data   *data;
+	t_data	*data;
 
-    data = (t_data *)malloc(sizeof(t_data));
-    if (data == NULL)
-    {
-        perror("malloc");
-        return (NULL);
-    }
-    data->input = input;
-    data->expanded = expanded;
-    data->index[0] = 0;
-    data->index[1] = 0;
+	data = (t_data *)malloc(sizeof(t_data));
+	if (data == NULL)
+	{
+		perror("malloc");
+		return (NULL);
+	}
+	data->input = input;
+	data->expanded = expanded;
+	data->index[0] = 0;
+	data->index[1] = 0;
 	data->spaces = NULL;
 	data->shell = shell;
-    return (data);
+	return (data);
 }
 
-static int move_tokens(t_lexer **tok, t_lexer *tokens)
+static int	move_tokens(t_lexer **tok, t_lexer *tokens)
 {
-    t_lexer *last_token;
+	t_lexer	*last_token;
 
 	if (!tokens || !tok || !(*tok))
 		return (0);
@@ -77,10 +89,10 @@ static int move_tokens(t_lexer **tok, t_lexer *tokens)
 	return (1);
 }
 
-int main_expander(char *expanded, t_shell shell, t_lexer **tok)
+int	main_expander(char *expanded, t_shell shell, t_lexer **tok)
 {
-	t_data *data;
-	t_lexer *tokens;
+	t_data	*data;
+	t_lexer	*tokens;
 
 	data = init_data((*tok)->input, expanded, shell);
 	if (!data)
@@ -95,9 +107,9 @@ int main_expander(char *expanded, t_shell shell, t_lexer **tok)
 	}
 	tokens = makesplit(data->expanded, data->spaces);
 	if (!tokens)
-		return	(0); 
+		return (0);
 	if (!move_tokens(tok, tokens))
 		return (0);
-	free_data(data);	
+	free_data(data);
 	return (0);
 }

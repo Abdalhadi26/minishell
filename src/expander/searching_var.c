@@ -12,19 +12,17 @@
 
 #include "expander.h"
 
-
-
-static int skip_var(char *src, t_shell shell, int *i, int *j)
+static int	skip_var(char *src, t_shell shell, int *i, int *j)
 {
-	int start;
-	char *var[2];
+	int		start;
+	char	*var[2];
 
 	start = 0;
 	if (src[*i] && src[*i] == '$')
 	{
 		start = ++(*i);
-		while (src[*i] && (ft_isalnum(src[*i]) 
-			|| src[*i] == '_' || src[*i] == '?'))
+		while (src[*i] && (ft_isalnum(src[*i]) || src[*i] == '_'
+				|| src[*i] == '?'))
 			(*i)++;
 		var[0] = ft_substr(src, start, *i - start);
 		if (!var[0])
@@ -35,28 +33,27 @@ static int skip_var(char *src, t_shell shell, int *i, int *j)
 			var[1] = ft_itoa(shell.exit_status);
 		if (!var[1])
 			return (free_var(var, 0));
-		(*j) += ft_strlen(var[1]) -1;
+		(*j) += ft_strlen(var[1]) - 1;
 		(*i)--;
 		free_var(var, 2);
 	}
 	return (1);
 }
 
-static int check_var(t_data *data, int*i, int*j)
+static int	check_var(t_data *data, int *i, int *j)
 {
 	char	c;
 
-	if (!data ||!data->expanded || !data->input)
+	if (!data || !data->expanded || !data->input)
 		return (0);
 	c = data->input[*i];
 	(*i)++;
-	while(data->input[*i] && data->input[*i] != c 
-		&& data->expanded[*j])
+	while (data->input[*i] && data->input[*i] != c && data->expanded[*j])
 	{
 		if (data->input[*i] == '$')
 		{
 			if (skip_var(data->input, data->shell, i, j) == 0)
-				return(0);
+				return (0);
 		}
 		(*i)++;
 		(*j)++;
@@ -66,18 +63,18 @@ static int check_var(t_data *data, int*i, int*j)
 	return (1);
 }
 
-int index_of_var(t_data *data, int*i,int *j)
+int	index_of_var(t_data *data, int *i, int *j)
 {
 	if (!data || !data->expanded || !data->input)
 		return (0);
-	while(data->input[*i] && data->expanded[*j])
+	while (data->input[*i] && data->expanded[*j])
 	{
 		if (data->input[*i] == '\'' || data->input[*i] == '\"')
 		{
 			if (!check_var(data, i, j))
 				return (0);
 		}
-		else if (data->input[*i] &&  data->input[*i] == '$')
+		else if (data->input[*i] && data->input[*i] == '$')
 			return (1);
 		else
 		{

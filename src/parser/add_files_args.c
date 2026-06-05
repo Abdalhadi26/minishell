@@ -11,33 +11,34 @@
 /* ************************************************************************** */
 
 #include "parsing.h"
-t_args *init_arg(char *arg)
-{
-    t_args *new_arg;
 
-    if (!arg)
-        return (NULL);
-    new_arg = malloc(sizeof(t_args));
-    if (!new_arg)
-        return (NULL);
-    new_arg->arg = ft_strdup(arg);
-    new_arg->next = NULL;
-    return (new_arg);
+t_args	*init_arg(char *arg)
+{
+	t_args	*new_arg;
+
+	if (!arg)
+		return (NULL);
+	new_arg = malloc(sizeof(t_args));
+	if (!new_arg)
+		return (NULL);
+	new_arg->arg = ft_strdup(arg);
+	new_arg->next = NULL;
+	return (new_arg);
 }
 
-static t_files *init_files(char *file)
+static t_files	*init_files(char *file)
 {
-    t_files *new_file;
+	t_files	*new_file;
 
-    if (!file)
-        return (NULL);
-    new_file = malloc(sizeof(t_files));
-    if (!new_file)
-        return (NULL);
-    new_file->files = ft_strdup(file);
-    new_file->next = NULL;
-    return (new_file);
-} 
+	if (!file)
+		return (NULL);
+	new_file = malloc(sizeof(t_files));
+	if (!new_file)
+		return (NULL);
+	new_file->files = ft_strdup(file);
+	new_file->next = NULL;
+	return (new_file);
+}
 
 static int	append_arg(t_lexer *tok, t_args **args)
 {
@@ -45,11 +46,11 @@ static int	append_arg(t_lexer *tok, t_args **args)
 	t_args	*last_arg;
 
 	if ((*args) == NULL)
-    	return (0);
-    (void)tok;
-    new_arg = init_arg(tok->input);
+		return (0);
+	(void)tok;
+	new_arg = init_arg(tok->input);
 	if (!new_arg)
-        return (0);
+		return (0);
 	last_arg = *args;
 	while (last_arg->next)
 		last_arg = last_arg->next;
@@ -71,7 +72,7 @@ static int	append_file(t_lexer *tok, t_files **files)
 	}
 	new_file = init_files(tok->input);
 	if (!new_file)
-        return (0);
+		return (0);
 	last_file = *files;
 	while (last_file->next)
 		last_file = last_file->next;
@@ -89,6 +90,6 @@ int	add_arg_file(t_lexer *tok, t_args **args, t_files **files)
 	if (tok->input[0] == '-')
 		return (append_arg(tok, args));
 	else
-        return (append_file(tok, files));
-    return (1);
+		return (append_file(tok, files));
+	return (1);
 }

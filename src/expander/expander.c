@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 02:11:29 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/03 07:23:32 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/05 22:23:47 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "expander.h"
-/* Safely appends a single character to an allocated string and frees the old one */
 
 char	*append_char(char *str, char c)
 {
@@ -23,8 +22,10 @@ char	*append_char(char *str, char c)
 		return (NULL);
 	len = ft_strlen(str);
 	new_str = malloc(len + 2);
-    if (!new_str)
-        {return (NULL);}
+	if (!new_str)
+	{
+		return (NULL);
+	}
 	i = 0;
 	while (i < len)
 	{
@@ -37,9 +38,6 @@ char	*append_char(char *str, char c)
 	return (new_str);
 }
 
-
-
-/* Looks up "VAR=" in the env array and returns an allocated copy of the value */
 char	*get_env_value(char *var_name, char **env)
 {
 	int	i;
@@ -55,7 +53,7 @@ char	*get_env_value(char *var_name, char **env)
 			return (ft_strdup(env[i] + len + 1));
 		i++;
 	}
-	return (ft_strdup("")); // Not found, return empty string
+	return (ft_strdup(""));
 }
 
 char	*expand_string(char *str, t_shell shell, int flag)
@@ -71,7 +69,7 @@ char	*expand_string(char *str, t_shell shell, int flag)
 	dq = 0;
 	while (str && str[i] && res)
 	{
-		if (handle_quotes(str[i], &sq, &dq) && flag != -1) 
+		if (handle_quotes(str[i], &sq, &dq) && flag != -1)
 			i++;
 		else if (str[i] == '$' && (!sq) && flag != 1)
 			res = handle_dollar(res, str, shell, &i);
@@ -84,35 +82,35 @@ char	*expand_string(char *str, t_shell shell, int flag)
 	return (res);
 }
 
-int has_var(t_lexer *token, int flag)
+int	has_var(t_lexer *token, int flag)
 {
-    int i;
+	int	i;
 
-    if (!(token) && !((token)->input))
-        return (0);
-    i = 0;
-    while ((token)->input[i])
-    {
-        if ((token)->input[i] == '\'')
-            token->qouted = 1;
-        else if ((token)->input[i] == '\"')
-            token->qouted = 2;
-        else if ((token)->input[i] == '$' && flag != 1)
-        {
-            (token)->qouted = 3;
-            return (1);
-        }
-        i++;
-    }
-    return (0);
+	if (!(token) && !((token)->input))
+		return (0);
+	i = 0;
+	while ((token)->input[i])
+	{
+		if ((token)->input[i] == '\'')
+			token->qouted = 1;
+		else if ((token)->input[i] == '\"')
+			token->qouted = 2;
+		else if ((token)->input[i] == '$' && flag != 1)
+		{
+			(token)->qouted = 3;
+			return (1);
+		}
+		i++;
+	}
+	return (0);
 }
 
 /* Main entry point: Iterates through the lexer list and expands every token */
-t_lexer *expand_lexer_tokens(t_lexer *lexer, t_shell shell)
+t_lexer	*expand_lexer_tokens(t_lexer *lexer, t_shell shell)
 {
 	t_lexer	*curr;
 	char	*expanded;
-	int flag;
+	int		flag;
 
 	curr = lexer;
 	flag = 0;
@@ -120,16 +118,16 @@ t_lexer *expand_lexer_tokens(t_lexer *lexer, t_shell shell)
 	{
 		if (ft_strncmp(curr->input, "<<", 2) == 0 && !curr->qouted)
 			flag = 1;
-        has_var(curr, flag);
+		has_var(curr, flag);
 		if (curr->input && curr->qouted)
 		{
 			expanded = expand_string(curr->input, shell, flag);
-            if (!expanded)
-                return (NULL);
+			if (!expanded)
+				return (NULL);
 			main_expander(expanded, shell, &curr);
 			flag = 0;
 		}
 		curr = curr->next;
 	}
-    return (lexer);
+	return (lexer);
 }
