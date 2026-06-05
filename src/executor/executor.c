@@ -6,13 +6,13 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:20 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/03 07:15:17 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/05 02:27:18 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	execute_builtin_single(t_single_command command, t_shell *shell)
+static void	execute_builtin_single(t_command *cmds, t_single_command command, t_shell *shell)
 {
 	int		stdin_fd;
 	int		stdout_fd;
@@ -26,7 +26,7 @@ static void	execute_builtin_single(t_single_command command, t_shell *shell)
 		return ;
 	}
 	apply_redirections(command);
-	shell->exit_status = execute_builtin(&command, shell);
+	shell->exit_status = execute_builtin(cmds, command, shell);
 	dup2(stdin_fd, STDIN_FILENO);
 	dup2(stdout_fd, STDOUT_FILENO);
 	close(stdin_fd);
@@ -64,14 +64,14 @@ static	void	handle_wait_status(int status, t_shell *shell)
 	}
 }
 
-void	execute_single(t_single_command command, t_shell *shell)
+void	execute_single(t_command *cmds, t_single_command command, t_shell *shell)
 {
 	pid_t	pid;
 	int		status;
 
 	if (is_builtin(command.args[0]))
 	{
-		execute_builtin_single(command, shell);
+		execute_builtin_single(cmds, command, shell);
 		return ;
 	}
 	pid = fork();

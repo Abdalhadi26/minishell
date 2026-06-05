@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 18:07:01 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/03 07:20:27 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/05 03:33:38 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_command *main_parsing(char *input, t_shell shell )
 	if (!tokens)
         return (NULL);
     if (pipe_red_dup(tokens))
-        return(NULL);
+        return(free_all(tokens), NULL);
     tokens= expand_lexer_tokens(tokens, shell);
     if (!tokens)
         return (NULL);

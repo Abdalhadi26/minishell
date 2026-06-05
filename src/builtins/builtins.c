@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/21 17:23:17 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/28 14:10:57 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/05 02:23:33 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,26 +24,24 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-int	execute_builtin(t_command *cmds, int i, t_shell *shell)
+int	execute_builtin(t_command *cmds, t_single_command cmd, t_shell *shell)
 {
 	char	*name;
-	t_single_command *single_cmd;
 
-	cmd = cmds->commands[i];
-	name = cmd->args[0];
+	name = cmd.args[0];
 	if (!ft_strncmp(name, "echo", 5))
-		return (builtin_echo(*cmd));
+		return (builtin_echo(cmd));
 	if (!ft_strncmp(name, "cd", 3))
-		return (builtin_cd(*cmd, shell));
+		return (builtin_cd(cmd, shell));
 	if (!ft_strncmp(name, "pwd", 4))
 		return (builtin_pwd());
 	if (!ft_strncmp(name, "export", 7))
-		return (builtin_export(*cmd, shell));
+		return (builtin_export(cmd, shell));
 	if (!ft_strncmp(name, "unset", 6))
-		return (builtin_unset(*cmd, shell));
+		return (builtin_unset(cmd, shell));
 	if (!ft_strncmp(name, "env", 4))
 		return (builtin_env(*shell));
 	if (!ft_strncmp(name, "exit", 5))
-		return (builtin_exit(cmds,cmd, shell));
+		return (builtin_exit(cmds, cmd, shell));
 	return (1);
 }

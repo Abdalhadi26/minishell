@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:47 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/04 22:11:38 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/05 02:30:26 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ typedef struct s_shell
 //executor
 void	free_2d(char **arr);
 void	apply_redirections(t_single_command command);
-void	execute_single(t_single_command	command, t_shell *shell);
-void	execute_pipeline(t_command command, t_shell *shell);
+void	execute_single(t_command *cmds, t_single_command	command, t_shell *shell);
+void	execute_pipeline(t_command *command, t_shell *shell);
 void	close_all_pipes(int **pipes, int num_pipes);
 void	free_pipes(int **arr, int n);
 int	create_pipes(t_command command, int ***pipes);
@@ -85,13 +85,13 @@ int	extend_and_append(char ***env, char *key, char *eq, char *value);
 int	builtin_cd(t_single_command	cmd,t_shell *shell);
 int	builtin_echo(t_single_command cmd);
 int	builtin_env(t_shell shell);
-int	builtin_exit(t_command *cmds, t_single_command *cmd, t_shell *shell);
+int	builtin_exit(t_command *cmds, t_single_command cmd, t_shell *shell);
 int	builtin_export(t_single_command	cmd,t_shell *shell);
 int	is_valid_arg(char *key);
 int	builtin_pwd();
 int builtin_unset(t_single_command cmd, t_shell *shell);
 int is_builtin(char *cmd);
-int execute_builtin(t_command *cmds, int i, t_shell *shell);
+int execute_builtin(t_command *cmds, t_single_command command, t_shell *shell);
 void	handle_sigint(int sig);
 void	set_interactive_signals();
 void	set_execution_signals_child();

@@ -3,17 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:30:10 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/28 14:09:57 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/05 03:27:46 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
+#include "../src/parser/parsing.h" 
 void free_cmds_shell(t_command *cmds, t_shell *shell)
 {
+	// if (cmds->num_single_commands != 1)
+	// 	return ;
 	free_cmds(cmds);
 	free_2d(shell->env);
 	free(shell);
@@ -72,16 +74,19 @@ static int	is_valid_number(char *arg)
 	return (1);
 }
 
-static int	handle_exit_args(t_command *cmds, t_single_command *cmd, t_shell *shell)
+static int	handle_exit_args(t_command *cmds, t_single_command cmd, t_shell *shell)
 {
+	int return_exit;
+	
 	ft_putstr_fd("exit\n", 2);
-	if (cmd->num_args == 1)
+	if (cmd.num_args == 1)
 	{
+		return_exit = shell->exit_status;
 		rl_clear_history();
 		free_cmds_shell(cmds, shell);
-		exit(shell->exit_status);
+		exit(return_exit);
 	}
-	else if (cmd->num_args > 2)
+	else if (cmd.num_args > 2)
 	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 		return (1);
@@ -89,26 +94,26 @@ static int	handle_exit_args(t_command *cmds, t_single_command *cmd, t_shell *she
 	return (0);
 }
 
-int	builtin_exit(t_command *cmds, t_single_command *cmd, t_shell *shell)
+int	builtin_exit(t_command *cmds, t_single_command cmd, t_shell *shell)
 {
 	long	result;
 	int		dummy;
 
-	if (handle_exit_args(cmd, shell))
+	if (handle_exit_args(cmds, cmd, shell))
 		return (1);
-	if (cmd->num_args == 2)
+	if (cmd.num_args == 2)
 	{
-		if (!is_valid_number(cmd->args[1]))
+		if (!is_valid_number(cmd.args[1]))
 		{
 			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(cmd->args[1], 2);
+			ft_putstr_fd(cmd.args[1], 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
 			free_cmds_shell(cmds, shell);
 			rl_clear_history();
 			exit(2);
 		}
+		result = ft_atol(cmd.args[1], &dummy) % 256;
 		free_cmds_shell(cmds, shell);
-		result = ft_atol(cmd->args[1], &dummy) % 256;
 		if (result < 0)
 			result += 256;
 		rl_clear_history();

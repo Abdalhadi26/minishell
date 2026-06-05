@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:38 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/28 14:13:29 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/05 02:29:30 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	execute_child_pipeline(t_command command, t_shell *shell,
+static void	execute_child_pipeline(t_command *command, t_shell *shell,
 		int **pipes, int i)
 {
 	char	*path;
@@ -20,21 +20,21 @@ static void	execute_child_pipeline(t_command command, t_shell *shell,
 	set_execution_signals_child();
 	if (i > 0)
 		dup2(pipes[i - 1][0], STDIN_FILENO);
-	if (i < (command.num_single_commands - 1))
+	if (i < (command->num_single_commands - 1))
 		dup2(pipes[i][1], STDOUT_FILENO);
-	close_all_pipes(pipes, command.num_single_commands - 1);
-	apply_redirections(*command.commands[i]);
-	if (is_builtin(command.commands[i]->args[0]))
-		exit(execute_builtin(command,i, shell));// check norm error two on one line
-	path = find_path(command.commands[i]->args[0], shell);
+	close_all_pipes(pipes, command->num_single_commands - 1);
+	apply_redirections(*(command->commands[i]));
+	if (is_builtin(command->commands[i]->args[0]))
+		exit(execute_builtin(command, *(command->commands[i]), shell));// check norm error two on one line
+	path = find_path(command->commands[i]->args[0], shell);
 	if (!path)
 	{
 		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(command.commands[i]->args[0], 2);
+		ft_putstr_fd(command->commands[i]->args[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
 		exit(127);
 	}
-	execve(path, command.commands[i]->args, shell->env);
+	execve(path, command->commands[i]->args, shell->env);
 	perror("minishell");
 	exit(126);
 }
@@ -78,24 +78,24 @@ static void	handle_fork_fail(t_command command, t_shell *shell, int **pipes)
 	free_pipes(pipes, command.num_single_commands - 1);
 }
 
-void	execute_pipeline(t_command command, t_shell *shell)
+void	execute_pipeline(t_command *command, t_shell *shell)
 {
 	int	i;
 	int	pid;
 	int	**pipes;
 
-	if (create_pipes(command, &pipes))
+	if (create_pipes(*command, &pipes))
 	{
 		shell->exit_status = 1;
 		return ;
 	}
 	i = 0;
-	while (i < command.num_single_commands)
+	while (i < command->num_single_commands)
 	{
 		pid = fork();
 		if (pid < 0)
 		{
-			handle_fork_fail(command, shell, pipes);
+			handle_fork_fail(*command, shell, pipes);
 			return ;
 		}
 		if (pid == 0)
@@ -103,6 +103,6 @@ void	execute_pipeline(t_command command, t_shell *shell)
 		i++;
 	}
 	set_execution_signals_parent();
-	close_all_pipes(pipes, command.num_single_commands - 1);
-	wait_pipeline(command, shell, pid, pipes);
+	close_all_pipes(pipes, command->num_single_commands - 1);
+	wait_pipeline(*command, shell, pid, pipes);
 }

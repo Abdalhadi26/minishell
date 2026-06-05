@@ -32,15 +32,16 @@ t_shell *init_shell()
 void	execute(t_command *command, t_shell *shell)
 {
 	if (command->num_single_commands == 1)
-		execute_single(*command->commands[0], shell);
+		execute_single(command , *command->commands[0], shell);
 	else
-		execute_pipeline(*command, shell);
+		execute_pipeline(command, shell);
 }
 
 int	main(int argc, char *argv[], char **envp)
 {
 	t_shell *shell;
 	char	*line;
+	int result;
 	t_command *command;
 
 	(void)argc;
@@ -58,9 +59,11 @@ int	main(int argc, char *argv[], char **envp)
 		if (!line)
 		{
 			free_2d(shell->env);
+			result = shell->exit_status;
+			free(shell);
 			ft_putstr_fd("exit\n", 2);
 			rl_clear_history();
-			exit(shell->exit_status);
+			exit(result);
 		}
 		if (g_signal == SIGINT)
 		{
@@ -95,6 +98,8 @@ int	main(int argc, char *argv[], char **envp)
 		free_cmds(command);
 		free(line);
 	}
+	free_2d(shell->env);
+	free(shell);
 	return (0);
 }
 
