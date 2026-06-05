@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:58:45 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/04 22:10:48 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/05 12:04:44 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,17 @@ static int	exists(char **env, char *key)
 {
 	char	*equal_sign;
 	int		i;
+	int		key_comp;
 
 	i = 0;
 	while (env[i])
 	{
 		equal_sign = ft_strchr(env[i], '=');
 		if (!equal_sign)
-		{
-			i++;
-			continue ;
-		}
-		if (!key_compare(key, env[i], (equal_sign - env[i])))
+			key_comp = key_compare(key, env[i], ft_strlen(key));
+		else
+			key_comp = key_compare(key, env[i], (equal_sign - env[i]));
+		if (!key_comp)
 			return (i);
 		i++;
 	}
