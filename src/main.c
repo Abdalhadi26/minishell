@@ -68,9 +68,7 @@ int	main(int argc, char *argv[], char **envp)
 		if (g_signal == SIGINT)
 		{
 			g_signal = 0;
-			free(line);
 			shell->exit_status = 130;
-			continue;
 		}
 		if (!line[0])
 		{
