@@ -1,0 +1,12 @@
+{
+   readline_leak_1
+   Memcheck:Leak
+   ...
+   obj:*/libreadline*
+}
+{
+   readline_leak_2
+   Memcheck:Leak
+   ...
+   obj:*/libhistory*
+}
