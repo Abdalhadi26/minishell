@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 17:11:12 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/04 22:24:41 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/05 20:46:03 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ char	*ft_strjoin_3str(const char *key, const char *eq, const char *value)
 
 	if (!eq)
 		return (ft_strdup(key));
-
 	len = ft_strlen(key) + ft_strlen(eq) + ft_strlen(value) + 1;
 	str = malloc(len);
 	if (!str)

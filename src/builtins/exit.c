@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:30:10 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/05 03:27:46 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/05 20:40:10 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include "../src/parser/parsing.h" 
-void free_cmds_shell(t_command *cmds, t_shell *shell)
+#include "../src/parser/parsing.h"
+
+void	free_cmds_shell(t_command *cmds, t_shell *shell)
 {
-	// if (cmds->num_single_commands != 1)
-	// 	return ;
 	free_cmds(cmds);
 	free_2d(shell->env);
 	free(shell);
 }
+
 static long long	ft_atol(const char *str, int *overflow)
 {
 	int			i;
@@ -74,10 +74,11 @@ static int	is_valid_number(char *arg)
 	return (1);
 }
 
-static int	handle_exit_args(t_command *cmds, t_single_command cmd, t_shell *shell)
+static int	handle_exit_args(t_command *cmds, t_single_command cmd,
+		t_shell *shell)
 {
-	int return_exit;
-	
+	int	return_exit;
+
 	ft_putstr_fd("exit\n", 2);
 	if (cmd.num_args == 1)
 	{

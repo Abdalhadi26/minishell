@@ -3,37 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:35 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/03 06:36:32 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/05 20:52:54 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 #include "../expander/expander.h"
 
-static int has_vars(char *line)
+static int	has_vars(char *line)
 {
-    int i;
+	int	i;
 
-    if (!(line))
-        return (0);
-    i = 0;
-    while (line[i])
-    {
+	if (!(line))
+		return (0);
+	i = 0;
+	while (line[i])
+	{
 		if (line[i] == '$')
-			return (1); 
+			return (1);
 		i++;
-    }
-    return (0);
+	}
+	return (0);
 }
 
-static int expand_heredoc(char *line, int *pipe_fd, int qouted, t_shell shell)
+static int	expand_heredoc(char *line, int *pipe_fd, int qouted, t_shell shell)
 {
-	char *new_line;
-	
-	
+	char	*new_line;
+
 	if (!line || !pipe_fd)
 		return (0);
 	if (has_vars(line) && (qouted != 1 && qouted != 2))
@@ -43,7 +42,6 @@ static int expand_heredoc(char *line, int *pipe_fd, int qouted, t_shell shell)
 		if (!new_line)
 			return (0);
 		line = new_line;
-	
 	}
 	write(pipe_fd[1], line, ft_strlen(line));
 	write(pipe_fd[1], "\n", 1);
@@ -74,18 +72,18 @@ static int	read_heredoc(t_shell shell, t_redirections *redir, int *pipe_fd)
 			free(line);
 			return (0);
 		}
-		if (!expand_heredoc(line, pipe_fd, 
-				redir->heredoc_expansion_status, shell))
+		if (!expand_heredoc(line, pipe_fd, redir->heredoc_expansion_status,
+				shell))
 			return (1);
 	}
 	return (0);
 }
 
-void	collect_heredocs(t_command *command, t_shell shell) //int fun 
+void	collect_heredocs(t_command *command, t_shell shell) //int fun
 {
-	int				i;
-	int				pipe_fd[2];
 	t_redirections	*redirections_list;
+	int				pipe_fd[2];
+	int				i;
 
 	i = 0;
 	while (i < command->num_single_commands)

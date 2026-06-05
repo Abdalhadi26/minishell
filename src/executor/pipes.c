@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:38 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/05 02:29:30 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/05 20:51:47 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	execute_child_pipeline(t_command *command, t_shell *shell,
 	close_all_pipes(pipes, command->num_single_commands - 1);
 	apply_redirections(*(command->commands[i]));
 	if (is_builtin(command->commands[i]->args[0]))
-		exit(execute_builtin(command, *(command->commands[i]), shell));// check norm error two on one line
+		exit(execute_builtin(command, *(command->commands[i]), shell));
 	path = find_path(command->commands[i]->args[0], shell);
 	if (!path)
 	{

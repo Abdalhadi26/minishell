@@ -38,7 +38,7 @@ int	set_target_path_old_pwd(char **target_path, char **old_pwd,
 	return (0);
 }
 
-static	void	update_pwd_env(char ***env,char *old_pwd)
+static void	update_pwd_env(char ***env, char *old_pwd)
 {
 	if (old_pwd)
 		env_set(env, "OLDPWD", old_pwd);

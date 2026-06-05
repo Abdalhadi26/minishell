@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:41 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/28 14:13:32 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/05 20:51:01 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,12 @@ void	apply_redirections(t_single_command command)
 			fd = open(command.redirections->file_name, O_RDONLY, 0644);
 		else if (command.redirections->type == redir_out)
 			fd = open(command.redirections->file_name,
-					O_WRONLY | O_CREAT | O_TRUNC, 0644);
+					O_WRONLY | O_CREAT | O_TRUNC,
+					0644);
 		else if (command.redirections->type == redir_append)
 			fd = open(command.redirections->file_name,
-					O_WRONLY | O_CREAT | O_APPEND, 0644);
+					O_WRONLY | O_CREAT | O_APPEND,
+					0644);
 		else if (command.redirections->type == redir_heredoc)
 			fd = command.redirections->heredoc_fd;
 		if (fd < 0)

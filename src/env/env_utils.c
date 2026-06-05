@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:58:45 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/05 12:04:44 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/05 20:45:50 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*env_get(char **env, char *key)
 
 int	env_set(char ***env, char *key, char *value)
 {
-	int	variable_index;
+	int		variable_index;
 	char	*eq;
 
 	if (value)

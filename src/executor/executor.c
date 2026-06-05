@@ -12,10 +12,11 @@
 
 #include "../../includes/minishell.h"
 
-static void	execute_builtin_single(t_command *cmds, t_single_command command, t_shell *shell)
+static void	execute_builtin_single(t_command *cmds, t_single_command command,
+		t_shell *shell)
 {
-	int		stdin_fd;
-	int		stdout_fd;
+	int	stdin_fd;
+	int	stdout_fd;
 
 	stdin_fd = dup(STDIN_FILENO);
 	stdout_fd = dup(STDOUT_FILENO);
@@ -34,7 +35,7 @@ static void	execute_builtin_single(t_command *cmds, t_single_command command, t_
 	return ;
 }
 
-static	void	execute_child_single(t_single_command command, t_shell *shell)
+static void	execute_child_single(t_single_command command, t_shell *shell)
 {
 	char	*path;
 
@@ -52,7 +53,7 @@ static	void	execute_child_single(t_single_command command, t_shell *shell)
 	exit(126);
 }
 
-static	void	handle_wait_status(int status, t_shell *shell)
+static void	handle_wait_status(int status, t_shell *shell)
 {
 	if (wait_exit_state(status) == 0)
 		shell->exit_status = wait_exit_code(status);
@@ -64,7 +65,8 @@ static	void	handle_wait_status(int status, t_shell *shell)
 	}
 }
 
-void	execute_single(t_command *cmds, t_single_command command, t_shell *shell)
+void	execute_single(t_command *cmds, t_single_command command,
+		t_shell *shell)
 {
 	pid_t	pid;
 	int		status;
