@@ -32,6 +32,7 @@ SRC = \
 	src/env/env_utils.c \
 	src/env/env_utils2.c \
 	src/executor/exec_utils.c \
+	src/executor/find_path.c \
 	src/main_parsing.c \
 	src/executor/redirections.c \
 	src/executor/heredoc.c \

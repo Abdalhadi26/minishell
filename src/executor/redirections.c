@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:41 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/05 20:51:01 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/06 17:06:35 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,25 @@ static void	use_dup2(t_redirections_types type, int fd)
 		dup2(fd, STDOUT_FILENO);
 }
 
+static	int	open_file(t_single_command command)
+{
+	int	fd;
+
+	if (command.redirections->type == redir_in)
+		fd = open(command.redirections->file_name, O_RDONLY, 0644);
+	else if (command.redirections->type == redir_out)
+		fd = open(command.redirections->file_name,
+				O_WRONLY | O_CREAT | O_TRUNC,
+				0644);
+	else if (command.redirections->type == redir_append)
+		fd = open(command.redirections->file_name,
+				O_WRONLY | O_CREAT | O_APPEND,
+				0644);
+	else if (command.redirections->type == redir_heredoc)
+		fd = command.redirections->heredoc_fd;
+	return (fd);
+}
+
 void	apply_redirections(t_single_command command)
 {
 	int	fd;
@@ -28,18 +47,7 @@ void	apply_redirections(t_single_command command)
 		return ;
 	while (command.redirections)
 	{
-		if (command.redirections->type == redir_in)
-			fd = open(command.redirections->file_name, O_RDONLY, 0644);
-		else if (command.redirections->type == redir_out)
-			fd = open(command.redirections->file_name,
-					O_WRONLY | O_CREAT | O_TRUNC,
-					0644);
-		else if (command.redirections->type == redir_append)
-			fd = open(command.redirections->file_name,
-					O_WRONLY | O_CREAT | O_APPEND,
-					0644);
-		else if (command.redirections->type == redir_heredoc)
-			fd = command.redirections->heredoc_fd;
+		fd = open_file(command);
 		if (fd < 0)
 		{
 			perror("minishell");

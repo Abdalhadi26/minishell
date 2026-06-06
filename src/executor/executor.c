@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:20 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/05 19:37:47 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/06 17:26:12 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,9 @@ static void	handle_wait_status(int status, t_shell *shell)
 	}
 }
 
-void	execute_single(t_command *cmds, t_single_command command,
+static	int	handle_no_args_n_bulitins(t_command *cmds, t_single_command command,
 		t_shell *shell)
 {
-	pid_t	pid;
-	int		status;
 	int		stdin_fd;
 	int		stdout_fd;
 
@@ -81,7 +79,7 @@ void	execute_single(t_command *cmds, t_single_command command,
 		{
 			perror("minishell");
 			shell->exit_status = 1;
-			return ;
+			return (1);
 		}
 		apply_redirections(command);
 		shell->exit_status = 0;
@@ -89,13 +87,22 @@ void	execute_single(t_command *cmds, t_single_command command,
 		dup2(stdout_fd, STDOUT_FILENO);
 		close(stdin_fd);
 		close(stdout_fd);
-		return ;
 	}
-	if (is_builtin(command.args[0]))
-	{
+	else if (is_builtin(command.args[0]))
 		execute_builtin_single(cmds, command, shell);
+	else
+		return (0);
+	return (1);
+}
+
+void	execute_single(t_command *cmds, t_single_command command,
+		t_shell *shell)
+{
+	pid_t	pid;
+	int		status;
+
+	if (handle_no_args_n_bulitins(cmds, command, shell))
 		return ;
-	}
 	pid = fork();
 	if (pid < 0)
 	{
@@ -111,41 +118,4 @@ void	execute_single(t_command *cmds, t_single_command command,
 	set_execution_signals_parent();
 	waitpid(pid, &status, 0);
 	handle_wait_status(status, shell);
-}
-
-char	*find_path(char *cmd, t_shell *shell)
-{
-	char	**paths;
-	char	*to_test_path;
-	char	*temp;
-	int		i;
-
-	if (strchr(cmd, '/'))
-	{
-		to_test_path = cmd;
-		if (access(to_test_path, F_OK) == 0)
-			return (to_test_path);
-		else
-			return (NULL);
-	}
-	paths = ft_split(env_get(shell->env, "PATH"), ':');
-	if (!paths)
-		return (NULL);
-	i = 0;
-	while (paths[i])
-	{
-		temp = ft_strjoin_ayasrah("/", cmd);
-		to_test_path = ft_strjoin_ayasrah(paths[i], temp);
-		free(temp);
-		if (access(to_test_path, F_OK) == 0)
-		{
-			free_2d(paths);
-			return (to_test_path);
-		}
-		else
-			free(to_test_path);
-		i++;
-	}
-	free_2d(paths);
-	return (NULL);
 }
