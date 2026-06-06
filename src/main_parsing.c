@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 18:07:01 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/05 22:35:24 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:52:45 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../src/lexer/lexer.h"
-#include "../src/parser/parsing.h"
+#include "../includes/lexer.h"
+#include "../includes/parsing.h"
 
 int	number_of_cmds(t_lexer *token)
 {
@@ -46,6 +46,8 @@ t_command	*main_parsing(char *input, t_shell shell)
 		return (NULL);
 	cmds = NULL;
 	cmds = parsing(tokens, number_of_cmds(tokens));
+	if (cmds)
+		cmds->commands[number_of_cmds(tokens)] = '\0';
 	free_all(tokens);
 	tokens = NULL;
 	return (cmds);

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_spaces.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 02:55:59 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/05 22:24:57 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:20:13 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expander.h"
+#include "../../includes/expander.h"
 
 static int	ft_intlen(int *spaces)
 {

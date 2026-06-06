@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 21:13:47 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/05 22:18:42 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:14:40 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "../../includes/lexer.h"
 
 t_lexer	*new_pipe_red(char *str, char c, int *i)
 {

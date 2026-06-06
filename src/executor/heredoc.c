@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:35 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/05 20:52:54 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:38:03 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include "../expander/expander.h"
+#include "../../includes/expander.h"
 
 static int	has_vars(char *line)
 {
@@ -45,7 +45,6 @@ static int	expand_heredoc(char *line, int *pipe_fd, int qouted, t_shell shell)
 	}
 	write(pipe_fd[1], line, ft_strlen(line));
 	write(pipe_fd[1], "\n", 1);
-	printf("line %s \n", line);
 	free(line);
 	return (1);
 }

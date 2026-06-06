@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_organiztion.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 15:49:49 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/05 22:12:05 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:14:36 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "../../includes/lexer.h"
 
 void	print_error(char *str)
 {

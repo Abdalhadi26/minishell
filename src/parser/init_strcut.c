@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   init_strcut.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 14:49:45 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/05 22:34:24 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:13:40 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../../includes/parsing.h"
 
 t_single_command	*init_single_command(void)
 {

@@ -6,11 +6,11 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/17 18:22:16 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/26 17:38:48 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:10:56 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../../includes/parsing.h"
 
 t_args	*init_arg(char *arg)
 {

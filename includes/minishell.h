@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:47 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/05 22:53:37 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:15:56 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
-
+# include "../libft/libft.h"
 extern int					g_signal;
 
 typedef enum e_redirections_types
@@ -105,6 +105,5 @@ void		set_execution_signals_parent(void);
 int			wait_exit_code(int status);
 int			wait_exit_state(int status);
 t_command	*main_parsing(char *input, t_shell shell);
-# include "../libft/libft.h"
-# include "../src/lexer/lexer.h"
+
 #endif

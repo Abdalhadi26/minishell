@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 15:12:27 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/05 22:33:10 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:56:00 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parsing.h"
+#include "../../includes/parsing.h"
 
 static void	free_args_files(t_args *args, t_files *files)
 {
@@ -83,7 +83,7 @@ void	free_cmds(t_command *cmds)
 	i = 0;
 	if (!cmds && !cmds->commands)
 		return ;
-	while (cmds->commands && cmds->commands[0])
+	while (cmds->commands && cmds->commands[i])
 	{
 		free_cmd(cmds->commands[i]);
 		cmds->commands[i] = NULL;
@@ -91,4 +91,5 @@ void	free_cmds(t_command *cmds)
 	}
 	free(cmds->commands);
 	free(cmds);
+	cmds = NULL;
 }

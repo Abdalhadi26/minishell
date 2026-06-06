@@ -6,11 +6,11 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:58:50 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/05/25 20:58:50 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:14:44 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "../../includes/lexer.h"
 
 static void	delete_token(t_lexer *token)
 {

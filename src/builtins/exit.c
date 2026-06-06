@@ -3,18 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:30:10 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/05 20:40:10 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:54:21 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-#include "../src/parser/parsing.h"
+#include "../../includes/parsing.h"
 
 void	free_cmds_shell(t_command *cmds, t_shell *shell)
 {
+	if (cmds->num_single_commands > 1)
+		return ;
 	free_cmds(cmds);
 	free_2d(shell->env);
 	free(shell);

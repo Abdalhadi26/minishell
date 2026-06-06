@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expansion_spliting.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 03:19:57 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/05 22:27:08 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:21:38 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expander.h"
+#include "../../includes/expander.h"
 
 static t_lexer	*create_token(char *str, int *i, int j)
 {

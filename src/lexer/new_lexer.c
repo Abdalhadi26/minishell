@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   new_lexer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:47:03 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/05 22:16:41 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:14:49 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "../../includes/lexer.h"
 
 static void	add_current_token(t_lexer **head, t_lexer *current)
 {

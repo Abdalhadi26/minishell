@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   handle_cases.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 22:23:14 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/05 22:26:44 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:21:47 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expander.h"
+#include "../../includes/expander.h"
 
 /* Handles the "$?" expansion */
 char	*handle_exit_status(char *res, t_shell shell, int *i)

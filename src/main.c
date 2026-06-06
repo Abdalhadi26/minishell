@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:31:21 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/05 22:39:03 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:40:54 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-#include "../src/parser/parsing.h"
+#include "../includes/parsing.h"
 
 int		g_signal;
 
@@ -31,6 +31,42 @@ void	execute(t_command *command, t_shell *shell)
 		execute_single(command, *command->commands[0], shell);
 	else
 		execute_pipeline(command, shell);
+}
+void printaa(t_command *command)
+{
+	t_redirections *temp;
+	t_single_command *temp1;
+	t_command *cmds;
+	int i;
+	int j = 0;
+
+	i = 0;
+	if (!command)
+		return ;
+	cmds = command;
+	while (i < cmds->num_single_commands)
+	{
+		j = 0;
+		temp1 = cmds->commands[i];i++;
+		while(temp1->args && temp1->args[j])
+		{
+			printf("arg[%d] = %s  2\n", j, temp1->args[j]);
+			j++;
+		}
+		printf("\n");
+		temp = temp1->redirections;
+		while(temp)
+		{
+			printf("type = %d\n", temp->type);
+			printf("file = %s  2\n", temp->file_name);
+			printf("status = %d\n", temp->heredoc_expansion_status);
+			printf("fd = %d\n", temp->heredoc_fd);
+			temp = temp->next;
+		}
+		
+		printf("\n");
+	}
+	
 }
 
 int	main(int argc, char *argv[], char **envp)
@@ -81,7 +117,9 @@ int	main(int argc, char *argv[], char **envp)
 		collect_heredocs(command, *shell);
 		execute(command, shell);
 		set_interactive_signals();
+		printaa(command);
 		free_cmds(command);
+		// printaa(command);
 		free(line);
 	}
 	free_2d(shell->env);

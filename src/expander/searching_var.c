@@ -6,11 +6,11 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 03:12:41 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/02 03:21:29 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:22:22 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "expander.h"
+#include "../../includes/expander.h"
 
 static int	skip_var(char *src, t_shell shell, int *i, int *j)
 {

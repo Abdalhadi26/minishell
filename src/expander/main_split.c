@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main_split.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 22:25:46 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/05 22:25:47 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:22:12 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../libft/libft.h"
-#include "../lexer/lexer.h"
-#include "expander.h"
+#include "../../includes/expander.h"
+
 #include <stdio.h>
 
 int	free_var(char **var, int i)

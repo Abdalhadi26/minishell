@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   check_next_token.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 21:00:49 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/05 22:08:00 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:14:25 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "../../includes/lexer.h"
 
 static int	s_token_check_o_p(t_lexer token)
 {

@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 22:13:14 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/05 22:16:07 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:23:10 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LEXER_H
 # define LEXER_H
 
-# include "../../includes/minishell.h"
+// # include "../../includes/minishell.h"
+# include "../libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <stdio.h>

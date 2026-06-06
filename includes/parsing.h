@@ -6,15 +6,14 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 14:44:10 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/03 06:39:45 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/06 18:12:38 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-// #include "../lexer/lexer.h"
-# include "../../includes/minishell.h"
+#include "./lexer.h"
 
 typedef struct s_args
 {
