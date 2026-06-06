@@ -117,7 +117,7 @@ int	main(int argc, char *argv[], char **envp)
 		collect_heredocs(command, *shell);
 		execute(command, shell);
 		set_interactive_signals();
-		printaa(command);
+		// printaa(command);
 		free_cmds(command);
 		// printaa(command);
 		free(line);
