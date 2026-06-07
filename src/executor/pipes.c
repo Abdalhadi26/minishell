@@ -6,11 +6,12 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:38 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/05 20:51:47 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/07 13:27:37 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include "../../includes/parsing.h"
 
 static void	execute_child_pipeline(t_command *command, t_shell *shell,
 		int **pipes, int i)
@@ -32,10 +33,21 @@ static void	execute_child_pipeline(t_command *command, t_shell *shell,
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(command->commands[i]->args[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
+		free_pipes(pipes, command->num_single_commands - 1);
+		free_cmds_shell(command, shell);
+		//free_cmds(command);
+		//free_2d(shell->env);
+		//free(shell);
 		exit(127);
 	}
 	execve(path, command->commands[i]->args, shell->env);
 	perror("minishell");
+	//herer
+	free_pipes(pipes, command->num_single_commands - 1);
+	free_cmds_shell(command, shell);
+	//free_cmds(command);
+	//free_2d(shell->env);
+	//free(shell);
 	exit(126);
 }
 

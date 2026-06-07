@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:47 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/06 19:20:54 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/07 13:26:38 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void		set_execution_signals_child(void);
 void		set_execution_signals_parent(void);
 int			wait_exit_code(int status);
 int			wait_exit_state(int status);
+void		free_cmds_shell(t_command *cmds, t_shell *shell);
 t_command	*main_parsing(char *input, t_shell shell);
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 18:07:01 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/06 18:52:45 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/07 13:08:28 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ t_command	*main_parsing(char *input, t_shell shell)
 	cmds = NULL;
 	cmds = parsing(tokens, number_of_cmds(tokens));
 	if (cmds)
-		cmds->commands[number_of_cmds(tokens)] = '\0';
+		cmds->commands[number_of_cmds(tokens)] = 0;
 	free_all(tokens);
 	tokens = NULL;
 	return (cmds);

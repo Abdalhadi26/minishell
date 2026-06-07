@@ -6,11 +6,12 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:20 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/06 17:26:12 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/07 13:28:31 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+#include "../../includes/parsing.h"
 
 static void	execute_builtin_single(t_command *cmds, t_single_command command,
 		t_shell *shell)
@@ -35,7 +36,7 @@ static void	execute_builtin_single(t_command *cmds, t_single_command command,
 	return ;
 }
 
-static void	execute_child_single(t_single_command command, t_shell *shell)
+static void	execute_child_single(t_command *cmds, t_single_command command, t_shell *shell)
 {
 	char	*path;
 
@@ -45,11 +46,20 @@ static void	execute_child_single(t_single_command command, t_shell *shell)
 		write(2, "minishell: ", 11);
 		write(2, command.args[0], ft_strlen(command.args[0]));
 		write(2, ": command not found\n", 20);
+		free_cmds_shell(cmds, shell);
+		//free_cmds(cmds);
+		//free_2d(shell->env);
+		//free(shell);
 		exit(127);
 	}
 	apply_redirections(command);
 	execve(path, command.args, shell->env);
 	perror("minishell");
+	//herer
+	free_cmds_shell(cmds, shell);
+	//free_cmds(cmds);
+	//free_2d(shell->env);
+	//free(shell);
 	exit(126);
 }
 
@@ -113,7 +123,7 @@ void	execute_single(t_command *cmds, t_single_command command,
 	if (pid == 0)
 	{
 		set_execution_signals_child();
-		execute_child_single(command, shell);
+		execute_child_single(cmds, command, shell);
 	}
 	set_execution_signals_parent();
 	waitpid(pid, &status, 0);
