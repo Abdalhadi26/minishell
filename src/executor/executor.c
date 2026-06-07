@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:20 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/07 13:28:31 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/07 14:27:11 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ static void	execute_builtin_single(t_command *cmds, t_single_command command,
 		return ;
 	}
 	apply_redirections(command);
+	if (!ft_strncmp(command.args[0], "exit", 5))
+	{
+		dup2(stdin_fd, STDIN_FILENO);
+		dup2(stdout_fd, STDOUT_FILENO);
+		close(stdin_fd);
+		close(stdout_fd);
+	}
 	shell->exit_status = execute_builtin(cmds, command, shell);
 	dup2(stdin_fd, STDIN_FILENO);
 	dup2(stdout_fd, STDOUT_FILENO);
