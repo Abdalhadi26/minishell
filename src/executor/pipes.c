@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:38 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/07 13:27:37 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/07 16:41:25 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,9 @@ static void	execute_child_pipeline(t_command *command, t_shell *shell,
 		int **pipes, int i)
 {
 	char	*path;
+	int temp;
 
+	temp = 0;
 	set_execution_signals_child();
 	if (i > 0)
 		dup2(pipes[i - 1][0], STDIN_FILENO);
@@ -26,7 +28,13 @@ static void	execute_child_pipeline(t_command *command, t_shell *shell,
 	close_all_pipes(pipes, command->num_single_commands - 1);
 	apply_redirections(*(command->commands[i]));
 	if (is_builtin(command->commands[i]->args[0]))
-		exit(execute_builtin(command, *(command->commands[i]), shell));
+	{
+		temp = execute_builtin(command, *(command->commands[i]), shell);
+			close(0);
+			close(1);
+			close(2);
+		exit(temp);
+	}
 	path = find_path(command->commands[i]->args[0], shell);
 	if (!path)
 	{
@@ -35,6 +43,9 @@ static void	execute_child_pipeline(t_command *command, t_shell *shell,
 		ft_putstr_fd(": command not found\n", 2);
 		free_pipes(pipes, command->num_single_commands - 1);
 		free_cmds_shell(command, shell);
+			close(0);
+			close(1);
+			close(2);
 		//free_cmds(command);
 		//free_2d(shell->env);
 		//free(shell);
@@ -45,6 +56,9 @@ static void	execute_child_pipeline(t_command *command, t_shell *shell,
 	//herer
 	free_pipes(pipes, command->num_single_commands - 1);
 	free_cmds_shell(command, shell);
+		close(0);
+		close(1);
+		close(2);
 	//free_cmds(command);
 	//free_2d(shell->env);
 	//free(shell);

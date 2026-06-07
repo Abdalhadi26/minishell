@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:20 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/07 14:27:11 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/07 17:53:07 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ static void	execute_child_single(t_command *cmds, t_single_command command, t_sh
 		write(2, command.args[0], ft_strlen(command.args[0]));
 		write(2, ": command not found\n", 20);
 		free_cmds_shell(cmds, shell);
+			close(0);
+			close(1);
+			close(2);
 		//free_cmds(cmds);
 		//free_2d(shell->env);
 		//free(shell);
@@ -67,6 +70,9 @@ static void	execute_child_single(t_command *cmds, t_single_command command, t_sh
 	//free_cmds(cmds);
 	//free_2d(shell->env);
 	//free(shell);
+		close(0);
+		close(1);
+		close(2);
 	exit(126);
 }
 
