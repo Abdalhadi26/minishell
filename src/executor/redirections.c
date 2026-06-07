@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:41 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/06 17:06:35 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/07 15:23:30 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static	int	open_file(t_single_command command)
 {
 	int	fd;
 
+	fd = 0;
 	if (command.redirections->type == redir_in)
 		fd = open(command.redirections->file_name, O_RDONLY, 0644);
 	else if (command.redirections->type == redir_out)
