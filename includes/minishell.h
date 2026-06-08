@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:47 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/08 12:35:48 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/08 14:28:05 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct s_shell
 }							t_shell;
 
 //executor
-int			read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd);
+int			read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd, int saved_stdin);
 void		free_2d(char **arr);
 void		apply_redirections(t_single_command command);
 void		execute_single(t_command *cmds,
@@ -78,7 +78,7 @@ void		free_pipes(int **arr, int n);
 int			create_pipes(t_command command, int ***pipes);
 char		*find_path(char *cmd, t_shell *shell);
 int			array_2d_len(char **arr);
-void		collect_heredocs(t_command *command, t_shell *shell);
+int			collect_heredocs(t_command *command, t_shell *shell);
 int			env_init(t_shell *shell, char **envp);
 char		*env_get(char **env, char *key);
 int			env_set(char ***env, char *key, char *value);

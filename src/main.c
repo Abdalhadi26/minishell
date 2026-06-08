@@ -76,6 +76,7 @@ int	main(int argc, char *argv[], char **envp)
 	char		*line;
 	int			result;
 	t_command	*command;
+	int			hd;
 
 	(void)argc;
 	(void)argv;
@@ -115,7 +116,16 @@ int	main(int argc, char *argv[], char **envp)
 			free(line);
 			continue ;
 		}
-		collect_heredocs(command, shell);
+		hd = collect_heredocs(command, shell);
+		if (hd == 2)
+		{
+			g_signal = 0;
+			shell->exit_status = 130;
+			free_cmds(command);
+			free(line);
+			set_interactive_signals();
+			continue;
+		}
 		execute(command, shell);
 		set_interactive_signals();
 		//printaa(command);

@@ -17,9 +17,30 @@ void	handle_sigint(int sig)
 	(void)sig;
 	g_signal = SIGINT;
 	write(1, "\n", 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
+	// rl_replace_line("", 0);
+	// rl_on_new_line();
 	rl_redisplay();
+}
+void	handle_sigint_heredoc(int sig)
+{
+	(void)sig;
+	g_signal = SIGINT;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	close(STDIN_FILENO);
+}
+
+void	set_heredoc_signals(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = handle_sigint_heredoc;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	sa.sa_handler = SIG_IGN;
+	sigaction(SIGQUIT, &sa, NULL);
 }
 
 void	set_interactive_signals(void)

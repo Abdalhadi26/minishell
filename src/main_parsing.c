@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 18:07:01 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/08 12:33:10 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/08 14:34:24 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	aheredocs(t_redirections	*red, t_shell shell) //int fun
 		{
 			if (pipe(pipe_fd) == -1)
 				return ;
-			if (read_heredoc(&shell, red, pipe_fd))
+			if (read_heredoc(&shell, red, pipe_fd, -1))
 				return ;
 			close(pipe_fd[1]);
 			red->heredoc_fd = pipe_fd[0];

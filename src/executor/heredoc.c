@@ -49,7 +49,7 @@ static int	expand_heredoc(char *line, int *pipe_fd, int qouted, t_shell *shell)
 	return (1);
 }
 
-int	read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd)
+int	read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd, int saved_stdin)
 {
 	char	*line;
 
@@ -58,13 +58,25 @@ int	read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd)
 		line = readline("> ");
 		if (!line)
 		{
-			ft_putstr_fd("minishell: warning: here-document", 2);
-			ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
-			ft_putstr_fd(redir->file_name, 2);
-			ft_putstr_fd("')\n", 2);
-			close(pipe_fd[1]);
-			redir->heredoc_fd = pipe_fd[0];
-			return (1);
+			if (g_signal == SIGINT)
+			{
+				dup2(saved_stdin, 0);
+				close(saved_stdin);
+				close(pipe_fd[0]);
+				close(pipe_fd[1]);
+				return (2);
+			}
+			else
+			{
+				ft_putstr_fd("minishell: warning: here-document", 2);
+				ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
+				ft_putstr_fd(redir->file_name, 2);
+				ft_putstr_fd("')\n", 2);
+				close(pipe_fd[1]);
+				redir->heredoc_fd = pipe_fd[0];
+				close(saved_stdin);
+				return (1);
+			}
 		}
 		if (!ft_strncmp(line, redir->file_name, ft_strlen(redir->file_name)))
 		{
@@ -73,17 +85,24 @@ int	read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd)
 		}
 		if (!expand_heredoc(line, pipe_fd, redir->heredoc_expansion_status,
 				shell))
+		{
+			close(saved_stdin);
 			return (1);
+		}
 	}
 	return (0);
 }
 
-void	collect_heredocs(t_command *command, t_shell *shell)
+int	collect_heredocs(t_command *command, t_shell *shell)
 {
 	t_redirections	*redirections_list;
 	int				pipe_fd[2];
 	int				i;
+	int				saved_stdin;
+	int				res;
 
+	saved_stdin = dup(STDIN_FILENO);
+	set_heredoc_signals();
 	i = 0;
 	while (i < command->num_single_commands)
 	{
@@ -93,9 +112,13 @@ void	collect_heredocs(t_command *command, t_shell *shell)
 			if (redirections_list->type == redir_heredoc)
 			{
 				if (pipe(pipe_fd) == -1)
-					return ;
-				if (read_heredoc(shell, redirections_list, pipe_fd))
-					return ;
+				{
+					close(saved_stdin);
+					return (0);
+				}
+				res = read_heredoc(shell, redirections_list, pipe_fd, saved_stdin);
+				if (res != 0)
+					return (res);
 				close(pipe_fd[1]);
 				redirections_list->heredoc_fd = pipe_fd[0];
 			}
@@ -103,4 +126,6 @@ void	collect_heredocs(t_command *command, t_shell *shell)
 		}
 		i++;
 	}
+	close(saved_stdin);
+	return (0);
 }
