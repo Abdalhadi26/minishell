@@ -56,7 +56,6 @@ int	read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd)
 	while (1)
 	{
 		line = readline("> ");
-		printf("%d\n", g_signal);
 		if (!line)
 		{
 			ft_putstr_fd("minishell: warning: here-document", 2);
@@ -66,14 +65,6 @@ int	read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd)
 			close(pipe_fd[1]);
 			redir->heredoc_fd = pipe_fd[0];
 			return (1);
-		}
-		if (g_signal == SIGINT)
-		{
-			printf("hi\n");
-			free(line);
-			close(pipe_fd[0]);
-			close(pipe_fd[1]);
-			return (2);
 		}
 		if (!ft_strncmp(line, redir->file_name, ft_strlen(redir->file_name)))
 		{
@@ -87,14 +78,12 @@ int	read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd)
 	return (0);
 }
 
-int	collect_heredocs(t_command *command, t_shell *shell) //int fun
+void	collect_heredocs(t_command *command, t_shell *shell)
 {
 	t_redirections	*redirections_list;
 	int				pipe_fd[2];
 	int				i;
-	int				r;
 
-	set_heredoc_signals();
 	i = 0;
 	while (i < command->num_single_commands)
 	{
@@ -104,12 +93,9 @@ int	collect_heredocs(t_command *command, t_shell *shell) //int fun
 			if (redirections_list->type == redir_heredoc)
 			{
 				if (pipe(pipe_fd) == -1)
-					return (1);
-				r = read_heredoc(shell, redirections_list, pipe_fd);
-				if (r == 1)
-					return (1);
-				if (r == 2)
-					return (2);
+					return ;
+				if (read_heredoc(shell, redirections_list, pipe_fd))
+					return ;
 				close(pipe_fd[1]);
 				redirections_list->heredoc_fd = pipe_fd[0];
 			}
@@ -117,5 +103,4 @@ int	collect_heredocs(t_command *command, t_shell *shell) //int fun
 		}
 		i++;
 	}
-	return (0);
 }

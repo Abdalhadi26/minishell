@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 18:07:01 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/08 11:09:56 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/08 12:33:10 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,11 @@ t_command	*main_parsing(char *input, t_shell shell)
 	if (!tokens)
 		return (NULL);
 	tokens = expand_lexer_tokens(tokens, shell);
-	if (pipe_red_dupaa(tokens, &red)  != -1 )
-	{
-		aheredocs(red, shell);
-	}
-	free_redirections (red);
+	// if (pipe_red_dupaa(tokens, &red)  != -1 )
+	// {
+	// 	aheredocs(red, shell);
+	// }
+	// free_redirections (red);
 
 	if (pipe_red_dup(tokens))
 		return (free_all(tokens), NULL);
