@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:47:03 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/06 18:14:49 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/08 17:52:12 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,8 +125,8 @@ t_lexer	*add_tokens(char *input, int i, int j)
 			if (!check_add_qoution(&head, input, &i, &j))
 				return ((t_lexer *)free_all(head));
 		}
-		else if ((check_red_pipe(input[i]) || check_red_pipe(input[i
-						+ 1]) == 4))
+		else if ((check_red_pipe(input[i])
+				|| check_red_pipe(input[i + 1]) == 4))
 		{
 			if (!new_token(&head, input, j, &i))
 				return ((t_lexer *)free_all(head));

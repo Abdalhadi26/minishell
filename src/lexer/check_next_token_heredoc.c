@@ -55,19 +55,17 @@ int	check_input_redaa(t_lexer token)
 	return (i);
 }
 
-
-
-int	check_next_tokenaa(t_lexer f_token, t_lexer *s_token,t_redirections **here)
+int	check_next_tokenaa(t_lexer f_token, t_lexer *s_token, t_redirections **here)
 {
 	if (!s_token)
 		return (2);
 	if (s_token_check_o_paa(*s_token) && !s_token->qouted)
-			return (0);
+		return (0);
 	else if (s_token_check_i_paa(*s_token) && !s_token->qouted)
-			return (0);
+		return (0);
 	else if (check_input_redaa(f_token) == 2)
 	{
-		if (!link_red(here,(t_redirections *)init_red(3, s_token)))
+		if (!link_red(here, (t_redirections *)init_red(3, s_token)))
 		{
 			free_redirections(*here);
 			*here = NULL;

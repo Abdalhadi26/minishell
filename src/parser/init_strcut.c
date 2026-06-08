@@ -56,10 +56,10 @@ int	pipe_not_qouted(t_lexer *tok)
 	return (1);
 }
 
-int link_red(t_redirections **here, t_redirections *here_now)
+int	link_red(t_redirections **here, t_redirections *here_now)
 {
-	t_redirections *temp;
-	
+	t_redirections	*temp;
+
 	if (!here_now)
 		return (0);
 	if (!here || !*here)
@@ -68,11 +68,10 @@ int link_red(t_redirections **here, t_redirections *here_now)
 		return (1);
 	}
 	temp = *here;
-	while(temp->next)
+	while (temp->next)
 	{
 		temp = temp->next;
 	}
 	temp->next = here_now;
 	return (1);
-	
 }

@@ -27,10 +27,10 @@ static int	pipe_dupaa(t_lexer *token)
 	return (0);
 }
 
-int	pipe_red_dupaa(t_lexer *head, t_redirections ** here)
+int	pipe_red_dupaa(t_lexer *head, t_redirections **here)
 {
 	t_lexer	*tk;
-	int flag;
+	int		flag;
 
 	tk = head;
 	*here = NULL;

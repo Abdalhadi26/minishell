@@ -41,7 +41,7 @@ int					convert_args_files(t_single_command *cmd, t_args *args,
 						t_files *files);
 int					add_arg_file(t_lexer *tok, t_args **args, t_files **files);
 t_args				*init_arg(char *arg);
-void	free_redirections(t_redirections *redirs);
-int link_red(t_redirections **here, t_redirections *here_now);
+void				free_redirections(t_redirections *redirs);
+int					link_red(t_redirections **here, t_redirections *here_now);
 
 #endif

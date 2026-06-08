@@ -57,7 +57,7 @@ int	check_input_red(t_lexer token, int is_next)
 	i = 0;
 	while (token.input[i] && token.input[i] == '<')
 		i++;
-	if ((i + is_next) == 3 || (i + is_next) == 4) 
+	if ((i + is_next) == 3 || (i + is_next) == 4)
 		print_error("<");
 	else if ((i + is_next) == 5)
 		print_error(token.input + (i - 2));

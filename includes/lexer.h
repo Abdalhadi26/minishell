@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 22:13:14 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/08 14:17:28 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/08 17:59:53 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,11 @@ t_lexer				*init_s_lexer(int len);
 char				*free_all(t_lexer *head);
 t_lexer				*new_pipe_red(char *str, char c, int *i);
 int					check_next_token(t_lexer f_token, t_lexer *s_token);
-int	check_next_tokenaa(t_lexer f_token, t_lexer *s_token,t_redirections **here);
-// int					check_next_tokenaa(t_lexer f_token, t_lexer *s_token);
+int					check_next_tokenaa(t_lexer f_token, t_lexer *s_token,
+						t_redirections **here);
 int					pipe_red_dup(t_lexer *head);
 int					pipe_red_dupaa(t_lexer *head, t_redirections **here);
 void				print_error(char *str);
-t_lexer				*merge_red(t_lexer *head);
 int					check_red_pipe(char c);
 t_lexer				*add_tokens(char *input, int i, int j);
 int					check_output_red(t_lexer token, int is_next);
