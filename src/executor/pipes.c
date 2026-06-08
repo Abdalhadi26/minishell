@@ -13,6 +13,28 @@
 #include "../../includes/minishell.h"
 #include "../../includes/parsing.h"
 
+static void	close_other_heredocs(t_command *command, int i)
+{
+	int				j;
+	t_redirections	*redir;
+
+	j = 0;
+	while (j < command->num_single_commands)
+	{
+		if (j != i)
+		{
+			redir = command->commands[j]->redirections;
+			while (redir)
+			{
+				if (redir->type == redir_heredoc && redir->heredoc_fd != -1)
+					close(redir->heredoc_fd);
+				redir = redir->next;
+			}
+		}
+		j++;
+	}
+}
+
 static void	execute_child_pipeline(t_command *command, t_shell *shell,
 		int **pipes, int i)
 {
@@ -26,6 +48,7 @@ static void	execute_child_pipeline(t_command *command, t_shell *shell,
 	if (i < (command->num_single_commands - 1))
 		dup2(pipes[i][1], STDOUT_FILENO);
 	close_all_pipes(pipes, command->num_single_commands - 1);
+	close_other_heredocs(command, i);
 	apply_redirections(*(command->commands[i]));
 	if (is_builtin(command->commands[i]->args[0]))
 	{

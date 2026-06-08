@@ -86,6 +86,8 @@ int	read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd, int saved_
 		if (!expand_heredoc(line, pipe_fd, redir->heredoc_expansion_status,
 				shell))
 		{
+			close(pipe_fd[0]);
+			close(pipe_fd[1]);
 			close(saved_stdin);
 			return (1);
 		}
