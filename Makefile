@@ -18,7 +18,9 @@ SRC = \
 	src/expander/handle_cases.c \
 	src/lexer/lexer_utils.c \
 	src/lexer/lexer_organiztion.c \
+	src/lexer/lexer_organiztioncopy.c \
 	src/lexer/check_next_token.c \
+	src/lexer/check_next_tokencopy.c \
 	src/lexer/new_lexer.c \
 	src/lexer/merge_red.c \
 	src/parser/init_strcut.c \
@@ -58,10 +60,10 @@ $(LIBFT):
 	make -C $(LIBFT_DIR)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
+	$(CC)  $(OBJ) $(LIBFT) -lreadline -o $(NAME)
 
 %.o: %.c ./includes/minishell.h
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(CC)  $(INCLUDES) -c $< -o $@
 
 clean:
 	make -C $(LIBFT_DIR) clean

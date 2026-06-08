@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:35 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/06 18:38:03 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/08 02:50:56 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	expand_heredoc(char *line, int *pipe_fd, int qouted, t_shell shell)
 	return (1);
 }
 
-static int	read_heredoc(t_shell shell, t_redirections *redir, int *pipe_fd)
+int	read_heredoc(t_shell shell, t_redirections *redir, int *pipe_fd)
 {
 	char	*line;
 

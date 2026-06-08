@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 15:12:27 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/06 18:56:00 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/08 03:00:17 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static void	free_args_files(t_args *args, t_files *files)
 	}
 }
 
-static void	free_redirections(t_redirections *redirs)
+void	free_redirections(t_redirections *redirs)
 {
 	t_redirections	*tmp;
 

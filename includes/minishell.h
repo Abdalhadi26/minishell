@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:47 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/07 13:26:38 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/08 02:51:08 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_shell
 }							t_shell;
 
 //executor
+int	read_heredoc(t_shell shell, t_redirections *redir, int *pipe_fd);
 void		free_2d(char **arr);
 void		apply_redirections(t_single_command command);
 void		execute_single(t_command *cmds,
