@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_data.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 15:12:27 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/08 03:00:17 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/08 16:23:41 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	free_redirections(t_redirections *redirs)
 		redirs = redirs->next;
 		tmp->next = NULL;
 		free(tmp->file_name);
+		if (tmp->heredoc_fd != -1)
+			close(tmp->heredoc_fd);
 		free(tmp);
 	}
 	redirs = NULL;
