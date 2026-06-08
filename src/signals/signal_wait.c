@@ -27,3 +27,23 @@ int	wait_exit_state(int status)
 	else
 		return (status & 0x7f);
 }
+
+void	check_sigint_status(t_shell *shell)
+{
+	if (g_signal == SIGINT)
+	{
+		g_signal = 0;
+		shell->exit_status = 130;
+	}
+}
+
+void	set_execution_signals_parent(void)
+{
+	struct sigaction	sa;
+
+	sa.sa_handler = SIG_IGN;
+	sigemptyset(&sa.sa_mask);
+	sa.sa_flags = 0;
+	sigaction(SIGINT, &sa, NULL);
+	sigaction(SIGQUIT, &sa, NULL);
+}

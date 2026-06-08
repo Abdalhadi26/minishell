@@ -13,13 +13,6 @@
 #include "../../includes/minishell.h"
 #include "../../includes/parsing.h"
 
-void	free_cmds_shell(t_command *cmds, t_shell *shell)
-{
-	free_cmds(cmds);
-	free_2d(shell->env);
-	free(shell);
-}
-
 static long long	ft_atol(const char *str, int *overflow)
 {
 	int			i;
@@ -74,6 +67,19 @@ static int	is_valid_number(char *arg)
 	return (1);
 }
 
+static void	exit_numeric_error(t_command *cmds, t_shell *shell, char *arg)
+{
+	ft_putstr_fd("minishell: exit: ", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd(": numeric argument required\n", 2);
+	free_cmds_shell(cmds, shell);
+	rl_clear_history();
+	close(0);
+	close(1);
+	close(2);
+	exit(2);
+}
+
 static int	handle_exit_args(t_command *cmds, t_single_command cmd,
 		t_shell *shell)
 {
@@ -109,17 +115,7 @@ int	builtin_exit(t_command *cmds, t_single_command cmd, t_shell *shell)
 	if (cmd.num_args == 2)
 	{
 		if (!is_valid_number(cmd.args[1]))
-		{
-			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(cmd.args[1], 2);
-			ft_putstr_fd(": numeric argument required\n", 2);
-			free_cmds_shell(cmds, shell);
-			rl_clear_history();
-			close(0);
-			close(1);
-			close(2);
-			exit(2);
-		}
+			exit_numeric_error(cmds, shell, cmd.args[1]);
 		result = ft_atol(cmd.args[1], &dummy) % 256;
 		free_cmds_shell(cmds, shell);
 		if (result < 0)

@@ -13,35 +13,32 @@
 #include "../../includes/minishell.h"
 #include "../../includes/parsing.h"
 
-static void	close_other_heredocs(t_command *command, int i)
+static void	exec_child_command(t_command *command, t_shell *shell,
+		int **pipes, int i)
 {
-	int				j;
-	t_redirections	*redir;
+	char	*path;
 
-	j = 0;
-	while (j < command->num_single_commands)
+	if (!command->commands[i]->args || !command->commands[i]->args[0])
+		child_cleanup_exit(command, shell, pipes, 0);
+	if (is_builtin(command->commands[i]->args[0]))
+		child_cleanup_exit(command, shell, pipes,
+			execute_builtin(command, *(command->commands[i]), shell));
+	path = find_path(command->commands[i]->args[0], shell);
+	if (!path)
 	{
-		if (j != i)
-		{
-			redir = command->commands[j]->redirections;
-			while (redir)
-			{
-				if (redir->type == redir_heredoc && redir->heredoc_fd != -1)
-					close(redir->heredoc_fd);
-				redir = redir->next;
-			}
-		}
-		j++;
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(command->commands[i]->args[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		child_cleanup_exit(command, shell, pipes, 127);
 	}
+	execve(path, command->commands[i]->args, shell->env);
+	perror("minishell");
+	child_cleanup_exit(command, shell, pipes, 126);
 }
 
 static void	execute_child_pipeline(t_command *command, t_shell *shell,
 		int **pipes, int i)
 {
-	char	*path;
-	int		temp;
-
-	temp = 0;
 	set_execution_signals_child();
 	if (i > 0)
 		dup2(pipes[i - 1][0], STDIN_FILENO);
@@ -50,37 +47,7 @@ static void	execute_child_pipeline(t_command *command, t_shell *shell,
 	close_all_pipes(pipes, command->num_single_commands - 1);
 	close_other_heredocs(command, i);
 	apply_redirections(*(command->commands[i]));
-	if (is_builtin(command->commands[i]->args[0]))
-	{
-		temp = execute_builtin(command, *(command->commands[i]), shell);
-		close(0);
-		close(1);
-		close(2);
-		free_pipes(pipes, command->num_single_commands - 1);
-		free_cmds_shell(command, shell);
-		exit(temp);
-	}
-	path = find_path(command->commands[i]->args[0], shell);
-	if (!path)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(command->commands[i]->args[0], 2);
-		ft_putstr_fd(": command not found\n", 2);
-		free_pipes(pipes, command->num_single_commands - 1);
-		free_cmds_shell(command, shell);
-		close(0);
-		close(1);
-		close(2);
-		exit(127);
-	}
-	execve(path, command->commands[i]->args, shell->env);
-	perror("minishell");
-	free_pipes(pipes, command->num_single_commands - 1);
-	free_cmds_shell(command, shell);
-	close(0);
-	close(1);
-	close(2);
-	exit(126);
+	exec_child_command(command, shell, pipes, i);
 }
 
 static void	wait_pipeline(t_command command, t_shell *shell, int pid,

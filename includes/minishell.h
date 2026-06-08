@@ -13,6 +13,7 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "../libft/libft.h"
 # include <errno.h>
 # include <fcntl.h>
 # include <limits.h>
@@ -25,7 +26,6 @@
 # include <sys/stat.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include "../libft/libft.h"
 
 extern int					g_signal;
 
@@ -65,12 +65,13 @@ typedef struct s_shell
 	int						exit_status;
 }							t_shell;
 
-//executor
-int			read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd, int saved_stdin);
+int			read_heredoc(t_shell *shell, t_redirections *redir,
+				int *pipe_fd, int saved_stdin);
 void		free_2d(char **arr);
 void		apply_redirections(t_single_command command);
 void		execute_single(t_command *cmds,
-				t_single_command command, t_shell *shell);
+				t_single_command command,
+				t_shell *shell);
 void		execute_pipeline(t_command *command,
 				t_shell *shell);
 void		close_all_pipes(int **pipes, int num_pipes);
@@ -78,7 +79,8 @@ void		free_pipes(int **arr, int n);
 int			create_pipes(t_command command, int ***pipes);
 char		*find_path(char *cmd, t_shell *shell);
 int			array_2d_len(char **arr);
-int			collect_heredocs(t_command *command, t_shell *shell);
+int			collect_heredocs(t_command *command,
+				t_shell *shell);
 int			env_init(t_shell *shell, char **envp);
 char		*env_get(char **env, char *key);
 int			env_set(char ***env, char *key, char *value);
@@ -99,7 +101,8 @@ int			builtin_pwd(void);
 int			builtin_unset(t_single_command cmd, t_shell *shell);
 int			is_builtin(char *cmd);
 int			execute_builtin(t_command *cmds,
-				t_single_command command, t_shell *shell);
+				t_single_command command,
+				t_shell *shell);
 void		handle_sigint(int sig);
 void		set_interactive_signals(void);
 void		set_execution_signals_child(void);
@@ -110,5 +113,13 @@ int			wait_exit_code(int status);
 int			wait_exit_state(int status);
 void		free_cmds_shell(t_command *cmds, t_shell *shell);
 t_command	*main_parsing(char *input, t_shell *shell);
+void		check_sigint_status(t_shell *shell);
+void		close_other_heredocs(t_command *command, int i);
+void		child_cleanup_exit(t_command *command, t_shell *shell,
+				int **pipes, int code);
+int			expand_heredoc(char *line, int *pipe_fd, int qouted,
+				t_shell *shell);
+int			handle_heredoc_eof(t_redirections *redir, int *pipe_fd,
+				int saved_stdin);
 
 #endif

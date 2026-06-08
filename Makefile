@@ -37,6 +37,8 @@ SRC = \
 	src/main_parsing.c \
 	src/executor/redirections.c \
 	src/executor/heredoc.c \
+	src/executor/heredoc_utils.c \
+	src/executor/exec_utils2.c \
  	src/executor/executor.c \
  	src/executor/pipes.c \
  	src/builtins/builtins.c \

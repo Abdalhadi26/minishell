@@ -21,6 +21,7 @@ void	handle_sigint(int sig)
 	rl_on_new_line();
 	rl_redisplay();
 }
+
 void	handle_sigint_heredoc(int sig)
 {
 	(void)sig;
@@ -58,17 +59,6 @@ void	set_execution_signals_child(void)
 	struct sigaction	sa;
 
 	sa.sa_handler = SIG_DFL;
-	sigemptyset(&sa.sa_mask);
-	sa.sa_flags = 0;
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
-}
-
-void	set_execution_signals_parent(void)
-{
-	struct sigaction	sa;
-
-	sa.sa_handler = SIG_IGN;
 	sigemptyset(&sa.sa_mask);
 	sa.sa_flags = 0;
 	sigaction(SIGINT, &sa, NULL);
