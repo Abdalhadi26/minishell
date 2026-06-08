@@ -56,6 +56,7 @@ int	read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd)
 	while (1)
 	{
 		line = readline("> ");
+		printf("%d\n", g_signal);
 		if (!line)
 		{
 			ft_putstr_fd("minishell: warning: here-document", 2);
@@ -68,6 +69,7 @@ int	read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd)
 		}
 		if (g_signal == SIGINT)
 		{
+			printf("hi\n");
 			free(line);
 			close(pipe_fd[0]);
 			close(pipe_fd[1]);

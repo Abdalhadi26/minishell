@@ -123,6 +123,7 @@ int	main(int argc, char *argv[], char **envp)
 			free(line);
 			set_interactive_signals();
 			rl_done = 0;
+			printf("whooo\n");
 			continue ;
 		}
 		execute(command, shell);
