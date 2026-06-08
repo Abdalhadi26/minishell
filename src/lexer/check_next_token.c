@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 21:00:49 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/06 18:14:25 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/08 14:33:07 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static int	s_token_check_o_p(t_lexer token)
 		return (1);
 	else if (check_red_pipe(token.input[0]) == 2)
 	{
-		print_error("|4");
+		print_error("|");
 		return (1);
 	}
 	return (0);
@@ -30,7 +30,7 @@ static int	s_token_check_i_p(t_lexer token)
 		return (1);
 	else if (check_red_pipe(token.input[0]) == 2)
 	{
-		print_error("|3");
+		print_error("|");
 		return (1);
 	}
 	return (0);

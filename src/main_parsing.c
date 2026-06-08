@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 18:07:01 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/08 14:34:24 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/08 14:40:53 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,14 @@ t_command	*main_parsing(char *input, t_shell shell)
 	t_lexer		*tokens;
 	t_command	*cmds;
 	t_redirections *red;
-	int flag;
 
 	tokens = add_tokens(input, 0, 0);
 	if (!tokens)
 		return (NULL);
 	tokens = expand_lexer_tokens(tokens, shell);
-	// if (pipe_red_dupaa(tokens, &red)  != -1 )
-	// {
-	// 	aheredocs(red, shell);
-	// }
-	// free_redirections (red);
+	if (pipe_red_dupaa(tokens, &red)  == 0)
+		aheredocs(red, shell);
+	free_redirections (red);
 
 	if (pipe_red_dup(tokens))
 		return (free_all(tokens), NULL);

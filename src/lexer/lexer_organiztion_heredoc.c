@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_organiztioncopy.c                            :+:      :+:    :+:   */
+/*   lexer_organiztion_heredoc.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 15:49:49 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/08 03:11:23 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/08 14:35:34 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static int	pipe_dupaa(t_lexer *token)
 int	pipe_red_dupaa(t_lexer *head, t_redirections ** here)
 {
 	t_lexer	*tk;
+	int flag;
 
 	tk = head;
 	*here = NULL;
@@ -39,20 +40,17 @@ int	pipe_red_dupaa(t_lexer *head, t_redirections ** here)
 	{
 		if (!tk->qouted && check_red_pipe(tk->input[0]) == 1)
 		{
-			if (check_output_redaa(*tk, 0) > 2 || check_input_redaa(*tk, 0) > 3)
+			if (check_output_redaa(*tk) > 2 || check_input_redaa(*tk) > 3)
 				return (-1);
-			else if (tk->next)
-			{
-				if (check_next_tokenaa(*tk, tk->next, here) == 0)
-					return (free_redirections(*here), -1);
-				if (check_next_tokenaa(*tk, tk->next, here) == 2)
-					return (-1);
-			}
-		
+			flag = check_next_tokenaa(*tk, tk->next, here);
+			if (flag == 2 && (*here))
+				return (0);
+			else if (flag == 0)
+				return (-1);
 		}
 		if (pipe_dupaa(tk))
 			return (-1);
 		tk = tk->next;
 	}
-	return (0);
+	return (1);
 }

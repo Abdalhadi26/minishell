@@ -78,7 +78,7 @@ int	read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd, int saved_
 				return (1);
 			}
 		}
-		if (!ft_strncmp(line, redir->file_name, ft_strlen(redir->file_name)))
+		if (!ft_strncmp(line, redir->file_name, ft_strlen(redir->file_name) + 1))
 		{
 			free(line);
 			return (0);

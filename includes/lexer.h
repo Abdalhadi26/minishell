@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 22:13:14 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/08 02:43:11 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/08 14:17:28 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ t_lexer				*merge_red(t_lexer *head);
 int					check_red_pipe(char c);
 t_lexer				*add_tokens(char *input, int i, int j);
 int					check_output_red(t_lexer token, int is_next);
-int					check_output_redaa(t_lexer token, int is_next);
+int					check_output_redaa(t_lexer token);
 int					check_input_red(t_lexer token, int is_next);
-int					check_input_redaa(t_lexer token, int is_next);
+int					check_input_redaa(t_lexer token);
 t_lexer				*expand_lexer_tokens(t_lexer *lexer, t_shell shell);
 void				skip_spaces(char *input, int *i);
 #endif

@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 14:49:45 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/06 18:13:40 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/08 14:38:18 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,25 @@ int	pipe_not_qouted(t_lexer *tok)
 	if (tok->qouted == 0 && tok->input[0] == '|')
 		return (0);
 	return (1);
+}
+
+int link_red(t_redirections **here, t_redirections *here_now)
+{
+	t_redirections *temp;
+	
+	if (!here_now)
+		return (0);
+	if (!here || !*here)
+	{
+		*here = here_now;
+		return (1);
+	}
+	temp = *here;
+	while(temp->next)
+	{
+		temp = temp->next;
+	}
+	temp->next = here_now;
+	return (1);
+	
 }
