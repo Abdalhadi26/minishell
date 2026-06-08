@@ -97,6 +97,9 @@ int	main(int argc, char *argv[], char **envp)
 			free(shell);
 			ft_putstr_fd("exit\n", 2);
 			rl_clear_history();
+				close(0);
+				close(1);
+				close(2);
 			exit(result);
 		}
 		if (g_signal == SIGINT)
