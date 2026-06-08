@@ -57,19 +57,12 @@ static void	execute_child_single(t_command *cmds, t_single_command command, t_sh
 			close(0);
 			close(1);
 			close(2);
-		//free_cmds(cmds);
-		//free_2d(shell->env);
-		//free(shell);
 		exit(127);
 	}
 	apply_redirections(command);
 	execve(path, command.args, shell->env);
 	perror("minishell");
-	//herer
 	free_cmds_shell(cmds, shell);
-	//free_cmds(cmds);
-	//free_2d(shell->env);
-	//free(shell);
 		close(0);
 		close(1);
 		close(2);
@@ -84,6 +77,8 @@ static void	handle_wait_status(int status, t_shell *shell)
 	{
 		if (wait_exit_state(status) == SIGQUIT)
 			ft_putstr_fd("Quit (core dumped)\n", 2);
+		else if (wait_exit_state(status) == SIGINT)
+			ft_putstr_fd("\n", 2);
 		shell->exit_status = 128 + wait_exit_state(status);
 	}
 }

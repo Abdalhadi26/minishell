@@ -79,7 +79,8 @@ static int	handle_exit_args(t_command *cmds, t_single_command cmd,
 {
 	int	return_exit;
 
-	ft_putstr_fd("exit\n", 2);
+	if (cmds->num_single_commands == 1)
+		ft_putstr_fd("exit\n", 2);
 	if (cmd.num_args == 1)
 	{
 		return_exit = shell->exit_status;

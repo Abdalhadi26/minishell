@@ -29,7 +29,7 @@ static int	has_vars(char *line)
 	return (0);
 }
 
-static int	expand_heredoc(char *line, int *pipe_fd, int qouted, t_shell shell)
+static int	expand_heredoc(char *line, int *pipe_fd, int qouted, t_shell *shell)
 {
 	char	*new_line;
 
@@ -37,7 +37,7 @@ static int	expand_heredoc(char *line, int *pipe_fd, int qouted, t_shell shell)
 		return (0);
 	if (has_vars(line) && (qouted != 1 && qouted != 2))
 	{
-		new_line = expand_string(line, shell, -1);
+		new_line = expand_string(line, *shell, -1);
 		free(line);
 		if (!new_line)
 			return (0);
@@ -49,7 +49,7 @@ static int	expand_heredoc(char *line, int *pipe_fd, int qouted, t_shell shell)
 	return (1);
 }
 
-static int	read_heredoc(t_shell shell, t_redirections *redir, int *pipe_fd)
+static int	read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd)
 {
 	char	*line;
 
@@ -66,6 +66,13 @@ static int	read_heredoc(t_shell shell, t_redirections *redir, int *pipe_fd)
 			redir->heredoc_fd = pipe_fd[0];
 			return (1);
 		}
+		if (g_signal == SIGINT)
+		{
+			free(line);
+			close(pipe_fd[0]);
+			close(pipe_fd[1]);
+			return (2);
+		}
 		if (!ft_strncmp(line, redir->file_name, ft_strlen(redir->file_name)))
 		{
 			free(line);
@@ -78,12 +85,14 @@ static int	read_heredoc(t_shell shell, t_redirections *redir, int *pipe_fd)
 	return (0);
 }
 
-void	collect_heredocs(t_command *command, t_shell shell) //int fun
+int	collect_heredocs(t_command *command, t_shell *shell) //int fun
 {
 	t_redirections	*redirections_list;
 	int				pipe_fd[2];
 	int				i;
+	int				r;
 
+	set_heredoc_signals();
 	i = 0;
 	while (i < command->num_single_commands)
 	{
@@ -93,9 +102,12 @@ void	collect_heredocs(t_command *command, t_shell shell) //int fun
 			if (redirections_list->type == redir_heredoc)
 			{
 				if (pipe(pipe_fd) == -1)
-					return ;
-				if (read_heredoc(shell, redirections_list, pipe_fd))
-					return ;
+					return (1);
+				r = read_heredoc(shell, redirections_list, pipe_fd);
+				if (r == 1)
+					return (1);
+				if (r == 2)
+					return (2);
 				close(pipe_fd[1]);
 				redirections_list->heredoc_fd = pipe_fd[0];
 			}
@@ -103,4 +115,5 @@ void	collect_heredocs(t_command *command, t_shell shell) //int fun
 		}
 		i++;
 	}
+	return (0);
 }
