@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:47 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/08 14:28:05 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/08 18:37:51 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,6 @@ void		handle_sigint_heredoc(int sig);
 int			wait_exit_code(int status);
 int			wait_exit_state(int status);
 void		free_cmds_shell(t_command *cmds, t_shell *shell);
-t_command	*main_parsing(char *input, t_shell shell);
+t_command	*main_parsing(char *input, t_shell *shell);
 
 #endif

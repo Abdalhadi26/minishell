@@ -6,13 +6,13 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 18:07:01 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/08 16:16:53 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/08 18:50:56 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/lexer.h"
-#include "../includes/parsing.h"
 #include "../includes/minishell.h"
+#include "../includes/parsing.h"
 
 int	number_of_cmds(t_lexer *token)
 {
@@ -34,9 +34,9 @@ int	number_of_cmds(t_lexer *token)
 
 int	aaheredocs(t_redirections *red, t_shell *shell)
 {
-	int				pipe_fd[2];
-	int				saved_stdin;
-	int				res;
+	int	pipe_fd[2];
+	int	saved_stdin;
+	int	res;
 
 	saved_stdin = dup(STDIN_FILENO);
 	set_heredoc_signals();
@@ -61,24 +61,42 @@ int	aaheredocs(t_redirections *red, t_shell *shell)
 	return (0);
 }
 
-t_command	*main_parsing(char *input, t_shell shell)
+static t_lexer	*main_lexer(char *input, t_shell *shell)
 {
-	t_lexer		*tokens;
-	t_command	*cmds;
-	t_redirections *red;
+	t_lexer			*tokens;
+	t_redirections	*red;
 
+	if (!input || !shell)
+		return (NULL);
 	tokens = add_tokens(input, 0, 0);
 	if (!tokens)
 		return (NULL);
-	tokens = expand_lexer_tokens(tokens, shell);
-	if (pipe_red_dupaa(tokens, &red)  == 0)
+	tokens = expand_lexer_tokens(tokens, *shell);
+	if (pipe_red_dupaa(tokens, &red) == 0)
 	{
-		aaheredocs(red, &shell);
+		if (aaheredocs(red, shell) == 2)
+		{
+			free_redirections(red);
+			return (NULL);
+		}
 	}
-	free_redirections (red);
-
+	free_redirections(red);
 	if (pipe_red_dup(tokens))
+	{
+		shell->exit_status = 2;
 		return (free_all(tokens), NULL);
+	}
+	return (tokens);
+}
+
+t_command	*main_parsing(char *input, t_shell *shell)
+{
+	t_command	*cmds;
+	t_lexer		*tokens;
+
+	if (!input || !shell)
+		return (NULL);
+	tokens = main_lexer(input, shell);
 	if (!tokens)
 		return (NULL);
 	cmds = NULL;
