@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 14:44:10 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/06 18:12:38 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/08 03:00:31 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ int					convert_args_files(t_single_command *cmd, t_args *args,
 						t_files *files);
 int					add_arg_file(t_lexer *tok, t_args **args, t_files **files);
 t_args				*init_arg(char *arg);
+void	free_redirections(t_redirections *redirs);
 
 #endif
