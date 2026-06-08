@@ -20,7 +20,7 @@ static void	use_dup2(t_redirections_types type, int fd)
 		dup2(fd, STDOUT_FILENO);
 }
 
-static	int	open_file(t_single_command command)
+static int	open_file(t_single_command command)
 {
 	int	fd;
 

@@ -86,9 +86,9 @@ static int	handle_exit_args(t_command *cmds, t_single_command cmd,
 		return_exit = shell->exit_status;
 		rl_clear_history();
 		free_cmds_shell(cmds, shell);
-			close(0);
-			close(1);
-			close(2);
+		close(0);
+		close(1);
+		close(2);
 		exit(return_exit);
 	}
 	else if (cmd.num_args > 2)
@@ -115,9 +115,9 @@ int	builtin_exit(t_command *cmds, t_single_command cmd, t_shell *shell)
 			ft_putstr_fd(": numeric argument required\n", 2);
 			free_cmds_shell(cmds, shell);
 			rl_clear_history();
-				close(0);
-				close(1);
-				close(2);
+			close(0);
+			close(1);
+			close(2);
 			exit(2);
 		}
 		result = ft_atol(cmd.args[1], &dummy) % 256;
@@ -125,9 +125,9 @@ int	builtin_exit(t_command *cmds, t_single_command cmd, t_shell *shell)
 		if (result < 0)
 			result += 256;
 		rl_clear_history();
-			close(0);
-			close(1);
-			close(2);
+		close(0);
+		close(1);
+		close(2);
 		exit(result);
 	}
 	return (0);

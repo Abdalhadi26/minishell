@@ -39,7 +39,7 @@ static void	execute_child_pipeline(t_command *command, t_shell *shell,
 		int **pipes, int i)
 {
 	char	*path;
-	int temp;
+	int		temp;
 
 	temp = 0;
 	set_execution_signals_child();
@@ -53,9 +53,9 @@ static void	execute_child_pipeline(t_command *command, t_shell *shell,
 	if (is_builtin(command->commands[i]->args[0]))
 	{
 		temp = execute_builtin(command, *(command->commands[i]), shell);
-			close(0);
-			close(1);
-			close(2);
+		close(0);
+		close(1);
+		close(2);
 		free_pipes(pipes, command->num_single_commands - 1);
 		free_cmds_shell(command, shell);
 		exit(temp);
@@ -68,25 +68,18 @@ static void	execute_child_pipeline(t_command *command, t_shell *shell,
 		ft_putstr_fd(": command not found\n", 2);
 		free_pipes(pipes, command->num_single_commands - 1);
 		free_cmds_shell(command, shell);
-			close(0);
-			close(1);
-			close(2);
-		//free_cmds(command);
-		//free_2d(shell->env);
-		//free(shell);
+		close(0);
+		close(1);
+		close(2);
 		exit(127);
 	}
 	execve(path, command->commands[i]->args, shell->env);
 	perror("minishell");
-	//herer
 	free_pipes(pipes, command->num_single_commands - 1);
 	free_cmds_shell(command, shell);
-		close(0);
-		close(1);
-		close(2);
-	//free_cmds(command);
-	//free_2d(shell->env);
-	//free(shell);
+	close(0);
+	close(1);
+	close(2);
 	exit(126);
 }
 

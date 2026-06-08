@@ -33,43 +33,6 @@ void	execute(t_command *command, t_shell *shell)
 		execute_pipeline(command, shell);
 }
 
-void	printaa(t_command *command)
-{
-	t_redirections		*temp;
-	t_single_command	*temp1;
-	t_command			*cmds;
-	int					i;
-	int					j;
-
-	j = 0;
-	i = 0;
-	if (!command)
-		return ;
-	cmds = command;
-	while (i < cmds->num_single_commands)
-	{
-		j = 0;
-		temp1 = cmds->commands[i];
-		i++;
-		while (temp1->args && temp1->args[j])
-		{
-			printf("arg[%d] = %s  2\n", j, temp1->args[j]);
-			j++;
-		}
-		printf("\n");
-		temp = temp1->redirections;
-		while (temp)
-		{
-			printf("type = %d\n", temp->type);
-			printf("file = %s  2\n", temp->file_name);
-			printf("status = %d\n", temp->heredoc_expansion_status);
-			printf("fd = %d\n", temp->heredoc_fd);
-			temp = temp->next;
-		}
-		printf("\n");
-	}
-}
-
 int	main(int argc, char *argv[], char **envp)
 {
 	t_shell		*shell;
@@ -131,7 +94,6 @@ int	main(int argc, char *argv[], char **envp)
 		}
 		execute(command, shell);
 		set_interactive_signals();
-		//printaa(command);
 		free_cmds(command);
 		free(line);
 	}

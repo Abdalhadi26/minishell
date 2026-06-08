@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-static	char	*helper(char *cmd)
+static char	*helper(char *cmd)
 {
 	if (access(cmd, F_OK) == 0)
 		return (cmd);
@@ -20,7 +20,7 @@ static	char	*helper(char *cmd)
 		return (NULL);
 }
 
-static	char	*free_n_return(char **paths, char *to_test_path)
+static char	*free_n_return(char **paths, char *to_test_path)
 {
 	free_2d(paths);
 	return (to_test_path);

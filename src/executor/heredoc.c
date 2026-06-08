@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
 #include "../../includes/expander.h"
+#include "../../includes/minishell.h"
 
 static int	has_vars(char *line)
 {
@@ -49,7 +49,8 @@ static int	expand_heredoc(char *line, int *pipe_fd, int qouted, t_shell *shell)
 	return (1);
 }
 
-int	read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd, int saved_stdin)
+int	read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd,
+		int saved_stdin)
 {
 	char	*line;
 
@@ -78,7 +79,8 @@ int	read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd, int saved_
 				return (1);
 			}
 		}
-		if (!ft_strncmp(line, redir->file_name, ft_strlen(redir->file_name) + 1))
+		if (!ft_strncmp(line, redir->file_name, ft_strlen(redir->file_name)
+				+ 1))
 		{
 			free(line);
 			return (0);
@@ -118,7 +120,8 @@ int	collect_heredocs(t_command *command, t_shell *shell)
 					close(saved_stdin);
 					return (0);
 				}
-				res = read_heredoc(shell, redirections_list, pipe_fd, saved_stdin);
+				res = read_heredoc(shell, redirections_list, pipe_fd,
+						saved_stdin);
 				if (res != 0)
 					return (res);
 				close(pipe_fd[1]);

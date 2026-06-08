@@ -43,7 +43,8 @@ static void	execute_builtin_single(t_command *cmds, t_single_command command,
 	return ;
 }
 
-static void	execute_child_single(t_command *cmds, t_single_command command, t_shell *shell)
+static void	execute_child_single(t_command *cmds, t_single_command command,
+		t_shell *shell)
 {
 	char	*path;
 
@@ -54,18 +55,18 @@ static void	execute_child_single(t_command *cmds, t_single_command command, t_sh
 		write(2, command.args[0], ft_strlen(command.args[0]));
 		write(2, ": command not found\n", 20);
 		free_cmds_shell(cmds, shell);
-			close(0);
-			close(1);
-			close(2);
+		close(0);
+		close(1);
+		close(2);
 		exit(127);
 	}
 	apply_redirections(command);
 	execve(path, command.args, shell->env);
 	perror("minishell");
 	free_cmds_shell(cmds, shell);
-		close(0);
-		close(1);
-		close(2);
+	close(0);
+	close(1);
+	close(2);
 	exit(126);
 }
 
@@ -83,11 +84,11 @@ static void	handle_wait_status(int status, t_shell *shell)
 	}
 }
 
-static	int	handle_no_args_n_bulitins(t_command *cmds, t_single_command command,
+static int	handle_no_args_n_bulitins(t_command *cmds, t_single_command command,
 		t_shell *shell)
 {
-	int		stdin_fd;
-	int		stdout_fd;
+	int	stdin_fd;
+	int	stdout_fd;
 
 	if (!command.args)
 	{
