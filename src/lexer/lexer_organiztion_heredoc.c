@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 15:49:49 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/08 14:35:34 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/08 16:11:04 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	pipe_red_dupaa(t_lexer *head, t_redirections ** here)
 	{
 		if (!tk->qouted && check_red_pipe(tk->input[0]) == 1)
 		{
-			if (check_output_redaa(*tk) > 2 || check_input_redaa(*tk) > 3)
+			if (check_output_redaa(*tk) > 2 || check_input_redaa(*tk) >= 3)
 				return (-1);
 			flag = check_next_tokenaa(*tk, tk->next, here);
 			if (flag == 2 && (*here))

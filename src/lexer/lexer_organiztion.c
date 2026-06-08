@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 15:49:49 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/06 18:14:36 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/08 16:11:11 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	pipe_red_dup(t_lexer *head)
 	{
 		if (!tk->qouted && check_red_pipe(tk->input[0]) == 1)
 		{
-			if (check_output_red(*tk, 0) > 2 || check_input_red(*tk, 0) > 3)
+			if (check_output_red(*tk, 0) > 2 || check_input_red(*tk, 0) >= 3)
 				return (1);
 			else if (!tk->next || check_red_pipe(tk->next->input[0]))
 				if (check_next_token(*tk, tk->next) == 1)

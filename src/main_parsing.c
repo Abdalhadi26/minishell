@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 18:07:01 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/08 14:40:53 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/08 16:16:53 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,25 +31,34 @@ int	number_of_cmds(t_lexer *token)
 	}
 	return (num_cmds);
 }
-void	aheredocs(t_redirections	*red, t_shell shell) //int fun
+
+int	aaheredocs(t_redirections *red, t_shell *shell)
 {
 	int				pipe_fd[2];
+	int				saved_stdin;
+	int				res;
 
+	saved_stdin = dup(STDIN_FILENO);
+	set_heredoc_signals();
 	while (red)
 	{
-		
 		if (red->type == redir_heredoc)
 		{
 			if (pipe(pipe_fd) == -1)
-				return ;
-			if (read_heredoc(&shell, red, pipe_fd, -1))
-				return ;
+			{
+				close(saved_stdin);
+				return (0);
+			}
+			res = read_heredoc(shell, red, pipe_fd, saved_stdin);
+			if (res != 0)
+				return (res);
 			close(pipe_fd[1]);
 			red->heredoc_fd = pipe_fd[0];
 		}
 		red = red->next;
-	
 	}
+	close(saved_stdin);
+	return (0);
 }
 
 t_command	*main_parsing(char *input, t_shell shell)
@@ -63,7 +72,9 @@ t_command	*main_parsing(char *input, t_shell shell)
 		return (NULL);
 	tokens = expand_lexer_tokens(tokens, shell);
 	if (pipe_red_dupaa(tokens, &red)  == 0)
-		aheredocs(red, shell);
+	{
+		aaheredocs(red, &shell);
+	}
 	free_redirections (red);
 
 	if (pipe_red_dup(tokens))
