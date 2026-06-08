@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_parsing.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 18:07:01 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/08 03:11:37 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/08 11:09:56 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	aheredocs(t_redirections	*red, t_shell shell) //int fun
 		{
 			if (pipe(pipe_fd) == -1)
 				return ;
-			if (read_heredoc(shell, red, pipe_fd))
+			if (read_heredoc(&shell, red, pipe_fd))
 				return ;
 			close(pipe_fd[1]);
 			red->heredoc_fd = pipe_fd[0];

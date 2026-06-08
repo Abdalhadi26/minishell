@@ -49,7 +49,7 @@ static int	expand_heredoc(char *line, int *pipe_fd, int qouted, t_shell *shell)
 	return (1);
 }
 
-static int	read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd)
+int	read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd)
 {
 	char	*line;
 

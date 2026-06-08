@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:38 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/07 16:41:25 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/08 11:25:44 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static void	execute_child_pipeline(t_command *command, t_shell *shell,
 			close(0);
 			close(1);
 			close(2);
+		free_pipes(pipes, command->num_single_commands - 1);
+		free_cmds_shell(command, shell);
 		exit(temp);
 	}
 	path = find_path(command->commands[i]->args[0], shell);
