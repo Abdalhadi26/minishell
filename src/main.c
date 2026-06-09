@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:31:21 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/06 19:30:51 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/09 13:52:01 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,6 @@
 #include "../includes/parsing.h"
 
 int		g_signal;
-
-t_shell	*init_shell(void)
-{
-	t_shell	*shell;
-
-	shell = malloc(sizeof(t_shell));
-	shell->exit_status = 0;
-	shell->env = NULL;
-	return (shell);
-}
 
 void	execute(t_command *command, t_shell *shell)
 {
@@ -71,12 +61,19 @@ static void	process_line(char *line, t_shell *shell)
 	free_cmds(command);
 }
 
+static int	handle_main_argc(void)
+{
+	ft_putstr_fd("Usage: ./minishell\n", 2);
+	return (1);
+}
+
 int	main(int argc, char *argv[], char **envp)
 {
 	t_shell	*shell;
 	char	*line;
 
-	(void)argc;
+	if (argc > 1)
+		return (handle_main_argc());
 	(void)argv;
 	shell = init_shell();
 	if (!shell)

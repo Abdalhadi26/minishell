@@ -51,6 +51,7 @@ SRC = \
  	src/builtins/unset.c \
  	src/signals/signals.c \
  	src/signals/signal_wait.c \
+	src/shell_init.c
 	
 
 OBJ = $(SRC:.c=.o)

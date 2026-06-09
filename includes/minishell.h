@@ -121,5 +121,6 @@ int			expand_heredoc(char *line, int *pipe_fd, int qouted,
 				t_shell *shell);
 int			handle_heredoc_eof(t_redirections *redir, int *pipe_fd,
 				int saved_stdin);
+t_shell		*init_shell(void);
 
 #endif
