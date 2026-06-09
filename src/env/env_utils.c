@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/07 15:58:45 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/05 20:45:50 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/09 22:38:45 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,11 @@ int	env_set(char ***env, char *key, char *value)
 	{
 		free((*env)[variable_index]);
 		(*env)[variable_index] = ft_strjoin_3str(key, eq, value);
-		return (1);
-	}
-	if (!extend_and_append(env, key, eq, value))
 		return (0);
-	return (1);
+	}
+	if (extend_and_append(env, key, eq, value))
+		return (1);
+	return (0);
 }
 
 int	env_unset(char ***env, char *key)
@@ -95,7 +95,7 @@ int	env_unset(char ***env, char *key)
 
 	i = exists(*env, key);
 	if (i == -1)
-		return (0);
+		return (1);
 	c = (*env)[i];
 	while ((*env)[i])
 	{
@@ -104,5 +104,5 @@ int	env_unset(char ***env, char *key)
 		i++;
 	}
 	free(c);
-	return (1);
+	return (0);
 }

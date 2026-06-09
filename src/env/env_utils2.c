@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/27 17:11:12 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/05 20:46:03 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/09 22:36:13 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	extend_and_append(char ***env, char *key, char *eq, char *value)
 
 	new_env = malloc((array_2d_len(*env) + 2) * sizeof(char *));
 	if (!new_env)
-		return (0);
+		return (1);
 	i = 0;
 	while ((*env)[i])
 	{
@@ -44,7 +44,7 @@ int	extend_and_append(char ***env, char *key, char *eq, char *value)
 		if (!new_env[i])
 		{
 			free_2d(new_env);
-			return (0);
+			return (1);
 		}
 		i++;
 	}
@@ -52,5 +52,5 @@ int	extend_and_append(char ***env, char *key, char *eq, char *value)
 	new_env[i] = NULL;
 	free_2d(*env);
 	*env = new_env;
-	return (1);
+	return (0);
 }

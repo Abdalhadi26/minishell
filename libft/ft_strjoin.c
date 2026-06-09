@@ -33,7 +33,7 @@ char	*ft_strjoin(char *s1, char *s2)
 	return (str);
 }
 
-char	*ft_strjoin_ayasrah(char *s1, char *s2)
+char	*ft_strjoin_no_free(char *s1, char *s2)
 {
 	char	*str;
 	size_t	len;

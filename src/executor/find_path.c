@@ -6,13 +6,13 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/06 17:15:13 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/06 18:04:45 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/09 19:48:33 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static char	*helper(char *cmd)
+static char	*check_absolute_path_command(char *cmd)
 {
 	if (access(cmd, F_OK) == 0)
 		return (cmd);
@@ -34,15 +34,15 @@ char	*find_path(char *cmd, t_shell *shell)
 	int		i;
 
 	if (strchr(cmd, '/'))
-		return (helper(cmd));
+		return (check_absolute_path_command(cmd));
 	paths = ft_split(env_get(shell->env, "PATH"), ':');
 	if (!paths)
 		return (NULL);
 	i = 0;
 	while (paths[i])
 	{
-		temp = ft_strjoin_ayasrah("/", cmd);
-		to_test_path = ft_strjoin_ayasrah(paths[i], temp);
+		temp = ft_strjoin_no_free("/", cmd);
+		to_test_path = ft_strjoin_no_free(paths[i], temp);
 		free(temp);
 		if (access(to_test_path, F_OK) == 0)
 			return (free_n_return(paths, to_test_path));

@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:31:21 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/09 14:33:52 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/09 22:35:46 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	main(int argc, char *argv[], char **envp)
 	shell = init_shell();
 	if (!shell)
 		return (0);
-	if (!env_init(shell, envp))
+	if (env_init(shell, envp))
 		exit(1);
 	set_interactive_signals();
 	while (1)

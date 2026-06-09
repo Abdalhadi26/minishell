@@ -48,7 +48,7 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strnstr(const char *str, const char *to_find, size_t len);
 char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strjoin_ayasrah(char *s1, char *s2);
+char	*ft_strjoin_no_free(char *s1, char *s2);
 char	*ft_strtrim(const char *s1, const char *set);
 void	ft_striteri(char *s, void (*f)(unsigned int, char *));
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));

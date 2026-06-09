@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:35 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/08 02:50:56 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/09 22:37:24 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static int	process_one_heredoc(t_shell *shell, t_redirections *redir,
-		int saved_stdin)
-{
-	int	pipe_fd[2];
-	int	res;
-
-	if (pipe(pipe_fd) == -1)
-		return (0);
-	res = read_heredoc(shell, redir, pipe_fd, saved_stdin);
-	if (res != 0)
-		return (res);
-	close(pipe_fd[1]);
-	redir->heredoc_fd = pipe_fd[0];
-	return (0);
-}
 
 int	read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd,
 		int saved_stdin)
@@ -53,6 +37,22 @@ int	read_heredoc(t_shell *shell, t_redirections *redir, int *pipe_fd,
 			return (1);
 		}
 	}
+	return (0);
+}
+
+static int	process_one_heredoc(t_shell *shell, t_redirections *redir,
+		int saved_stdin)
+{
+	int	pipe_fd[2];
+	int	res;
+
+	if (pipe(pipe_fd) == -1)
+		return (0);
+	res = read_heredoc(shell, redir, pipe_fd, saved_stdin);
+	if (res != 0)
+		return (res);
+	close(pipe_fd[1]);
+	redir->heredoc_fd = pipe_fd[0];
 	return (0);
 }
 

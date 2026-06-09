@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/29 15:49:34 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/28 14:11:51 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/09 22:35:56 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	env_init(t_shell *shell, char **envp)
 
 	my_env = malloc((array_2d_len(envp) + 1) * sizeof(char *));
 	if (!my_env)
-		return (0);
+		return (1);
 	i = 0;
 	while (envp[i])
 	{
@@ -41,11 +41,11 @@ int	env_init(t_shell *shell, char **envp)
 		if (!my_env[i])
 		{
 			free_2d(my_env);
-			return (0);
+			return (1);
 		}
 		i++;
 	}
 	my_env[i] = NULL;
 	shell->env = my_env;
-	return (1);
+	return (0);
 }

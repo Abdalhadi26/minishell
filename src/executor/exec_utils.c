@@ -6,11 +6,11 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:30 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/07 13:20:04 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/09 22:39:45 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "minishell.h"
 
 void	free_2d(char **arr)
 {
