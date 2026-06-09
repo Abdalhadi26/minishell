@@ -6,13 +6,13 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:30:44 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/05/28 14:13:44 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/09 16:04:35 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	wait_exit_code(int status)
+int	get_child_exit_code(int status)
 {
 	int	exit_code;
 
@@ -20,7 +20,7 @@ int	wait_exit_code(int status)
 	return (exit_code);
 }
 
-int	wait_exit_state(int status)
+int	get_child_exit_signal(int status)
 {
 	if ((status & 0x7f) == 0)
 		return (0);

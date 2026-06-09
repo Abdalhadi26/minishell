@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:20 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/07 17:53:07 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/09 16:04:35 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,15 @@ static void	execute_child_single(t_command *cmds, t_single_command command,
 
 static void	handle_wait_status(int status, t_shell *shell)
 {
-	if (wait_exit_state(status) == 0)
-		shell->exit_status = wait_exit_code(status);
+	if (get_child_exit_signal(status) == 0)
+		shell->exit_status = get_child_exit_code(status);
 	else
 	{
-		if (wait_exit_state(status) == SIGQUIT)
+		if (get_child_exit_signal(status) == SIGQUIT)
 			ft_putstr_fd("Quit (core dumped)\n", 2);
-		else if (wait_exit_state(status) == SIGINT)
+		else if (get_child_exit_signal(status) == SIGINT)
 			ft_putstr_fd("\n", 2);
-		shell->exit_status = 128 + wait_exit_state(status);
+		shell->exit_status = 128 + get_child_exit_signal(status);
 	}
 }
 

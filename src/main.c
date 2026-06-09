@@ -6,7 +6,7 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:31:21 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/09 13:52:01 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/09 14:33:52 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 int		g_signal;
 
-void	execute(t_command *command, t_shell *shell)
+static void	execute(t_command *command, t_shell *shell)
 {
 	if (command->num_single_commands == 1)
 		execute_single(command, *command->commands[0], shell);

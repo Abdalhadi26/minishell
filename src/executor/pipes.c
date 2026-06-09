@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:38 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/08 11:25:44 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/09 16:04:35 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,13 @@ static void	wait_pipeline(t_command command, t_shell *shell, int pid,
 			break ;
 		if (waitpid_return == last_pid)
 		{
-			if (wait_exit_state(status) == 0)
-				shell->exit_status = wait_exit_code(status);
+			if (get_child_exit_signal(status) == 0)
+				shell->exit_status = get_child_exit_code(status);
 			else
 			{
-				if (wait_exit_state(status) == SIGQUIT)
+				if (get_child_exit_signal(status) == SIGQUIT)
 					ft_putstr_fd("Quit (core dumped)\n", 2);
-				shell->exit_status = 128 + wait_exit_state(status);
+				shell->exit_status = 128 + get_child_exit_signal(status);
 			}
 		}
 	}

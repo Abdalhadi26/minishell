@@ -6,13 +6,13 @@
 /*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:30:50 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/05 19:03:17 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/09 15:50:09 by aayasrah         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	handle_sigint(int sig)
+static void	handle_sigint(int sig)
 {
 	(void)sig;
 	g_signal = SIGINT;
@@ -22,7 +22,7 @@ void	handle_sigint(int sig)
 	rl_redisplay();
 }
 
-void	handle_sigint_heredoc(int sig)
+static void	handle_sigint_heredoc(int sig)
 {
 	(void)sig;
 	g_signal = SIGINT;
