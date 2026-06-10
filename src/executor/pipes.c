@@ -13,7 +13,7 @@
 #include "../../includes/minishell.h"
 #include "../../includes/parsing.h"
 
-static void	exec_child_command(t_command *command, t_shell *shell,
+static void	exec_child_command(t_command_list *command, t_shell *shell,
 		int **pipes, int i)
 {
 	char	*path;
@@ -36,7 +36,7 @@ static void	exec_child_command(t_command *command, t_shell *shell,
 	child_cleanup_exit(command, shell, pipes, 126);
 }
 
-static void	execute_child_pipeline(t_command *command, t_shell *shell,
+static void	execute_child_pipeline(t_command_list *command, t_shell *shell,
 		int **pipes, int i)
 {
 	set_execution_signals_child();
@@ -50,7 +50,7 @@ static void	execute_child_pipeline(t_command *command, t_shell *shell,
 	exec_child_command(command, shell, pipes, i);
 }
 
-static void	wait_pipeline(t_command command, t_shell *shell, int pid,
+static void	wait_pipeline(t_command_list command, t_shell *shell, int pid,
 		int **pipes)
 {
 	int	last_pid;
@@ -79,7 +79,7 @@ static void	wait_pipeline(t_command command, t_shell *shell, int pid,
 	free_pipes(pipes, command.num_single_commands - 1);
 }
 
-static void	handle_fork_fail(t_command command, t_shell *shell, int **pipes)
+static void	handle_fork_fail(t_command_list command, t_shell *shell, int **pipes)
 {
 	close_all_pipes(pipes, command.num_single_commands - 1);
 	perror("minishell");
@@ -89,7 +89,7 @@ static void	handle_fork_fail(t_command command, t_shell *shell, int **pipes)
 	free_pipes(pipes, command.num_single_commands - 1);
 }
 
-void	execute_pipeline(t_command *command, t_shell *shell)
+void	execute_pipeline(t_command_list *command, t_shell *shell)
 {
 	int	i;
 	int	pid;

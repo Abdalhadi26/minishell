@@ -56,7 +56,7 @@ static int	process_one_heredoc(t_shell *shell, t_redirections *redir,
 	return (0);
 }
 
-int	collect_heredocs(t_command *command, t_shell *shell)
+int	collect_heredocs(t_command_list *command, t_shell *shell)
 {
 	t_redirections	*redir;
 	int				saved_stdin;

@@ -15,7 +15,7 @@
 
 int		g_signal;
 
-static void	execute(t_command *command, t_shell *shell)
+static void	execute(t_command_list *command, t_shell *shell)
 {
 	if (command->num_single_commands == 1)
 		execute_single(command, *command->commands[0], shell);
@@ -40,7 +40,7 @@ static void	handle_eof(t_shell *shell)
 
 static void	process_line(char *line, t_shell *shell)
 {
-	t_command	*command;
+	t_command_list	*command;
 	int			hd;
 
 	add_history(line);
@@ -52,13 +52,13 @@ static void	process_line(char *line, t_shell *shell)
 	{
 		g_signal = 0;
 		shell->exit_status = 130;
-		free_cmds(command);
+		clean_cmds(command);
 		set_interactive_signals();
 		return ;
 	}
 	execute(command, shell);
 	set_interactive_signals();
-	free_cmds(command);
+	clean_cmds(command);
 }
 
 static int	handle_main_argc(void)

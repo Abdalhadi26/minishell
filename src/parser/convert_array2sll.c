@@ -68,7 +68,7 @@ static int	merge_args_files(t_single_command *cmd, t_args *arg, t_files *file)
 	return (1);
 }
 
-int	convert_args_files(t_single_command *cmd, t_args *args, t_files *files)
+int	add_args_files_single_cmd(t_single_command *cmd, t_args *args, t_files *files)
 {
 	t_args	*arg;
 	t_files	*file;

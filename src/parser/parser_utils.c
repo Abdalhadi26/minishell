@@ -29,12 +29,12 @@ static t_redirections_types	type_red(char *redir)
 		return (redir_heredoc);
 }
 
-static int	parse_cmd_tokens(t_lexer **tok, t_args **a, t_files **f,
+static int	parse_redirections(t_lexer **tok, t_args **args, t_files **files,
 		t_redirections **red)
 {
 	while (*tok && pipe_not_qouted(*tok))
 	{
-		if (!(*tok)->qouted && check_red_pipe((*tok)->input[0]) == 1)
+		if (!(*tok)->qouted && get_char_type((*tok)->input[0]) == 1)
 		{
 			(*red)->next = init_red(type_red((*tok)->input), (*tok)->next);
 			if (!(*red)->next)
@@ -43,16 +43,16 @@ static int	parse_cmd_tokens(t_lexer **tok, t_args **a, t_files **f,
 			(*red) = (*red)->next;
 			continue ;
 		}
-		if (*a == NULL)
+		if (*args == NULL)
 		{
-			*a = init_arg((*tok)->input);
-			if (!(*a))
+			*args = init_arg((*tok)->input);
+			if (!(*args))
 				return (0);
 			(*tok) = (*tok)->next;
 		}
 		if (!(*tok))
 			break ;
-		if (!add_arg_file(*tok, a, f))
+		if (!add_args_files(*tok, args, files))
 			return (0);
 		(*tok) = (*tok)->next;
 	}
@@ -69,14 +69,14 @@ t_single_command	*handle_redir(t_lexer *tok, t_args *args, t_files *files)
 		return (NULL);
 	new_red = init_red(type_red(tok->input), tok->next);
 	if (!new_red)
-		return (free_cmd_a_f(cmds, NULL, NULL));
+		return (clean_cmds_args_files(cmds, NULL, NULL));
 	cmds->redirections = new_red;
 	tok = tok->next->next;
-	if (!parse_cmd_tokens(&tok, &args, &files, &new_red))
-		return (free_cmd_a_f(cmds, args, files));
-	if (!convert_args_files(cmds, args, files))
-		return (free_cmd_a_f(cmds, args, files));
-	free_cmd_a_f(NULL, args, files);
+	if (!parse_redirections(&tok, &args, &files, &new_red))
+		return (clean_cmds_args_files(cmds, args, files));
+	if (!add_args_files_single_cmd(cmds, args, files))
+		return (clean_cmds_args_files(cmds, args, files));
+	clean_cmds_args_files(NULL, args, files);
 	return (cmds);
 }
 
@@ -90,9 +90,9 @@ static t_single_command	*finalize_word_cmd(t_lexer *tok, t_args *args,
 	cmds = init_single_command();
 	if (!cmds)
 		return (NULL);
-	if (!convert_args_files(cmds, args, files))
-		return (free_cmd_a_f(cmds, args, files));
-	free_cmd_a_f(NULL, args, files);
+	if (!add_args_files_single_cmd(cmds, args, files))
+		return (clean_cmds_args_files(cmds, args, files));
+	clean_cmds_args_files(NULL, args, files);
 	return (cmds);
 }
 
@@ -106,12 +106,13 @@ t_single_command	*handle_word(t_lexer *tok)
 	if (!args)
 		return (NULL);
 	tok = tok->next;
-	while (tok && (tok->qouted || check_red_pipe(tok->input[0]) != 1))
+	while (tok && (tok->qouted || get_char_type(tok->input[0]) != 1))
 	{
 		if (!pipe_not_qouted(tok))
 			break ;
-		if (!add_arg_file(tok, &args, &files))
-			return ((t_single_command *)free_cmd_a_f(NULL, args, files));
+		if (!add_args_files(tok, &args, &files))
+			return ((t_single_command *)
+				clean_cmds_args_files(NULL, args, files));
 		tok = tok->next;
 	}
 	return (finalize_word_cmd(tok, args, files));

@@ -13,7 +13,7 @@
 #include "../../includes/lexer.h"
 #include "../../includes/parsing.h"
 
-static int	pipe_dupaa(t_lexer *token)
+static int	is_double_pipe(t_lexer *token)
 {
 	if (!token)
 		return (1);
@@ -27,28 +27,28 @@ static int	pipe_dupaa(t_lexer *token)
 	return (0);
 }
 
-int	pipe_red_dupaa(t_lexer *head, t_redirections **here)
+int	heredoc_syntax(t_lexer *head, t_redirections **here)
 {
 	t_lexer	*tk;
 	int		flag;
 
 	tk = head;
 	*here = NULL;
-	if (!tk->qouted && check_red_pipe(tk->input[0]) == 2)
+	if (!tk->qouted && get_char_type(tk->input[0]) == 2)
 		return (-1);
 	while (tk)
 	{
-		if (!tk->qouted && check_red_pipe(tk->input[0]) == 1)
+		if (!tk->qouted && get_char_type(tk->input[0]) == 1)
 		{
-			if (check_output_redaa(*tk) > 2 || check_input_redaa(*tk) >= 3)
+			if (is_output_redir(*tk) > 2 || is_input_redir(*tk) >= 3)
 				return (-1);
-			flag = check_next_tokenaa(*tk, tk->next, here);
+			flag = check_sec_token(*tk, tk->next, here);
 			if (flag == 2 && (*here))
 				return (0);
 			else if (flag == 0)
 				return (-1);
 		}
-		if (pipe_dupaa(tk))
+		if (is_double_pipe(tk))
 			return (-1);
 		tk = tk->next;
 	}

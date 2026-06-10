@@ -13,7 +13,7 @@
 #include "../../includes/minishell.h"
 #include "../../includes/parsing.h"
 
-static void	execute_builtin_single(t_command *cmds, t_single_command command,
+static void	execute_builtin_single(t_command_list *cmds, t_single_command command,
 		t_shell *shell)
 {
 	int	stdin_fd;
@@ -43,7 +43,7 @@ static void	execute_builtin_single(t_command *cmds, t_single_command command,
 	return ;
 }
 
-static void	execute_child_single(t_command *cmds, t_single_command command,
+static void	execute_child_single(t_command_list *cmds, t_single_command command,
 		t_shell *shell)
 {
 	char	*path;
@@ -84,7 +84,7 @@ static void	handle_wait_status(int status, t_shell *shell)
 	}
 }
 
-static int	handle_no_args_n_bulitins(t_command *cmds, t_single_command command,
+static int	handle_no_args_n_bulitins(t_command_list *cmds, t_single_command command,
 		t_shell *shell)
 {
 	int	stdin_fd;
@@ -114,7 +114,7 @@ static int	handle_no_args_n_bulitins(t_command *cmds, t_single_command command,
 	return (1);
 }
 
-void	execute_single(t_command *cmds, t_single_command command,
+void	execute_single(t_command_list *cmds, t_single_command command,
 		t_shell *shell)
 {
 	pid_t	pid;

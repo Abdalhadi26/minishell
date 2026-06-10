@@ -32,7 +32,7 @@ int	number_of_cmds(t_lexer *token)
 	return (num_cmds);
 }
 
-int	aaheredocs(t_redirections *red, t_shell *shell)
+int	handle_heredocs(t_redirections *red, t_shell *shell)
 {
 	int	pipe_fd[2];
 	int	saved_stdin;
@@ -71,27 +71,27 @@ static t_lexer	*main_lexer(char *input, t_shell *shell)
 	tokens = add_tokens(input, 0, 0);
 	if (!tokens)
 		return (NULL);
-	tokens = expand_lexer_tokens(tokens, *shell);
-	if (pipe_red_dupaa(tokens, &red) == 0)
+	tokens = expand_tokens(tokens, *shell);
+	if (heredoc_syntax(tokens, &red) == 0)
 	{
-		if (aaheredocs(red, shell) == 2)
+		if (handle_heredocs(red, shell) == 2)
 		{
-			free_redirections(red);
+			clean_redirections(red);
 			return (NULL);
 		}
 	}
-	free_redirections(red);
-	if (pipe_red_dup(tokens))
+	clean_redirections(red);
+	if (!check_pipe_redir_syntax(tokens))
 	{
 		shell->exit_status = 2;
-		return (free_all(tokens), NULL);
+		return (clean_lexer(tokens), NULL);
 	}
 	return (tokens);
 }
 
-t_command	*main_parsing(char *input, t_shell *shell)
+t_command_list	*main_parsing(char *input, t_shell *shell)
 {
-	t_command	*cmds;
+	t_command_list	*cmds;
 	t_lexer		*tokens;
 
 	if (!input || !shell)
@@ -103,7 +103,7 @@ t_command	*main_parsing(char *input, t_shell *shell)
 	cmds = parsing(tokens, number_of_cmds(tokens));
 	if (cmds)
 		cmds->commands[number_of_cmds(tokens)] = 0;
-	free_all(tokens);
+	clean_lexer(tokens);
 	tokens = NULL;
 	return (cmds);
 }

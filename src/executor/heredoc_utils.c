@@ -37,7 +37,7 @@ int	expand_heredoc(char *line, int *pipe_fd, int qouted, t_shell *shell)
 		return (0);
 	if (has_vars(line) && (qouted != 1 && qouted != 2))
 	{
-		new_line = expand_string(line, *shell, -1);
+		new_line = expand_variables(line, *shell, -1);
 		free(line);
 		if (!new_line)
 			return (0);

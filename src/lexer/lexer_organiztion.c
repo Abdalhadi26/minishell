@@ -19,7 +19,7 @@ void	print_error(char *str)
 	ft_putendl_fd("\'", 1);
 }
 
-static int	pipe_dup(t_lexer *token)
+static int	is_double_pipe(t_lexer *token)
 {
 	if (!token)
 		return (1);
@@ -39,29 +39,30 @@ static int	pipe_dup(t_lexer *token)
 	return (0);
 }
 
-int	pipe_red_dup(t_lexer *head)
+int	check_pipe_redir_syntax(t_lexer *head)
 {
-	t_lexer	*tk;
+	t_lexer	*token;
 
-	tk = head;
-	if (!tk->qouted && check_red_pipe(tk->input[0]) == 2)
+	token = head;
+	if (!token->qouted && get_char_type(token->input[0]) == 2)
 	{
 		print_error("|");
-		return (1);
+		return (0);
 	}
-	while (tk)
+	while (token)
 	{
-		if (!tk->qouted && check_red_pipe(tk->input[0]) == 1)
+		if (!token->qouted && get_char_type(token->input[0]) == 1)
 		{
-			if (check_output_red(*tk, 0) > 2 || check_input_red(*tk, 0) >= 3)
-				return (1);
-			else if (!tk->next || check_red_pipe(tk->next->input[0]))
-				if (check_next_token(*tk, tk->next) == 1)
-					return (1);
+			if (check_output_red(*token, 0) > 2
+				|| check_input_red(*token, 0) >= 3)
+				return (0);
+			else if (!token->next || get_char_type(token->next->input[0]))
+				if (!check_next_token(*token, token->next))
+					return (0);
 		}
-		if (pipe_dup(tk))
-			return (1);
-		tk = tk->next;
+		if (is_double_pipe(token))
+			return (0);
+		token = token->next;
 	}
-	return (0);
+	return (1);
 }

@@ -32,54 +32,55 @@ static int	skip_var(char *src, t_shell shell, int *i, int *j)
 		else
 			var[1] = ft_itoa(shell.exit_status);
 		if (!var[1])
-			return (free_var(var, 0));
+			return (clean_var(var, 0));
 		(*j) += ft_strlen(var[1]) - 1;
 		(*i)--;
-		free_var(var, 2);
+		clean_var(var, 2);
 	}
 	return (1);
 }
 
-static int	check_var(t_data *data, int *i, int *j)
+static int	check_var(t_expander_data *data, int *i_line, int *i_expanded)
 {
 	char	c;
 
-	if (!data || !data->expanded || !data->input)
+	if (!data || !data->expanded || !data->line)
 		return (0);
-	c = data->input[*i];
-	(*i)++;
-	while (data->input[*i] && data->input[*i] != c && data->expanded[*j])
+	c = data->line[*i_line];
+	(*i_line)++;
+	while (data->line[*i_line] && data->line[*i_line] != c
+			&& data->expanded[*i_expanded])
 	{
-		if (data->input[*i] == '$')
+		if (data->line[*i_line] == '$')
 		{
-			if (skip_var(data->input, data->shell, i, j) == 0)
+			if (skip_var(data->line, data->shell, i_line, i_expanded) == 0)
 				return (0);
 		}
-		(*i)++;
-		(*j)++;
+		(*i_line)++;
+		(*i_expanded)++;
 	}
-	if (data->input[*i] == c)
-		(*i)++;
+	if (data->line[*i_line] == c)
+		(*i_line)++;
 	return (1);
 }
 
-int	index_of_var(t_data *data, int *i, int *j)
+int	index_of_var(t_expander_data *data, int *i_line, int *i_expanded)
 {
-	if (!data || !data->expanded || !data->input)
+	if (!data || !data->expanded || !data->line)
 		return (0);
-	while (data->input[*i] && data->expanded[*j])
+	while (data->line[*i_line] && data->expanded[*i_expanded])
 	{
-		if (data->input[*i] == '\'' || data->input[*i] == '\"')
+		if (data->line[*i_line] == '\'' || data->line[*i_line] == '\"')
 		{
-			if (!check_var(data, i, j))
+			if (!check_var(data, i_line, i_expanded))
 				return (0);
 		}
-		else if (data->input[*i] && data->input[*i] == '$')
+		else if (data->line[*i_line] && data->line[*i_line] == '$')
 			return (1);
 		else
 		{
-			(*i)++;
-			(*j)++;
+			(*i_line)++;
+			(*i_expanded)++;
 		}
 	}
 	return (-1);

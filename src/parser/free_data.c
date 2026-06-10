@@ -33,7 +33,7 @@ static void	free_args_files(t_args *args, t_files *files)
 	}
 }
 
-void	free_redirections(t_redirections *redirs)
+void	clean_redirections(t_redirections *redirs)
 {
 	t_redirections	*tmp;
 
@@ -66,19 +66,22 @@ static void	free_cmd(t_single_command *cmds)
 	}
 	if (cmds->args)
 		free(cmds->args);
-	free_redirections(cmds->redirections);
+	clean_redirections(cmds->redirections);
 	free(cmds);
 }
 
-t_single_command	*free_cmd_a_f(t_single_command *cmds, t_args *args,
+t_single_command	*clean_cmds_args_files(t_single_command *cmds, t_args *args,
 		t_files *files)
 {
 	free_args_files(args, files);
+	args = NULL;
+	files = NULL;
 	free_cmd(cmds);
+	cmds = NULL;
 	return (NULL);
 }
 
-void	free_cmds(t_command *cmds)
+void	clean_cmds(t_command_list *cmds)
 {
 	int	i;
 

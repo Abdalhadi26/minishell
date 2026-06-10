@@ -67,7 +67,7 @@ static int	is_valid_number(char *arg)
 	return (1);
 }
 
-static void	exit_numeric_error(t_command *cmds, t_shell *shell, char *arg)
+static void	exit_numeric_error(t_command_list *cmds, t_shell *shell, char *arg)
 {
 	ft_putstr_fd("minishell: exit: ", 2);
 	ft_putstr_fd(arg, 2);
@@ -80,7 +80,7 @@ static void	exit_numeric_error(t_command *cmds, t_shell *shell, char *arg)
 	exit(2);
 }
 
-static int	handle_exit_args(t_command *cmds, t_single_command cmd,
+static int	handle_exit_args(t_command_list *cmds, t_single_command cmd,
 		t_shell *shell)
 {
 	int	return_exit;
@@ -105,7 +105,7 @@ static int	handle_exit_args(t_command *cmds, t_single_command cmd,
 	return (0);
 }
 
-int	builtin_exit(t_command *cmds, t_single_command cmd, t_shell *shell)
+int	builtin_exit(t_command_list *cmds, t_single_command cmd, t_shell *shell)
 {
 	long	result;
 	int		dummy;

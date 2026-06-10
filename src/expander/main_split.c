@@ -14,7 +14,7 @@
 
 #include <stdio.h>
 
-int	free_var(char **var, int i)
+int	clean_var(char **var, int i)
 {
 	if (i == 0)
 	{
@@ -36,7 +36,7 @@ int	free_var(char **var, int i)
 	return (0);
 }
 
-static int	free_data(t_data *data)
+static int	clean_data(t_expander_data *data)
 {
 	if (!data)
 		return (0);
@@ -45,23 +45,22 @@ static int	free_data(t_data *data)
 	if (data->spaces)
 		free(data->spaces);
 	free(data);
-	return (1);
+	data = NULL;
+	return (0);
 }
 
-static t_data	*init_data(char *input, char *expanded, t_shell shell)
+static t_expander_data	*init_expander_data(char *input, char *expanded, t_shell shell)
 {
-	t_data	*data;
+	t_expander_data	*data;
 
-	data = (t_data *)malloc(sizeof(t_data));
+	data = (t_expander_data *)malloc(sizeof(t_expander_data));
 	if (data == NULL)
 	{
 		perror("malloc");
 		return (NULL);
 	}
-	data->input = input;
+	data->line = input;
 	data->expanded = expanded;
-	data->index[0] = 0;
-	data->index[1] = 0;
 	data->spaces = NULL;
 	data->shell = shell;
 	return (data);
@@ -84,31 +83,34 @@ static int	move_tokens(t_lexer **tok, t_lexer *tokens)
 		return (0);
 	(*tok)->next = tokens->next;
 	tokens->next = NULL;
-	free_all(tokens);
+	clean_lexer(tokens);
 	return (1);
 }
 
-int	main_expander(char *expanded, t_shell shell, t_lexer **tok)
+int	split_after_expansion(char *expanded, t_shell shell, t_lexer **tok)
 {
-	t_data	*data;
+	t_expander_data	*data;
 	t_lexer	*tokens;
 
-	data = init_data((*tok)->input, expanded, shell);
+	data = init_expander_data((*tok)->input, expanded, shell);
 	if (!data)
 		return (0);
-	if (!lol(data))
-		return (0);
+	if (!collect_spaces(data))
+		return (clean_data(data));
 	if (data->spaces == NULL)
 	{
 		free((*tok)->input);
 		(*tok)->input = ft_strdup(expanded);
-		return (free_data(data));
+		clean_data(data);
+		if (!(*tok)->input)
+			return (0);
+		return (1);
 	}
 	tokens = makesplit(data->expanded, data->spaces);
+	clean_data(data);
 	if (!tokens)
 		return (0);
 	if (!move_tokens(tok, tokens))
 		return (0);
-	free_data(data);
-	return (0);
+	return (1);
 }

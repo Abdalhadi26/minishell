@@ -51,7 +51,7 @@ void	free_pipes(int **arr, int n)
 	free(arr);
 }
 
-int	create_pipes(t_command command, int ***pipes)
+int	create_pipes(t_command_list command, int ***pipes)
 {
 	int	i;
 

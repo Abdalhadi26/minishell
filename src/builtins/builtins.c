@@ -24,7 +24,7 @@ int	is_builtin(char *cmd)
 	return (0);
 }
 
-int	execute_builtin(t_command *cmds, t_single_command cmd, t_shell *shell)
+int	execute_builtin(t_command_list *cmds, t_single_command cmd, t_shell *shell)
 {
 	char	*name;
 

@@ -12,11 +12,11 @@
 
 #include "../../includes/parsing.h"
 
-t_command	*init_cmd(int num_cmds)
+t_command_list	*init_cmd_list(int num_cmds)
 {
-	t_command	*cmd;
+	t_command_list	*cmd;
 
-	cmd = malloc(sizeof(t_command));
+	cmd = malloc(sizeof(t_command_list));
 	if (!cmd)
 		return (NULL);
 	cmd->num_single_commands = num_cmds;
@@ -37,16 +37,16 @@ t_single_command	*build_cmd(t_lexer **tok)
 		return (NULL);
 	while (tok && (*tok) && pipe_not_qouted(*tok))
 	{
-		if (check_red_pipe((*tok)->input[0]) == 1 && (*tok)->qouted == 0)
+		if (get_char_type((*tok)->input[0]) == 1 && (*tok)->qouted == 0)
 		{
 			cmds = handle_redir(*tok, NULL, NULL);
 			if (!cmds || !cmds->redirections)
-				return (free_cmd_a_f(cmds, NULL, NULL));
+				return (clean_cmds_args_files(cmds, NULL, NULL));
 		}
 		else
 			cmds = handle_word(*tok);
 		if (!cmds)
-			return (free_cmd_a_f(cmds, NULL, NULL));
+			return (clean_cmds_args_files(cmds, NULL, NULL));
 		while (*tok)
 		{
 			if (!(*tok)->qouted && (*tok)->input[0] == '|')
@@ -70,16 +70,16 @@ int	num_args(char **args)
 	return (i);
 }
 
-t_command	*parsing(t_lexer *token, int num_cmds)
+t_command_list	*parsing(t_lexer *token, int num_cmds)
 {
 	int			i;
 	t_lexer		*tok;
-	t_command	*cmds;
+	t_command_list	*cmds;
 
 	i = 0;
 	if (!token)
 		return (NULL);
-	cmds = init_cmd(num_cmds);
+	cmds = init_cmd_list(num_cmds);
 	if (!cmds || !cmds->commands)
 		return (NULL);
 	tok = token;
@@ -88,7 +88,7 @@ t_command	*parsing(t_lexer *token, int num_cmds)
 		cmds->commands[i] = build_cmd(&tok);
 		if (!cmds->commands[i])
 		{
-			free_cmds(cmds);
+			clean_cmds(cmds);
 			break ;
 		}
 		cmds->commands[i]->num_args = num_args(cmds->commands[i]->args);

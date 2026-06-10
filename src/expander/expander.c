@@ -56,22 +56,22 @@ char	*get_env_value(char *var_name, char **env)
 	return (ft_strdup(""));
 }
 
-char	*expand_string(char *str, t_shell shell, int flag)
+char	*expand_variables(char *str, t_shell shell, int flag)
 {
 	char	*res;
 	int		i;
-	int		sq;
-	int		dq;
+	int		single_qoute;
+	int		douple_qoute;
 
 	res = ft_calloc(1, 1);
 	i = 0;
-	sq = 0;
-	dq = 0;
+	single_qoute = 0;
+	douple_qoute = 0;
 	while (str && str[i] && res)
 	{
-		if (handle_quotes(str[i], &sq, &dq) && flag != -1)
+		if (flag != -1 && handle_quotes(str[i], &single_qoute, &douple_qoute))
 			i++;
-		else if (str[i] == '$' && (!sq) && flag != 1)
+		else if (str[i] == '$' && (!single_qoute) && flag != 1)
 			res = handle_dollar(res, str, shell, &i);
 		else
 		{
@@ -82,7 +82,7 @@ char	*expand_string(char *str, t_shell shell, int flag)
 	return (res);
 }
 
-int	has_var(t_lexer *token, int flag)
+int	has_variable(t_lexer *token, int flag)
 {
 	int	i;
 
@@ -106,28 +106,29 @@ int	has_var(t_lexer *token, int flag)
 }
 
 /* Main entry point: Iterates through the lexer list and expands every token */
-t_lexer	*expand_lexer_tokens(t_lexer *lexer, t_shell shell)
+t_lexer	*expand_tokens(t_lexer *head, t_shell shell)
 {
-	t_lexer	*curr;
+	t_lexer	*token;
 	char	*expanded;
 	int		flag;
 
-	curr = lexer;
+	token = head;
 	flag = 0;
-	while (curr != NULL)
+	while (token != NULL)
 	{
-		if (ft_strncmp(curr->input, "<<", 2) == 0 && !curr->qouted)
+		if (ft_strncmp(token->input, "<<", 2) == 0 && !token->qouted)
 			flag = 1;
-		has_var(curr, flag);
-		if (curr->input && curr->qouted)
+		has_variable(token, flag);
+		if (token->input && token->qouted)
 		{
-			expanded = expand_string(curr->input, shell, flag);
+			expanded = expand_variables(token->input, shell, flag);
 			if (!expanded)
 				return (NULL);
-			main_expander(expanded, shell, &curr);
+			if (!split_after_expansion(expanded, shell, &token))
+				return ((t_lexer *)clean_lexer(token));
 			flag = 0;
 		}
-		curr = curr->next;
+		token = token->next;
 	}
-	return (lexer);
+	return (head);
 }

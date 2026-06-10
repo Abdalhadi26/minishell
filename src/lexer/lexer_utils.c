@@ -12,7 +12,7 @@
 
 #include "../../includes/lexer.h"
 
-t_lexer	*new_pipe_red(char *str, char c, int *i)
+t_lexer	*new_operator_token(char *line, char operator, int *i)
 {
 	t_lexer	*token;
 	int		len;
@@ -20,14 +20,14 @@ t_lexer	*new_pipe_red(char *str, char c, int *i)
 
 	len = 0;
 	j = 0;
-	while (str[*i + len] == c)
+	while (line[*i + len] == operator)
 		len++;
-	token = init_s_lexer(len);
+	token = init_lexer(len);
 	if (!token)
 		return (NULL);
 	while (j < len)
 	{
-		token->input[j] = str[*i];
+		token->input[j] = line[*i];
 		(*i)++;
 		j++;
 	}
@@ -36,7 +36,7 @@ t_lexer	*new_pipe_red(char *str, char c, int *i)
 	return (token);
 }
 
-t_lexer	*init_s_lexer(int len)
+t_lexer	*init_lexer(int len)
 {
 	t_lexer	*lexer;
 
@@ -58,7 +58,7 @@ t_lexer	*init_s_lexer(int len)
 	return (lexer);
 }
 
-char	*free_all(t_lexer *head)
+char	*clean_lexer(t_lexer *head)
 {
 	t_lexer	*temp;
 
@@ -72,10 +72,11 @@ char	*free_all(t_lexer *head)
 		free(temp->input);
 		free(temp);
 	}
+	head = NULL;
 	return (NULL);
 }
 
-int	check_red_pipe(char c)
+int	get_char_type(char c)
 {
 	if (c == '<')
 		return (1);
@@ -92,11 +93,12 @@ int	check_red_pipe(char c)
 	return (0);
 }
 
-void	skip_spaces(char *input, int *i)
+void	skip_spaces(char *line, int *i)
 {
-	if (!input || !input[*i] || check_red_pipe(input[*i + 1]) != 4)
+	if (!line || !line[*i] || get_char_type(line[*i + 1]) != 4)
 		return ;
-	while (check_red_pipe(input[*i + 1]) != 4 && check_red_pipe(input[*i]) == 3
-		&& check_red_pipe(input[*i + 1]) == 3)
+	while (get_char_type(line[*i + 1]) != 4
+		&& get_char_type(line[*i]) == 3
+		&& get_char_type(line[*i + 1]) == 3)
 		(*i)++;
 }

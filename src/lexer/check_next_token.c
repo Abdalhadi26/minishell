@@ -12,11 +12,11 @@
 
 #include "../../includes/lexer.h"
 
-static int	s_token_check_o_p(t_lexer token)
+static int	next_is_output_redirection_pipe(t_lexer token)
 {
 	if (check_output_red(token, 2))
 		return (1);
-	else if (check_red_pipe(token.input[0]) == 2)
+	else if (get_char_type(token.input[0]) == 2)
 	{
 		print_error("|");
 		return (1);
@@ -24,11 +24,11 @@ static int	s_token_check_o_p(t_lexer token)
 	return (0);
 }
 
-static int	s_token_check_i_p(t_lexer token)
+static int	next_is_input_redirection_pipe(t_lexer token)
 {
 	if (check_input_red(token, 3))
 		return (1);
-	else if (check_red_pipe(token.input[0]) == 2)
+	else if (get_char_type(token.input[0]) == 2)
 	{
 		print_error("|");
 		return (1);
@@ -71,21 +71,19 @@ int	check_next_token(t_lexer f_token, t_lexer *s_token)
 	if (!s_token)
 	{
 		print_error("newline");
-		return (1);
+		return (0);
 	}
 	else if (!s_token->qouted && check_input_red(f_token, 0))
 	{
-		if (s_token_check_o_p(*s_token) || s_token_check_i_p(*s_token))
-			return (1);
-		else
+		if (next_is_output_redirection_pipe(*s_token)
+			|| next_is_input_redirection_pipe(*s_token))
 			return (0);
 	}
 	else if (!s_token->qouted && check_output_red(f_token, 0))
 	{
-		if (s_token_check_i_p(*s_token) || s_token_check_o_p(*s_token))
-			return (1);
-		else
+		if (next_is_input_redirection_pipe(*s_token)
+			|| next_is_output_redirection_pipe(*s_token))
 			return (0);
 	}
-	return (0);
+	return (1);
 }

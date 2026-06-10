@@ -75,43 +75,43 @@ static int	has_spaces(char *dest, int *j, int len, int **spaces)
 	return (1);
 }
 
-static int	counting_spaces(t_data *data, int *i, int *j)
+static int	counting_spaces(t_expander_data *data, int *i, int *j)
 {
 	int		start;
 	char	*var[2];
 
 	start = ++(*i);
-	while (data->input[*i] && (ft_isalnum(data->input[*i])
-			|| data->input[*i] == '_'))
+	while (data->line[*i] && (ft_isalnum(data->line[*i])
+			|| data->line[*i] == '_'))
 		(*i)++;
-	var[0] = ft_substr(data->input, start, *i - start);
+	var[0] = ft_substr(data->line, start, *i - start);
 	if (!var[0])
 		return (0);
 	var[1] = get_env_value(var[0], data->shell.env);
 	if (!var[1])
-		return (free_var(var, 1));
+		return (clean_var(var, 1));
 	if (!has_spaces(data->expanded, j, ft_strlen(var[1]), &data->spaces))
-		return (free_var(var, 2));
-	free_var(var, 2);
+		return (clean_var(var, 2));
+	clean_var(var, 2);
 	return (1);
 }
 
-int	lol(t_data *data)
+int	collect_spaces(t_expander_data *data)
 {
-	int	i;
-	int	j;
+	int	i_line;
+	int	i_expanded;
 	int	k;
 
-	i = 0;
-	j = 0;
-	if (!data || !data->expanded || !data->input)
+	i_line = 0;
+	i_expanded = 0;
+	if (!data || !data->expanded || !data->line)
 		return (0);
-	while (data->input[i] && data->expanded[j])
+	while (data->line[i_line] && data->expanded[i_expanded])
 	{
-		k = index_of_var(data, &i, &j);
+		k = index_of_var(data, &i_line, &i_expanded);
 		if (k == 1)
 		{
-			if (!counting_spaces(data, &i, &j))
+			if (!counting_spaces(data, &i_line, &i_expanded))
 				return (0);
 		}
 		else if (k == 0)

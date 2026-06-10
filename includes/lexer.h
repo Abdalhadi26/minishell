@@ -13,7 +13,6 @@
 #ifndef LEXER_H
 # define LEXER_H
 
-// # include "../../includes/minishell.h"
 # include "../libft/libft.h"
 # include <readline/history.h>
 # include <readline/readline.h>
@@ -28,21 +27,27 @@ typedef struct s_lexer
 	struct s_lexer	*next;
 }					t_lexer;
 
-t_lexer				*init_s_lexer(int len);
-char				*free_all(t_lexer *head);
-t_lexer				*new_pipe_red(char *str, char c, int *i);
+/*init and append tokens*/
+t_lexer				*init_lexer(int len);
+t_lexer				*add_tokens(char *input, int start, int end);
+t_lexer				*new_operator_token(char *str, char operator, int *i);
+
+/*functions syntax error handling*/
 int					check_next_token(t_lexer f_token, t_lexer *s_token);
-int					check_next_tokenaa(t_lexer f_token, t_lexer *s_token,
-						t_redirections **here);
-int					pipe_red_dup(t_lexer *head);
-int					pipe_red_dupaa(t_lexer *head, t_redirections **here);
-void				print_error(char *str);
-int					check_red_pipe(char c);
-t_lexer				*add_tokens(char *input, int i, int j);
+int					check_sec_token(t_lexer f_token, t_lexer *s_token,
+	t_redirections **here);
+int					check_pipe_redir_syntax(t_lexer *head);
 int					check_output_red(t_lexer token, int is_next);
-int					check_output_redaa(t_lexer token);
 int					check_input_red(t_lexer token, int is_next);
-int					check_input_redaa(t_lexer token);
-t_lexer				*expand_lexer_tokens(t_lexer *lexer, t_shell shell);
+int					is_input_redir(t_lexer token);
+int					is_output_redir(t_lexer token);
+	
+/*functions for handling heredoc syntax*/
 void				skip_spaces(char *input, int *i);
+int					heredoc_syntax(t_lexer *head, t_redirections **here);
+t_lexer				*expand_tokens(t_lexer *lexer, t_shell shell);
+	
+char				*clean_lexer(t_lexer *head);
+int					get_char_type(char c);
+void				print_error(char *str);
 #endif

@@ -18,7 +18,7 @@ static t_lexer	*create_token(char *str, int *i, int j)
 	int		k;
 
 	k = 0;
-	token = init_s_lexer(j - *i);
+	token = init_lexer(j - *i);
 	if (!token)
 		return (NULL);
 	while (*i < j)
@@ -55,7 +55,7 @@ static t_lexer	*set_all_values(char *dest, int *spaces, int i, t_lexer *token)
 		else
 			token->next = create_token(dest, &i, ft_strlen(dest));
 		if (!token->next)
-			return ((t_lexer *)free_all(token));
+			return ((t_lexer *)clean_lexer(token));
 	}
 	return (tok);
 }
@@ -75,14 +75,14 @@ t_lexer	*makesplit(char *dest, int *spaces)
 	{
 		token->next = create_token(dest, &i, spaces[1]);
 		if (!token->next)
-			return ((t_lexer *)free_all(token));
+			return ((t_lexer *)clean_lexer(token));
 		j++;
 	}
 	if (dest[i])
 	{
 		token->next = set_all_values(dest, spaces + j, i, token->next);
 		if (!token->next)
-			return ((t_lexer *)free_all(token));
+			return ((t_lexer *)clean_lexer(token));
 	}
 	return (token);
 }

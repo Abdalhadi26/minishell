@@ -13,14 +13,14 @@
 #include "../../includes/minishell.h"
 #include "../../includes/parsing.h"
 
-void	free_cmds_shell(t_command *cmds, t_shell *shell)
+void	free_cmds_shell(t_command_list *cmds, t_shell *shell)
 {
-	free_cmds(cmds);
+	clean_cmds(cmds);
 	free_2d(shell->env);
 	free(shell);
 }
 
-void	close_other_heredocs(t_command *command, int i)
+void	close_other_heredocs(t_command_list *command, int i)
 {
 	int				j;
 	t_redirections	*redir;
@@ -42,7 +42,7 @@ void	close_other_heredocs(t_command *command, int i)
 	}
 }
 
-void	child_cleanup_exit(t_command *command, t_shell *shell, int **pipes,
+void	child_cleanup_exit(t_command_list *command, t_shell *shell, int **pipes,
 		int code)
 {
 	free_pipes(pipes, command->num_single_commands - 1);

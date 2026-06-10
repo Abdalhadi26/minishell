@@ -80,9 +80,9 @@ static int	append_file(t_lexer *tok, t_files **files)
 	return (1);
 }
 
-int	add_arg_file(t_lexer *tok, t_args **args, t_files **files)
+int	add_args_files(t_lexer *tok, t_args **args, t_files **files)
 {
-	if (!tok || (!tok->qouted && (check_red_pipe(tok->input[0]) == 1
+	if (!tok || (!tok->qouted && (get_char_type(tok->input[0]) == 1
 				|| tok->input[0] == '|')))
 	{
 		return (1);
