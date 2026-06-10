@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 15:49:49 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/08 16:11:11 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/10 10:33:44 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ int	check_pipe_redir_syntax(t_lexer *head)
 	{
 		if (!token->qouted && get_char_type(token->input[0]) == 1)
 		{
-			if (check_output_red(*token, 0) > 2
-				|| check_input_red(*token, 0) >= 3)
+			if (check_output_red(*token, 0) > 2 || check_input_red(*token,
+					0) >= 3)
 				return (0);
 			else if (!token->next || get_char_type(token->next->input[0]))
 				if (!check_next_token(*token, token->next))

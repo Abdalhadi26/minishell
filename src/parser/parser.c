@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/16 14:46:41 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/06 18:13:53 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/10 10:06:25 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ int	num_args(char **args)
 
 t_command_list	*parsing(t_lexer *token, int num_cmds)
 {
-	int			i;
-	t_lexer		*tok;
+	int				i;
+	t_lexer			*tok;
 	t_command_list	*cmds;
 
 	i = 0;

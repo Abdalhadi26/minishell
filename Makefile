@@ -21,7 +21,7 @@ SRC = \
 	src/lexer/lexer_organiztion_heredoc.c \
 	src/lexer/check_next_token.c \
 	src/lexer/check_next_token_heredoc.c \
-	src/lexer/new_lexer.c \
+	src/lexer/lexer.c \
 	src/parser/init_strcut.c \
 	src/parser/free_data.c \
 	src/parser/convert_array2sll.c \

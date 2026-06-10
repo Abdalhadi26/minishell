@@ -31,9 +31,10 @@ typedef struct s_files
 int					pipe_not_qouted(t_lexer *tok);
 
 /*adding arguments and files to single command*/
-int					add_args_files_single_cmd(t_single_command *cmd, t_args *args,
-						t_files *files);
-int					add_args_files(t_lexer *tok, t_args **args, t_files **files);
+int					add_args_files_single_cmd(t_single_command *cmd,
+						t_args *args, t_files *files);
+int					add_args_files(t_lexer *tok, t_args **args,
+						t_files **files);
 
 /*link redirections*/
 int					link_red(t_redirections **here, t_redirections *here_now);
@@ -53,7 +54,5 @@ t_args				*init_arg(char *arg);
 t_single_command	*handle_redir(t_lexer *tok, t_args *args, t_files *files);
 t_single_command	*handle_word(t_lexer *tok);
 t_command_list		*parsing(t_lexer *token, int num_cmds);
-
-
 
 #endif

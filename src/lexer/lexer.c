@@ -6,13 +6,13 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 20:47:03 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/08 17:52:12 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/10 10:05:10 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/lexer.h"
 
-static void	lexer_append_token(t_lexer **head, t_lexer *token)
+static void	lexer_append_token(t_lexer	**head, t_lexer *token)
 {
 	t_lexer	*temp;
 

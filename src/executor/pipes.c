@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipes.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/04/19 14:06:38 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/09 16:04:35 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/10 10:08:48 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ static void	wait_pipeline(t_command_list command, t_shell *shell, int pid,
 	free_pipes(pipes, command.num_single_commands - 1);
 }
 
-static void	handle_fork_fail(t_command_list command, t_shell *shell, int **pipes)
+static void	handle_fork_fail(t_command_list command,
+		t_shell *shell, int **pipes)
 {
 	close_all_pipes(pipes, command.num_single_commands - 1);
 	perror("minishell");

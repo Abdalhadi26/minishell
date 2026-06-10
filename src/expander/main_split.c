@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/05 22:25:46 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/06 18:22:12 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/10 10:07:10 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ static int	clean_data(t_expander_data *data)
 	return (0);
 }
 
-static t_expander_data	*init_expander_data(char *input, char *expanded, t_shell shell)
+static t_expander_data	*init_expander_data(char *input,
+		char *expanded, t_shell shell)
 {
 	t_expander_data	*data;
 
@@ -90,7 +91,7 @@ static int	move_tokens(t_lexer **tok, t_lexer *tokens)
 int	split_after_expansion(char *expanded, t_shell shell, t_lexer **tok)
 {
 	t_expander_data	*data;
-	t_lexer	*tokens;
+	t_lexer			*tokens;
 
 	data = init_expander_data((*tok)->input, expanded, shell);
 	if (!data)

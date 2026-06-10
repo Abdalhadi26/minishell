@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 21:13:47 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/06 18:14:40 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/10 10:05:25 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,7 @@ void	skip_spaces(char *line, int *i)
 {
 	if (!line || !line[*i] || get_char_type(line[*i + 1]) != 4)
 		return ;
-	while (get_char_type(line[*i + 1]) != 4
-		&& get_char_type(line[*i]) == 3
+	while (get_char_type(line[*i + 1]) != 4 && get_char_type(line[*i]) == 3
 		&& get_char_type(line[*i + 1]) == 3)
 		(*i)++;
 }

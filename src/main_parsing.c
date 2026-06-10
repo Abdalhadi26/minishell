@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/26 18:07:01 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/08 18:50:56 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/10 10:40:33 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static t_lexer	*main_lexer(char *input, t_shell *shell)
 t_command_list	*main_parsing(char *input, t_shell *shell)
 {
 	t_command_list	*cmds;
-	t_lexer		*tokens;
+	t_lexer			*tokens;
 
 	if (!input || !shell)
 		return (NULL);

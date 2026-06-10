@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/06/02 03:12:41 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/06 18:22:22 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/10 10:07:39 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	check_var(t_expander_data *data, int *i_line, int *i_expanded)
 	c = data->line[*i_line];
 	(*i_line)++;
 	while (data->line[*i_line] && data->line[*i_line] != c
-			&& data->expanded[*i_expanded])
+		&& data->expanded[*i_expanded])
 	{
 		if (data->line[*i_line] == '$')
 		{

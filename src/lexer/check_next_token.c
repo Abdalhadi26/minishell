@@ -6,7 +6,7 @@
 /*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/25 21:00:49 by ahhammad          #+#    #+#             */
-/*   Updated: 2026/06/08 16:10:26 by ahhammad         ###   ########.fr       */
+/*   Updated: 2026/06/10 10:33:25 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	next_is_output_redirection_pipe(t_lexer token)
 
 static int	next_is_input_redirection_pipe(t_lexer token)
 {
-	if (check_input_red(token, 3))
+	if (check_input_red(token, 2))
 		return (1);
 	else if (get_char_type(token.input[0]) == 2)
 	{

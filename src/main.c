@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aayasrah <aayasrah@student.42amman.com>    +#+  +:+       +#+        */
+/*   By: ahhammad <ahhammad@student.42amman.com>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/05/19 12:31:21 by aayasrah          #+#    #+#             */
-/*   Updated: 2026/06/09 22:35:46 by aayasrah         ###   ########.fr       */
+/*   Updated: 2026/06/10 10:09:26 by ahhammad         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	handle_eof(t_shell *shell)
 static void	process_line(char *line, t_shell *shell)
 {
 	t_command_list	*command;
-	int			hd;
+	int				hd;
 
 	add_history(line);
 	command = main_parsing(line, shell);
